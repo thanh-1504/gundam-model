@@ -3,7 +3,11 @@ import { useState } from "react";
 function App() {
   const [count, setCount] = useState(0);
 
-  return <>hello react</>;
+  return (
+    <>
+      <h1>Hello World with Vite</h1>
+    </>
+  );
 }
 
 export default App;

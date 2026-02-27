@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("http://localhost:3000");
+      const data = await response.json();
+      console.log(data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <>

@@ -60,3 +60,20 @@ exports.deleteUser = async (req, res) => {
     message: "Deleted successfully",
   });
 };
+
+exports.createUser = async (req, res) => {
+  console.log("Dữ liệu nhận từ FE:", req.body); // Dòng này giúp bạn soi lỗi
+  const { username, password, email, avatar, role, phone, address } = req.body;
+  
+  // Kiểm tra nếu thiếu thông tin quan trọng
+  if (!username || !email) {
+    return res.status(400).json({ status: "fail", message: "Thiếu username hoặc email" });
+  }
+
+  try {
+    const newUser = await handleCreateUser(username, password, email, avatar, role, phone, address);
+    res.status(201).json({ status: "success", data: newUser });
+  } catch (error) {
+    res.status(400).json({ status: "fail", message: error.message });
+  }
+};

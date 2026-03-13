@@ -5,7 +5,10 @@ const app = express();
 const port = 3000;
 
 // Config
-app.use(cors());
+app.use(cors({
+  origin: '*', // Cho phép tất cả các nguồn truy cập
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+}));
 app.use(express.json());
 
 // Routes

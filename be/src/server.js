@@ -14,6 +14,9 @@ app.use(
 app.use(express.json());
 
 // Routes
+app.use("/", (req, res) => {
+  res.send("<h1>Thầy truy cập /users để xem thầy nhé :3</h1>");
+});
 app.use("/users", userRoute);
 
 app.listen(port, () => {

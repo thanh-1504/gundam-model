@@ -1,5 +1,23 @@
 const prisma = require("../lib/prisma");
 const bcrypt = require("bcryptjs");
+
+exports.getUser = async (id) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: {
+      email: true,
+      password: false,
+      createdAt: false,
+      address: true,
+      avatar: true,
+      phone: true,
+      role: true,
+      username: true,
+    },
+  });
+  return user;
+};
+
 exports.getUsers = async () => {
   const users = await prisma.user.findMany();
   return users;

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// Đảm bảo bạn đã để file logo.png trong thư mục src/assets/
+// Đảm bảo bạn đã để file logo.png trong thư mục src/assets/img/
 import logoHobby from './img/logo.png'; 
 
-// ĐỊA CHỈ API RENDER CỦA BẠN (Cần thêm /api/ để khớp với server.js)
+// ĐỊA CHỈ API RENDER CỦA BẠN
 const API_URL = 'https://gundam-model.onrender.com/users'; 
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '', // Thêm trường xác nhận mật khẩu
     role: 'user',
     phone: '',
     address: ''
@@ -26,7 +27,6 @@ function App() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(API_URL);
-      // Backend của bạn trả về cấu trúc { status: "success", data: [...] }
       if (response.data && response.data.data) {
         setUsers(response.data.data);
       } else {
@@ -46,18 +46,28 @@ function App() {
   // 2. THÊM HOẶC CẬP NHẬT (CREATE / UPDATE)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Kiểm tra Xác nhận mật khẩu
+    if (formData.password !== formData.confirmPassword) {
+      alert('Mật khẩu và Xác nhận mật khẩu không khớp!');
+      return;
+    }
+
     try {
+      // Loại bỏ confirmPassword ra khỏi data gửi lên API
+      const { confirmPassword, ...submitData } = formData;
+
       if (editingId) {
         // CẬP NHẬT: PATCH
-        await axios.patch(`${API_URL}/${editingId}`, formData);
+        await axios.patch(`${API_URL}/${editingId}`, submitData);
         setEditingId(null);
         alert('Cập nhật thành công!');
       } else {
         // THÊM MỚI: POST
-        await axios.post(API_URL, formData);
+        await axios.post(API_URL, submitData);
         alert('Thêm mới thành công!');
       }
-      setFormData({ username: '', email: '', password: '', role: 'user', phone: '', address: '' });
+      setFormData({ username: '', email: '', password: '', confirmPassword: '', role: 'user', phone: '', address: '' });
       fetchUsers();
     } catch (error) {
       alert('Lỗi: Username/Email đã tồn tại hoặc server Render đang khởi động (đợi 30s)!');
@@ -71,6 +81,7 @@ function App() {
       username: user.username,
       email: user.email,
       password: '', // Để trống mật khẩu nếu không muốn đổi
+      confirmPassword: '',
       role: user.role || 'user',
       phone: user.phone || '',
       address: user.address || ''
@@ -90,76 +101,83 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white p-6 font-sans">
-      <div className="max-w-[1200px] mx-auto">
+    <div className="min-h-screen bg-[#0d0d0d] text-white p-6 md:p-10 font-sans">
+      <div className="max-w-[1100px] mx-auto">
         
-        {/* Logo & Title - Đã căn chỉnh chuẩn theo mẫu */}
+        {/* Header (Logo & Title) */}
         <div className="mb-10">
-  {/* Logo kích thước lớn hơn, nằm trên tiêu đề */}
-  <div className="w-24 h-24 mb-4 rounded-xl overflow-hidden shadow-2xl border border-gray-700">
-    <img 
-      src={logoHobby} 
-      alt="Hobby Japan Logo" 
-      className="w-full h-full object-cover" 
-    />
-  </div>
-  
-  {/* Tiêu đề chữ trắng, font dày, nằm dưới logo */}
-  <h1 className="text-3xl font-black tracking-tight text-white font-sans">
-    Hobby Japan - Demo
-  </h1>
-</div>
+          <div className="w-20 h-20 mb-4 rounded-lg overflow-hidden border border-gray-600 shadow-lg bg-black">
+            <img 
+              src={logoHobby} 
+              alt="Hobby Japan Logo" 
+              className="w-full h-full object-contain" 
+            />
+          </div>
+          <h1 className="text-2xl font-bold tracking-wide text-white">
+            Hobby Japan - Demo
+          </h1>
+        </div>
 
-        {/* Form Nhập liệu - Dark mode */}
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm mb-1 text-gray-300 uppercase tracking-tighter">Username</label>
-              <input name="username" value={formData.username} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2 rounded focus:border-blue-500 outline-none transition-all" required />
-            </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-300 uppercase tracking-tighter">Password</label>
-              <input name="password" type="password" value={formData.password} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2 rounded focus:border-blue-500 outline-none transition-all" required={!editingId} />
-            </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-300 uppercase tracking-tighter">SĐT</label>
-              <input name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2 rounded focus:border-blue-500 outline-none" />
+        {/* Form Nhập liệu - Layout Grid 2 cột */}
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 mb-12">
+          
+          {/* CỘT TRÁI & PHẢI ĐƯỢC XẾP THEO THỨ TỰ GRID */}
+          
+          {/* Hàng 1 */}
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">Username</label>
+            <input name="username" value={formData.username} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2.5 rounded text-sm focus:border-blue-500 outline-none transition-colors" required />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">Email</label>
+            <input name="email" type="email" value={formData.email} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2.5 rounded text-sm focus:border-blue-500 outline-none transition-colors" required />
+          </div>
+
+          {/* Hàng 2 */}
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">Password</label>
+            <input name="password" type="password" value={formData.password} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2.5 rounded text-sm focus:border-blue-500 outline-none transition-colors" required={!editingId} />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">Xác nhận Password</label>
+            <input name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2.5 rounded text-sm focus:border-blue-500 outline-none transition-colors" required={!editingId || formData.password.length > 0} />
+          </div>
+
+          {/* Hàng 3 */}
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">SĐT</label>
+            <input name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2.5 rounded text-sm focus:border-blue-500 outline-none transition-colors" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">Địa chỉ</label>
+            <input name="address" value={formData.address} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2.5 rounded text-sm focus:border-blue-500 outline-none transition-colors" />
+          </div>
+
+          {/* Hàng 4 */}
+          <div>
+            <label className="block text-sm font-semibold mb-2 text-white">Role</label>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2 cursor-pointer border border-gray-500 rounded-md px-4 py-2 text-sm bg-black hover:bg-gray-900 transition-colors">
+                <input type="radio" name="role" value="user" checked={formData.role === 'user'} onChange={handleChange} className="accent-white w-4 h-4" /> User
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer border border-gray-500 rounded-md px-4 py-2 text-sm bg-black hover:bg-gray-900 transition-colors">
+                <input type="radio" name="role" value="admin" checked={formData.role === 'admin'} onChange={handleChange} className="accent-white w-4 h-4" /> Admin
+              </label>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm mb-1 text-gray-300 uppercase tracking-tighter">Email</label>
-              <input name="email" type="email" value={formData.email} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2 rounded focus:border-blue-500 outline-none transition-all" required />
-            </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-300 uppercase tracking-tighter">Role</label>
-              <div className="flex gap-4 p-2">
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
-                  <input type="radio" name="role" value="user" checked={formData.role === 'user'} onChange={handleChange} className="accent-blue-500" /> User
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer text-sm">
-                  <input type="radio" name="role" value="admin" checked={formData.role === 'admin'} onChange={handleChange} className="accent-blue-500" /> Admin
-                </label>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm mb-1 text-gray-300 uppercase tracking-tighter">Địa chỉ</label>
-              <input name="address" value={formData.address} onChange={handleChange} className="w-full bg-black border border-gray-600 p-2 rounded focus:border-blue-500 outline-none" />
-            </div>
-          </div>
-
-          <div className="md:col-span-2">
-            <button type="submit" className="w-full md:w-48 bg-[#007bff] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-all uppercase text-sm shadow-md">
+          {/* Nút Lưu (Nằm cùng hàng 4, cột phải) */}
+          <div className="flex items-end">
+            <button type="submit" className="w-full bg-[#2a85ff] hover:bg-blue-600 text-white font-bold py-2.5 px-4 rounded text-sm transition-all h-[42px]">
               {editingId ? 'Cập nhật' : 'Lưu'}
             </button>
             {editingId && (
-              <button type="button" onClick={() => {setEditingId(null); setFormData({username:'', email:'', password:'', role:'user', phone:'', address:''})}} className="ml-4 text-gray-400 hover:text-white underline text-sm transition-colors">Hủy</button>
+              <button type="button" onClick={() => {setEditingId(null); setFormData({username:'', email:'', password:'', confirmPassword:'', role:'user', phone:'', address:''})}} className="ml-4 text-gray-400 hover:text-white underline text-sm whitespace-nowrap">Hủy sửa</button>
             )}
           </div>
         </form>
 
-        {/* Bảng Danh sách - Đồng bộ cấu trúc mã/id */}
+        {/* Bảng Danh sách */}
         <div className="border border-gray-600 rounded overflow-hidden shadow-2xl">
           <table className="w-full text-left border-collapse">
             <thead>

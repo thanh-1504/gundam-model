@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useContext } from 'react';
 import { Toaster } from 'react-hot-toast';
 
-// 1. Import Contexts (Chỉ import 1 lần duy nhất ở đây)
+// 1. Import Contexts 
 import { AuthProvider, AuthContext } from './features/auth/context/AuthContext';
 import { CartProvider } from './features/cart/context/CartContext';
 
@@ -11,8 +11,12 @@ import SimpleLayout from './components/Layout/SimpleLayout';
 import Home from './pages/shop/Home';
 import Catalog from './pages/shop/Catalog';
 import Cart from './pages/shop/Cart';
-import UserManagement from './pages/admin/UserManagement';
-import Contact from './pages/shop/Contact'; // <-- File Contact bạn vừa tạo
+
+// 🔥 ĐÃ ĐỔI TÊN IMPORT Ở ĐÂY THÀNH AdminDashboard 🔥
+import AdminDashboard from './pages/admin/AdminDashboard'; 
+
+// TẠM THỜI ĐÓNG DÒNG NÀY LẠI VÌ BẠN CHƯA TẠO FILE CONTACT
+// import Contact from './pages/shop/Contact'; 
 
 // URL Đăng nhập bên ngoài
 const EXTERNAL_LOGIN_URL = "https://hobbyjapan-social.vercel.app/auth/login";
@@ -23,7 +27,7 @@ const ExternalRedirect = ({ url }) => {
   return null;
 };
 
-// Bộ bảo vệ Route: Chỉ cho phép Admin truy cập
+// Bộ bảo vệ Route: Tạm thời không dùng đến để bạn code giao diện Admin
 const AdminRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
   
@@ -59,18 +63,15 @@ function App() {
               <Route index element={<Home />} />
               <Route path="shop" element={<Catalog />} />
               <Route path="cart" element={<Cart />} />
-              {/* ĐÃ THÊM ROUTE CONTACT VÀO ĐÂY */}
-              <Route path="contact" element={<Contact />} /> 
+              
+              {/* TẠM THỜI ĐÓNG ROUTE NÀY LẠI */}
+              {/* <Route path="contact" element={<Contact />} />  */}
             </Route>
 
-            {/* Layout riêng cho Admin */}
+            {/* 🔥 GỌI COMPONENT AdminDashboard MỚI Ở ĐÂY 🔥 */}
             <Route 
               path="/admin" 
-              element={
-                <AdminRoute>
-                  <UserManagement />
-                </AdminRoute>
-              } 
+              element={<AdminDashboard />} 
             />
 
             {/* Bắt route /login nội bộ và đẩy ra ngoài */}

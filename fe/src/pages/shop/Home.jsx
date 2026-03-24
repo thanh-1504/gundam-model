@@ -6,6 +6,9 @@ import ProductCard from '../../features/products/components/ProductCard';
 import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
+import imgBanner1 from '../../assets/Banner.png';
+import imgBanner2 from '../../assets/Banner1.png';
+import imgBanner3 from '../../assets/Banner2.png';
 
 const API_BASE_URL = 'https://gundamstoreapi-gpd3fxemg8d3cpdt.eastasia-01.azurewebsites.net/';
 
@@ -17,9 +20,9 @@ const safeJSON = (data) => {
 };
 
 const MAIN_BANNERS = [
-  "src/assets/Banner.png", 
-  "src/assets/Banner1.png", 
-  "src/assets/Banner2.png" 
+ imgBanner1, 
+  imgBanner2, 
+  imgBanner3 
 ];
 
 // ================= COMPONENT BĂNG CHUYỀN SẢN PHẨM =================

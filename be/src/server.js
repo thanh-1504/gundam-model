@@ -12,7 +12,7 @@ const port = 3000;
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
   }),
 );
 app.use(express.json());

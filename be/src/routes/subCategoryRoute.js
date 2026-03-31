@@ -3,6 +3,7 @@ const {
   getSubCategories,
   createSubCate,
   deleteSubCate,
+  updateSubCate,
 } = require("../controllers/subCateController");
 const validate = require("../dto/validate");
 const {
@@ -15,6 +16,9 @@ subCategoryRoute
   .get(getSubCategories)
   .post(validate(createSubCategorySchema), createSubCate);
 
-subCategoryRoute.route("/:id").delete(deleteSubCate);
+subCategoryRoute
+  .route("/:id")
+  .patch(validate(createSubCategorySchema), updateSubCate)
+  .delete(deleteSubCate);
 
 module.exports = subCategoryRoute;

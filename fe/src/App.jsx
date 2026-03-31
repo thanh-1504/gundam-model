@@ -1,22 +1,27 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { Toaster } from 'react-hot-toast';
+import { useContext } from "react";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 
-// 1. Import Contexts 
-import { AuthProvider, AuthContext } from './features/auth/context/AuthContext';
-import { CartProvider } from './features/cart/context/CartContext';
+// 1. Import Contexts
+import { AuthContext, AuthProvider } from "./features/auth/context/AuthContext";
+import { CartProvider } from "./features/cart/context/CartContext";
 
 // 2. Import Layout & Pages
-import SimpleLayout from './components/Layout/SimpleLayout';
-import Home from './pages/shop/Home';
-import Catalog from './pages/shop/Catalog';
-import Cart from './pages/shop/Cart';
+import SimpleLayout from "./components/Layout/SimpleLayout";
+import Cart from "./pages/shop/Cart";
+import Catalog from "./pages/shop/Catalog";
+import Home from "./pages/shop/Home";
 
 // 🔥 ĐÃ ĐỔI TÊN IMPORT Ở ĐÂY THÀNH AdminDashboard 🔥
-import AdminDashboard from './pages/admin/AdminDashboard'; 
+import { Toaster } from "react-hot-toast";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 // TẠM THỜI ĐÓNG DÒNG NÀY LẠI VÌ BẠN CHƯA TẠO FILE CONTACT
-// import Contact from './pages/shop/Contact'; 
+// import Contact from './pages/shop/Contact';
 
 // URL Đăng nhập bên ngoài
 const EXTERNAL_LOGIN_URL = "https://hobbyjapan-social.vercel.app/auth/login";
@@ -30,14 +35,14 @@ const ExternalRedirect = ({ url }) => {
 // Bộ bảo vệ Route: Tạm thời không dùng đến để bạn code giao diện Admin
 const AdminRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
-  
+
   if (!user) {
     window.location.href = EXTERNAL_LOGIN_URL;
-    return null; 
+    return null;
   }
-  
-  if (user.role !== 'admin') return <Navigate to="/" replace />; 
-  
+
+  if (user.role !== "admin") return <Navigate to="/" replace />;
+
   return children;
 };
 
@@ -47,13 +52,17 @@ function App() {
       <CartProvider>
         <Router>
           {/* Thông báo góc phải */}
-          <Toaster 
+          <Toaster
             position="top-right"
             toastOptions={{
               duration: 3000,
-              style: { background: '#1f1f1f', color: '#fff', border: '1px solid #333' },
-              success: { iconTheme: { primary: '#22c55e', secondary: '#fff' } },
-              error: { iconTheme: { primary: '#ef4444', secondary: '#fff' } },
+              style: {
+                background: "#1f1f1f",
+                color: "#fff",
+                border: "1px solid #333",
+              },
+              success: { iconTheme: { primary: "#22c55e", secondary: "#fff" } },
+              error: { iconTheme: { primary: "#ef4444", secondary: "#fff" } },
             }}
           />
 
@@ -63,21 +72,18 @@ function App() {
               <Route index element={<Home />} />
               <Route path="shop" element={<Catalog />} />
               <Route path="cart" element={<Cart />} />
-              
+
               {/* TẠM THỜI ĐÓNG ROUTE NÀY LẠI */}
               {/* <Route path="contact" element={<Contact />} />  */}
             </Route>
 
             {/* 🔥 GỌI COMPONENT AdminDashboard MỚI Ở ĐÂY 🔥 */}
-            <Route 
-              path="/admin" 
-              element={<AdminDashboard />} 
-            />
+            <Route path="/admin" element={<AdminDashboard />} />
 
             {/* Bắt route /login nội bộ và đẩy ra ngoài */}
-            <Route 
-              path="/login" 
-              element={<ExternalRedirect url={EXTERNAL_LOGIN_URL} />} 
+            <Route
+              path="/login"
+              element={<ExternalRedirect url={EXTERNAL_LOGIN_URL} />}
             />
           </Routes>
         </Router>

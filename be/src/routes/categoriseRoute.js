@@ -3,6 +3,7 @@ const {
   getAll,
   createCategory,
   deleteCategory,
+  updateCategory,
 } = require("../controllers/categoriesController");
 const {
   createCategorySchema,
@@ -15,6 +16,9 @@ categoriesRoute
   .get(getAll)
   .post(validate(createCategorySchema), createCategory);
 
-categoriesRoute.route("/:id").delete(deleteCategory);
+categoriesRoute
+  .route("/:id")
+  .patch(validate(createCategorySchema), updateCategory)
+  .delete(deleteCategory);
 
 module.exports = categoriesRoute;

@@ -2,6 +2,7 @@ const {
   getAll,
   handleCreate,
   handleDelete,
+  handleUpdate,
 } = require("../services/subCategoriesService");
 
 const getSubCategories = async (req, res) => {
@@ -26,8 +27,21 @@ const deleteSubCate = async (req, res) => {
   res.json({ status: "success", data: null });
 };
 
+const updateSubCate = async (req, res) => {
+  try {
+    const subCate = await handleUpdate(req.params.id, req.body);
+    res.json({
+      status: "success",
+      data: subCate,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getSubCategories,
   createSubCate,
   deleteSubCate,
+  updateSubCate,
 };

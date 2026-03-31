@@ -3,6 +3,7 @@ const {
   handleCreate,
   findCategoryById,
   handleDelete,
+  handleUpdate,
 } = require("../services/categoriesService");
 const AppError = require("../util/AppError");
 
@@ -34,8 +35,22 @@ const deleteCategory = async (req, res) => {
   });
 };
 
+const updateCategory = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const category = await handleUpdate(req.params.id, name);
+    res.json({
+      status: "success",
+      data: category,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAll,
   createCategory,
   deleteCategory,
+  updateCategory,
 };

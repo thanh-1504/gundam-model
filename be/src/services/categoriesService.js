@@ -37,9 +37,21 @@ const handleDelete = async (id) => {
   ]);
 };
 
+const handleUpdate = async (id, name) => {
+  const category = await findCategoryById(id);
+  if (!category)
+    throw new AppError(`Không tìm thấy category với id = ${id}`, 422);
+
+  return await prisma.categories.update({
+    where: { id: +id },
+    data: { name },
+  });
+};
+
 module.exports = {
   handleGetAll,
   handleCreate,
   handleDelete,
+  handleUpdate,
   findCategoryById,
 };

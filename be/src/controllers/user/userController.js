@@ -1,12 +1,12 @@
 const e = require("cors");
-const prisma = require("../lib/prisma");
+const prisma = require("../../lib/prisma");
 const {
   getUsers,
   handleCreateUser,
   handleUpdateUser,
   handleDeleteUser,
   getUser,
-} = require("../services/userService");
+} = require("../../services/userService");
 
 exports.getUser = async (req, res) => {
   const user = await getUser(+req.params.id);

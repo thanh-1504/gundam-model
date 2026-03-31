@@ -126,10 +126,10 @@ const SimpleLayout = () => {
 
             <Link to="/contact" className="hover:text-white transition-colors h-full flex items-center border-b-2 border-transparent hover:border-blue-500">Liên hệ</Link>
 
-            <button onClick={() => toast.success('Tính năng mạng xã hội GunVerse đang được phát triển!', { icon: '🚀' })} className="hover:text-white transition-colors h-full flex items-center gap-1.5 group relative border-b-2 border-transparent hover:border-orange-500">
+            <a href="https://hobbyjapan-social.vercel.app/social" target="_blank" rel="noreferrer" className="hover:text-white transition-colors h-full flex items-center gap-1.5 group relative border-b-2 border-transparent hover:border-orange-500">
               <span className="bg-gradient-to-r from-orange-500 to-pink-500 bg-clip-text text-transparent font-black tracking-widest">GUNVERSE</span>
               <span className="absolute -top-3 -right-6 bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">BETA</span>
-            </button>
+            </a>
           </nav>
 
           <div className="flex items-center gap-4 xl:gap-5 flex-shrink-0">

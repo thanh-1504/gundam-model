@@ -25,8 +25,18 @@ export const AuthProvider = ({ children }) => {
       const savedToken = localStorage.getItem('token');
       
       if (savedToken) {
+        
+        // 🔥 BƯỚC ĐỘT PHÁ (OPTIMISTIC UI): Set user tạm thời ngay lập tức!
+        // Điều này giúp nút Đăng nhập biến mất NGAY LẬP TỨC mà không cần đợi API
+        setUser({
+          username: '...', // Tên tạm hiển thị trong 1-2 giây chờ Backend
+          email: 'Đang kết nối...',
+          role: 'user',
+          token: savedToken
+        });
+
         try {
-          // 4. GỌI LÊN BACKEND XÁC THỰC
+          // 4. GỌI LÊN BACKEND LẤY THÔNG TIN THẬT ĐỂ GHI ĐÈ VÀO
           const response = await axios.get('https://web-pgb0.onrender.com/me', {
             headers: { 
               Authorization: `Bearer ${savedToken}`,
@@ -36,6 +46,8 @@ export const AuthProvider = ({ children }) => {
 
           // NẾU THÀNH CÔNG: Lấy data thật từ Backend
           const userData = response.data?.data || response.data;
+          
+          // Cập nhật lại thông tin thật (Tên thật, Role thật)
           setUser({
             ...userData,
             token: savedToken

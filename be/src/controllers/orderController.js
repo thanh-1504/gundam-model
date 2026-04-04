@@ -3,6 +3,7 @@ const {
   handleGetOrders,
 } = require("../services/orderService");
 const vnpayService = require("../services/vnpayService");
+const momoService = require("../services/momoService");
 const prisma = require("../lib/prisma");
 
 const getOrders = async (req, res) => {
@@ -45,8 +46,53 @@ const vnpayReturn = async (req, res) => {
   }
 };
 
+const momoReturn = async (req, res) => {
+  const queryData = req.query;
+
+  // Chữ ký hợp lệ
+  if (momoService.verifySignature(queryData)) {
+    // Mã resultCode = 0 có nghĩa là giao dịch thành công
+    if (queryData.resultCode === "0") {
+      const orderIdStr = queryData.orderId.split("-").pop(); // Lấy ID cuối cùng
+      const orderId = Number(orderIdStr);
+
+      await prisma.orders.update({
+        where: { id: orderId },
+        data: { status: "paid" },
+      });
+      return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+    } else {
+      // Thanh toán momo thất bại hoặc huỷ
+      return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+    }
+  } else {
+    // Sai chữ ký
+    return res.redirect("https://gundam-fe.netlify.app/orders?status=invalid_signature");
+  }
+};
+
+const momoIpn = async (req, res) => {
+  // Webhook được momo gọi ngầm (server-to-server)
+  const bodyData = req.body;
+  if (momoService.verifySignature(bodyData)) {
+    if (bodyData.resultCode === 0) {
+      const orderIdStr = bodyData.orderId.split("-").pop();
+      const orderId = Number(orderIdStr);
+
+      await prisma.orders.update({
+        where: { id: orderId },
+        data: { status: "paid" },
+      });
+    }
+    return res.status(204).json({});
+  }
+  return res.status(400).json({});
+};
+
 module.exports = {
   getOrders,
   createOrder,
   vnpayReturn,
+  momoReturn,
+  momoIpn,
 };

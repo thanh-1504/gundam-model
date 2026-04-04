@@ -122,8 +122,9 @@ const Checkout = () => {
 
       clearCart();
 
+      // Nếu API trả về momo hoặc vnpay payUrl, lập tức chuyển hướng
       if (createdOrder?.paymentUrl) {
-        toast.success('Đang chuyển hướng sang trang thanh toán VNPay...');
+        toast.success('Đang chuyển hướng sang cổng thanh toán...');
         window.location.href = createdOrder.paymentUrl;
         return;
       }

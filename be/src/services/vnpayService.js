@@ -19,6 +19,7 @@ const createPaymentUrl = (order, ipAddr) => {
   vnp_Params["vnp_TmnCode"] = vnp_TmnCode;
   vnp_Params["vnp_Locale"] = "vn";
   vnp_Params["vnp_CurrCode"] = "VND";
+  vnp_Params["vnp_CurrCode"] = "VND";
   vnp_Params["vnp_TxnRef"] = moment(date).format("DDHHmmss") + "-" + order.id;
   vnp_Params["vnp_OrderInfo"] = "Thanh toan cho ma GD:" + order.id;
   vnp_Params["vnp_OrderType"] = "other";

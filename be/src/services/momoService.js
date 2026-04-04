@@ -4,9 +4,9 @@ const axios = require("axios");
 
 // Tham số cấu hình Test (Sandbox) mặc định từ tài liệu MoMo Developer
 // (Trong môi trường thật, bạn nên đặt vào file .env)
-const partnerCode = process.env.MOMO_PARTNER_CODE || "MOMOBKUN20180529";
-const accessKey = process.env.MOMO_ACCESS_KEY || "MDZz4iG0k1yN4B8g";
-const secretKey = process.env.MOMO_SECRET_KEY || "eW2x6n9R6OaD86J03X9a9R9vXX21B7jB";
+const partnerCode = process.env.MOMO_PARTNER_CODE || "MOMO"; 
+const accessKey = process.env.MOMO_ACCESS_KEY || "TEST_ACCESS_KEY"; 
+const secretKey = process.env.MOMO_SECRET_KEY || "TEST_SECRET_KEY";
 const momoApiUrl = "https://test-payment.momo.vn/v2/gateway/api/create";
 const redirectUrl = "https://gundam-model.onrender.com/orders/momo_return"; // Dẫn về BE -> xử lý trạng thái -> điều hướng qua FE
 const ipnUrl = "https://gundam-model.onrender.com/orders/momo_ipn";
@@ -17,7 +17,7 @@ const createPaymentUrl = async (order) => {
   // Tạo unique orderId cho MoMo
   const orderId = `${partnerCode}-${new Date().getTime()}-${order.id}`;
   const requestId = orderId;
-  const orderInfo = `Thanh toán mua mô hình đơn hàng #${order.id}`;
+  const orderInfo = `Thanh toan don hang ${order.id}`;
   const requestType = "captureWallet";
   const extraData = "";
 

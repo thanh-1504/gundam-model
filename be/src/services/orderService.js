@@ -2,9 +2,10 @@ const prisma = require("../lib/prisma");
 const AppError = require("../util/AppError");
 const vnpayService = require("./vnpayService");
 const momoService = require("./momoService");
+const payosService = require("./payosService");
 
 const mapPaymentStatus = (paymentMethod) =>
-  ["cod", "vnpay", "momo"].includes(paymentMethod) ? "pending" : "paid";
+  ["cod", "vnpay", "momo", "payos"].includes(paymentMethod) ? "pending" : "paid";
 
 const normalizeItems = (items) =>
   items.map((item) => ({
@@ -138,6 +139,9 @@ const handleCreateOrder = async (payload) => {
     order.paymentUrl = paymentUrl;
   } else if (paymentMethod === "momo") {
     paymentUrl = await momoService.createPaymentUrl(order);
+    order.paymentUrl = paymentUrl;
+  } else if (paymentMethod === "payos") {
+    paymentUrl = await payosService.createPaymentUrl(order);
     order.paymentUrl = paymentUrl;
   }
 

@@ -4,6 +4,7 @@ const {
 } = require("../services/orderService");
 const vnpayService = require("../services/vnpayService");
 const momoService = require("../services/momoService");
+const payosService = require("../services/payosService");
 const prisma = require("../lib/prisma");
 
 const getOrders = async (req, res) => {
@@ -89,10 +90,49 @@ const momoIpn = async (req, res) => {
   return res.status(400).json({});
 };
 
+const payosReturn = async (req, res) => {
+  const { code, id, cancel, status, orderCode } = req.query;
+
+  // Nếu user ấn nút Hủy trên giao diện Web PayOS
+  if (cancel === "true") {
+    return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+  }
+
+  // code="00" là thành công
+  if (code === "00") {
+    await prisma.orders.update({
+      where: { id: Number(orderCode) },
+      data: { status: "paid" },
+    });
+    return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+  }
+
+  return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+};
+
+const payosWebhook = async (req, res) => {
+  const body = req.body;
+  try {
+    const webhookData = payosService.payos.webhooks.verify(body);
+    if (webhookData.code === "00") {
+      await prisma.orders.update({
+        where: { id: Number(webhookData.orderCode) },
+        data: { status: "paid" },
+      });
+      return res.json({ success: true });
+    }
+  } catch (error) {
+    console.error("Lỗi xác thực webhook PayOS", error);
+  }
+  return res.json({ success: false });
+};
+
 module.exports = {
   getOrders,
   createOrder,
   vnpayReturn,
   momoReturn,
   momoIpn,
+  payosReturn,
+  payosWebhook,
 };

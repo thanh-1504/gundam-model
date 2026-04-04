@@ -17,9 +17,9 @@ const PAYMENT_METHODS = [
     description: 'Đánh dấu đơn là đã thanh toán sau khi xác nhận giao dịch.',
   },
   {
-    value: 'bank_transfer',
-    label: 'Chuyển khoản ngân hàng',
-    description: 'Phù hợp cho đơn đặt trước hoặc đơn số lượng lớn.',
+    value: 'payos',
+    label: 'Chuyển khoản / Quét mã VietQR',
+    description: 'Tự động tạo mã VietQR chuyển khoản cực nhanh (PayOS).',
   },
   {
     value: 'vnpay',

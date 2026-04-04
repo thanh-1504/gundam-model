@@ -1,13 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    let savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    
+    // Đón URL status=success từ VNPay/MoMo/PayOS/Demo trả về
+    const paymentStatus = searchParams.get("status");
+    if (paymentStatus === "success" && savedOrders.length > 0) {
+      // Cập nhật đơn hàng mới nhất thành paid
+      if (savedOrders[0].status === "pending") {
+        savedOrders[0].status = "paid";
+        localStorage.setItem('orders', JSON.stringify(savedOrders));
+      }
+    }
+
     setOrders(savedOrders);
-  }, []);
+  }, [searchParams]);
 
   const formatPrice = (price) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);

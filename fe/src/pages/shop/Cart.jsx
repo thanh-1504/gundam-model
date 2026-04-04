@@ -1,10 +1,11 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import { useCartContext } from '../../features/cart/context/CartContext'; // <--- Import Context Giỏ hàng
 
 const Cart = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   
   // Lấy thẳng data và hàm từ Context, không cần useState nữa!
   const { cartItems, updateQuantity, removeItem, totalPrice, clearCart } = useCartContext();
@@ -89,7 +90,10 @@ const Cart = () => {
                 <span className="text-red-500">{formatPrice(totalPrice)}</span>
               </div>
             </div>
-            <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded uppercase tracking-wide transition-all shadow-lg active:scale-95">
+            <button
+              onClick={() => navigate('/checkout')}
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded uppercase tracking-wide transition-all shadow-lg active:scale-95"
+            >
               Thanh toán ngay
             </button>
           </div>

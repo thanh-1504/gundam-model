@@ -263,7 +263,7 @@ const SimpleLayout = () => {
               <span className="text-red-500 font-black text-xl">{formatPrice(totalPrice)}</span>
             </div>
             {user ? (
-              <button onClick={() => { setIsCartOpen(false); navigate('/cart'); }} className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl uppercase tracking-wider transition-all shadow-lg active:scale-95">Xem chi tiết Giỏ hàng</button>
+              <button onClick={() => { setIsCartOpen(false); navigate('/checkout'); }} className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl uppercase tracking-wider transition-all shadow-lg active:scale-95">Thanh toán ngay</button>
             ) : (
               <a href="https://hobbyjapan-social.vercel.app/auth/login" className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl uppercase tracking-wider transition-all shadow-lg active:scale-95">Đăng nhập để Thanh toán</a>
             )}

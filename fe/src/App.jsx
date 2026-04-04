@@ -13,8 +13,10 @@ import { CartProvider } from "./features/cart/context/CartContext";
 // 2. Import Layout & Pages
 import SimpleLayout from "./components/Layout/SimpleLayout";
 import Cart from "./pages/shop/Cart";
+import Checkout from "./pages/shop/Checkout";
 import Catalog from "./pages/shop/Catalog";
 import Home from "./pages/shop/Home";
+import Orders from "./pages/shop/Orders";
 
 // 🔥 ĐÃ ĐỔI TÊN IMPORT Ở ĐÂY THÀNH AdminDashboard 🔥
 import { Toaster } from "react-hot-toast";
@@ -72,6 +74,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="shop" element={<Catalog />} />
               <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="orders" element={<Orders />} />
 
               {/* TẠM THỜI ĐÓNG ROUTE NÀY LẠI */}
               {/* <Route path="contact" element={<Contact />} />  */}

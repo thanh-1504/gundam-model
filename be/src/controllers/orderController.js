@@ -127,6 +127,26 @@ const payosWebhook = async (req, res) => {
   return res.json({ success: false });
 };
 
+// Giả lập phương thức thanh toán trả về trạng thái trả tiền thành công
+const demoPay = async (req, res) => {
+  const { orderId } = req.query;
+  if (!orderId) {
+    return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+  }
+  try {
+    // Đổi trạng thái trong DB thành 'paid' trực tiếp
+    await prisma.orders.update({
+      where: { id: Number(orderId) },
+      data: { status: "paid" },
+    });
+    // Chuyển hướng người dùng về trang giao diện với status=success
+    return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+  } catch (error) {
+    console.error(error);
+    return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+  }
+};
+
 module.exports = {
   getOrders,
   createOrder,
@@ -135,4 +155,5 @@ module.exports = {
   momoIpn,
   payosReturn,
   payosWebhook,
+  demoPay,
 };

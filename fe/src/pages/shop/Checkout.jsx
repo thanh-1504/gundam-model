@@ -21,8 +21,11 @@ const PAYMENT_METHODS = [
     label: 'Chuyển khoản / Quét mã VietQR',
     description: 'Tự động tạo mã VietQR chuyển khoản cực nhanh (PayOS).',
   },
-  {
-    value: 'vnpay',
+  {    value: 'demo',
+    label: 'Mã giả lập / Demo Test',
+    description: 'Dùng để demo trạng thái hiển thị "Đã thanh toán" (Bỏ qua OTP/Tiền thật).',
+  },
+  {    value: 'vnpay',
     label: 'Thanh toán trực tuyến bằng VNPay',
     description: 'Thanh toán qua ví VNPay, quét mã QR, thẻ ATM hoặc thẻ quốc tế.',
   },

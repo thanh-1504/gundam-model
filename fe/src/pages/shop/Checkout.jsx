@@ -21,6 +21,11 @@ const PAYMENT_METHODS = [
     label: 'Chuyển khoản ngân hàng',
     description: 'Phù hợp cho đơn đặt trước hoặc đơn số lượng lớn.',
   },
+  {
+    value: 'vnpay',
+    label: 'Thanh toán trực tuyến bằng VNPay',
+    description: 'Thanh toán qua ví VNPay, quét mã QR, thẻ ATM hoặc thẻ quốc tế.',
+  },
 ];
 
 const Checkout = () => {
@@ -116,6 +121,13 @@ const Checkout = () => {
       });
 
       clearCart();
+
+      if (createdOrder?.paymentUrl) {
+        toast.success('Đang chuyển hướng sang trang thanh toán VNPay...');
+        window.location.href = createdOrder.paymentUrl;
+        return;
+      }
+
       toast.success('Thanh toán thành công. Đơn hàng đã được tạo.');
       navigate('/orders', { replace: true });
     } catch (error) {

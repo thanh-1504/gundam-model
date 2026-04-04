@@ -1,8 +1,9 @@
 const prisma = require("../lib/prisma");
 const AppError = require("../util/AppError");
+const vnpayService = require("./vnpayService");
 
 const mapPaymentStatus = (paymentMethod) =>
-  paymentMethod === "cod" ? "pending" : "paid";
+  paymentMethod === "cod" || paymentMethod === "vnpay" ? "pending" : "paid";
 
 const normalizeItems = (items) =>
   items.map((item) => ({
@@ -129,6 +130,12 @@ const handleCreateOrder = async (payload) => {
 
     return createdOrder;
   });
+
+  let paymentUrl = null;
+  if (paymentMethod === "vnpay") {
+    paymentUrl = vnpayService.createPaymentUrl(order, "127.0.0.1"); // ipAddr
+    order.paymentUrl = paymentUrl;
+  }
 
   return order;
 };

@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
 /* Hiệu ứng trượt lên và hiện rõ dần */
 @keyframes fadeInUp {
   from {
@@ -27,7 +34,7 @@
 }
 ::-webkit-scrollbar-thumb {
   background: #333; 
-  border-radius: 4px;
+  border-radius: 0;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 

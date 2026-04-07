@@ -337,7 +337,7 @@ const SimpleLayout = () => {
 
               <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
                 <button
-                  onClick={() => { closeCartNotice(); setIsCartOpen(true); }}
+                  onClick={() => { closeCartNotice(); setIsCartOpen(false); navigate('/cart'); }}
                   className="flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-colors"
                 >
                   Xem giỏ hàng

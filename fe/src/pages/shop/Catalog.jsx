@@ -201,13 +201,13 @@ const Catalog = () => {
       
       {isLoading && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-white/80 backdrop-blur-sm">
-           <div className="w-14 h-14 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+           <div className="w-14 h-14 border-4 border-blue-600 border-t-transparent rounded-none animate-spin"></div>
         </div>
       )}
 
       {/* ================= SIDEBAR LỌC ================= */}
       <aside className="w-full md:w-64 flex-shrink-0 sticky top-24 z-10">
-        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm max-h-[calc(100vh-7rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+        <div className="bg-white p-6 border border-gray-100 shadow-sm max-h-[calc(100vh-7rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
           
           <h3 className="text-sm font-bold uppercase text-gray-900 border-b border-gray-100 pb-3 mb-4 tracking-wider">Danh mục</h3>
           <div className="space-y-5 mb-8">
@@ -218,7 +218,7 @@ const Catalog = () => {
                   <ul className="space-y-1 border-l-2 border-gray-100 pl-2">
                     {subcategories.filter(sub => (sub.category_id || sub.categoryId || sub.CategoryId) === (category.id || category.Id)).map(sub => (
                       <li key={sub.id || sub.Id}>
-                        <button onClick={() => setActiveSubcategory(sub.id || sub.Id)} className={`text-sm w-full text-left px-3 py-2 rounded-lg transition-all duration-200 font-medium ${activeSubcategory === (sub.id || sub.Id) ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
+                        <button onClick={() => setActiveSubcategory(sub.id || sub.Id)} className={`text-sm w-full text-left px-3 py-2 transition-all duration-200 font-medium ${activeSubcategory === (sub.id || sub.Id) ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
                           {sub.name || sub.Name}
                         </button>
                       </li>
@@ -247,7 +247,7 @@ const Catalog = () => {
             </label>
           </div>
 
-          <button onClick={() => { setActiveSubcategory('all'); setPriceRange('all'); setInStockOnly(false); setSearchQuery(''); setCurrentPage(1); }} className="text-sm font-bold w-full py-2.5 rounded-xl bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-all uppercase tracking-wide">Xóa Bộ Lọc</button>
+          <button onClick={() => { setActiveSubcategory('all'); setPriceRange('all'); setInStockOnly(false); setSearchQuery(''); setCurrentPage(1); }} className="text-sm font-bold w-full py-2.5 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-all uppercase tracking-wide">Xóa Bộ Lọc</button>
         </div>
       </aside>
 
@@ -255,9 +255,9 @@ const Catalog = () => {
       <main className="flex-grow w-full overflow-hidden">
         
         {/* THANH TOOLBAR */}
-        <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm mb-6 flex flex-col lg:flex-row justify-between items-center gap-4">
+        <div className="bg-white p-4 border border-gray-100 shadow-sm mb-6 flex flex-col lg:flex-row justify-between items-center gap-4">
           <div className="relative w-full lg:w-[350px]">
-            <input type="text" placeholder="Tìm kiếm sản phẩm..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-gray-50 border border-gray-200 text-sm text-gray-800 rounded-xl pl-10 pr-4 py-2.5 outline-none focus:border-blue-500 focus:bg-white transition-colors"/>
+            <input type="text" placeholder="Tìm kiếm sản phẩm..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-gray-50 border border-gray-200 text-sm text-gray-800 pl-10 pr-4 py-2.5 outline-none focus:border-blue-500 focus:bg-white transition-colors"/>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
           </div>
           
@@ -265,7 +265,7 @@ const Catalog = () => {
             <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors whitespace-nowrap">
               <input type="checkbox" checked={inStockOnly} onChange={(e) => setInStockOnly(e.target.checked)} className="accent-blue-600 w-4 h-4 rounded"/> Sẵn hàng ({filteredProducts?.length || 0})
             </label>
-            <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="bg-gray-50 border border-gray-200 text-gray-700 font-medium text-sm rounded-xl px-3 py-2 outline-none cursor-pointer focus:border-blue-500 focus:bg-white transition-colors">
+            <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="bg-gray-50 border border-gray-200 text-gray-700 font-medium text-sm px-3 py-2 outline-none cursor-pointer focus:border-blue-500 focus:bg-white transition-colors">
                 <option value="default">Mới nhất</option>
                 <option value="price_asc">Giá tăng dần</option>
                 <option value="price_desc">Giá giảm dần</option>
@@ -283,13 +283,13 @@ const Catalog = () => {
         {/* PHÂN TRANG */}
         {totalPages > 1 && (
             <div className="flex justify-center mt-12 gap-2">
-                <button onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }} disabled={currentPage === 1} className="px-4 py-2 bg-white text-gray-600 border border-gray-200 text-sm font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors">&larr; Trước</button>
+                <button onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }} disabled={currentPage === 1} className="px-4 py-2 bg-white text-gray-600 border border-gray-200 text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors">&larr; Trước</button>
                 <div className="hidden sm:flex gap-2">
                   {[...Array(totalPages)].map((_, i) => (
-                      <button key={i} onClick={() => { setCurrentPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`w-10 h-10 rounded-xl text-sm font-bold border ${currentPage === i + 1 ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}>{i + 1}</button>
+                      <button key={i} onClick={() => { setCurrentPage(i + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`w-10 h-10 text-sm font-bold border ${currentPage === i + 1 ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}>{i + 1}</button>
                   ))}
                 </div>
-                <button onClick={() => { setCurrentPage(prev => Math.min(prev + 1, totalPages)); window.scrollTo({ top: 0, behavior: 'smooth' }); }} disabled={currentPage === totalPages} className="px-4 py-2 bg-white text-gray-600 border border-gray-200 text-sm font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors">Sau &rarr;</button>
+                <button onClick={() => { setCurrentPage(prev => Math.min(prev + 1, totalPages)); window.scrollTo({ top: 0, behavior: 'smooth' }); }} disabled={currentPage === totalPages} className="px-4 py-2 bg-white text-gray-600 border border-gray-200 text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors">Sau &rarr;</button>
             </div>
         )}
       </main>
@@ -299,7 +299,7 @@ const Catalog = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 animate-fade-in font-sans">
           <div className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" onClick={handleCloseModal}></div>
           
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-[1300px] h-[95vh] relative z-10 overflow-hidden flex flex-col transition-all">
+          <div className="bg-white shadow-2xl w-full max-w-[1300px] h-[95vh] relative z-10 overflow-hidden flex flex-col transition-all">
             
             <div className="relative z-10 flex flex-col flex-1 overflow-hidden">
                 
@@ -315,7 +315,7 @@ const Catalog = () => {
                     {/* HIỂN THỊ TÊN & GIÁ KHI CUỘN */}
                     <div className={`flex items-center gap-3 transition-all duration-300 origin-left ${isModalScrolled ? 'opacity-100 scale-100 sm:pl-4 sm:border-l border-gray-200' : 'opacity-0 scale-95 hidden'}`}>
                       {selectedProduct.images && selectedProduct.images.length > 0 && (
-                         <img src={selectedProduct.images[0]} alt="thumb" className="w-10 h-10 rounded-lg bg-gray-50 object-contain border border-gray-100 flex-shrink-0"/>
+                         <img src={selectedProduct.images[0]} alt="thumb" className="w-10 h-10 rounded-none bg-gray-50 object-contain border border-gray-100 flex-shrink-0"/>
                       )}
                       <div className="flex flex-col justify-center min-w-0">
                         <p className="text-sm font-bold text-gray-900 truncate max-w-[150px] sm:max-w-[300px] lg:max-w-[500px]">{selectedProduct.name || selectedProduct.Name}</p>
@@ -324,7 +324,7 @@ const Catalog = () => {
                     </div>
                   </div>
 
-                  <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 p-2.5 rounded-full transition-colors flex-shrink-0">
+                  <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 p-2.5 rounded-none transition-colors flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                   </button>
                 </div>
@@ -339,19 +339,19 @@ const Catalog = () => {
                   {/* PHẦN 1: GALLERY & THÔNG TIN */}
                   <div className="flex flex-col md:flex-row gap-8 lg:gap-14 mb-16 border-b border-gray-100 pb-16">
                     
-                    <div className="w-full md:w-1/2 flex-shrink-0 relative group bg-gray-50 p-6 rounded-3xl border border-gray-100 flex flex-col items-center justify-center">
+                    <div className="w-full md:w-1/2 flex-shrink-0 relative group bg-gray-50 p-6 border border-gray-100 flex flex-col items-center justify-center">
                       {selectedProduct.images && selectedProduct.images.length > 0 ? (
                         <>
                           <img src={selectedProduct.images[currentGalleryImageIndex]} alt={selectedProduct.name} className="w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] object-contain mx-auto mix-blend-multiply" />
                           {selectedProduct.images.length > 1 && (
                             <>
-                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === 0 ? selectedProduct.images.length - 1 : prev - 1)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white text-gray-600 p-3 rounded-full shadow-md hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
-                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === selectedProduct.images.length - 1 ? 0 : prev + 1)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white text-gray-600 p-3 rounded-full shadow-md hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></button>
+                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === 0 ? selectedProduct.images.length - 1 : prev - 1)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white text-gray-600 p-3 shadow-md hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
+                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === selectedProduct.images.length - 1 ? 0 : prev + 1)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white text-gray-600 p-3 shadow-md hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></button>
                             </>
                           )}
                           <div className="flex justify-center gap-3 mt-8">
                             {selectedProduct.images.slice(0, 5).map((img, i) => (
-                                <img key={i} src={img} alt="thumb" onClick={() => setCurrentGalleryImageIndex(i)} className={`w-16 h-16 object-cover rounded-xl border-2 bg-white cursor-pointer transition-all ${i === currentGalleryImageIndex ? 'border-blue-600 shadow-md scale-105' : 'border-gray-200 hover:border-gray-300'}`} />
+                                <img key={i} src={img} alt="thumb" onClick={() => setCurrentGalleryImageIndex(i)} className={`w-16 h-16 object-cover border-2 bg-white cursor-pointer transition-all ${i === currentGalleryImageIndex ? 'border-blue-600 shadow-md scale-105' : 'border-gray-200 hover:border-gray-300'}`} />
                             ))}
                           </div>
                         </>
@@ -363,9 +363,9 @@ const Catalog = () => {
                     <div className="flex-1 flex flex-col pt-2">
                       <div className="mb-4 flex items-center justify-between gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="bg-blue-50 text-blue-600 text-[11px] font-bold uppercase px-3 py-1.5 rounded-lg tracking-wider">Sản phẩm nổi bật</span>
+                            <span className="bg-blue-50 text-blue-600 text-[11px] font-bold uppercase px-3 py-1.5 tracking-wider">Sản phẩm nổi bật</span>
                         </div>
-                        <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
+                        <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 border border-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-yellow-400"><path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" /></svg>
                             <span className="text-sm font-bold text-gray-900">{selectedProduct.rating}</span>
                             <span className="text-gray-500 text-xs font-medium">({selectedProduct.reviews ? selectedProduct.reviews.length : 0} đánh giá)</span>
@@ -381,21 +381,21 @@ const Catalog = () => {
                       </p>
 
                       <div className="space-y-4 border-t border-gray-100 pt-8 mb-8">
-                         <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                         <div className="flex justify-between items-center bg-gray-50 p-4 border border-gray-100">
                             <span className="text-gray-600 font-semibold">Tình trạng kho:</span>
                             {selectedProduct.stock > 0 ? (
-                              <span className="text-green-600 font-bold flex items-center gap-1.5 bg-green-50 px-3 py-1 rounded-lg text-sm">Còn hàng ({selectedProduct.stock})</span>
+                              <span className="text-green-600 font-bold flex items-center gap-1.5 bg-green-50 px-3 py-1 text-sm">Còn hàng ({selectedProduct.stock})</span>
                             ) : (
-                              <span className="text-red-500 font-bold bg-red-50 px-3 py-1 rounded-lg text-sm">Tạm hết hàng</span>
+                              <span className="text-red-500 font-bold bg-red-50 px-3 py-1 text-sm">Tạm hết hàng</span>
                             )}
                          </div>
 
-                         <div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                         <div className="flex justify-between items-center bg-gray-50 p-4 border border-gray-100">
                             <span className="text-gray-600 font-semibold">Số lượng muốn mua:</span>
-                            <div className="flex items-center bg-white border border-gray-200 rounded-lg p-1 h-11">
+                            <div className="flex items-center bg-white border border-gray-200 p-1 h-11">
                                 <button 
                                   onClick={() => setModalQuantity(prev => Math.max(1, Number(prev) - 1))} 
-                                  className="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-blue-50 rounded-md text-gray-600 hover:text-blue-600 transition-colors"
+                                  className="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" /></svg>
                                 </button>
@@ -411,7 +411,7 @@ const Catalog = () => {
                                 
                                 <button 
                                   onClick={() => setModalQuantity(prev => Math.max(1, Math.min(Number(selectedProduct.stock) || 99, Number(prev) + 1)))} 
-                                  className="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-blue-50 rounded-md text-gray-600 hover:text-blue-600 transition-colors"
+                                  className="w-9 h-9 flex items-center justify-center bg-gray-50 hover:bg-blue-50 text-gray-600 hover:text-blue-600 transition-colors"
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                                 </button>
@@ -422,7 +422,7 @@ const Catalog = () => {
                       <button 
                         onClick={() => handleQuickBuy(selectedProduct, modalQuantity)}
                         disabled={selectedProduct.stock === 0}
-                        className={`w-full py-4 rounded-xl font-bold uppercase text-base tracking-widest transition-all shadow-md active:scale-[0.98] flex justify-center items-center gap-3 mb-10 ${
+                        className={`w-full py-4 font-bold uppercase text-base tracking-widest transition-all shadow-md active:scale-[0.98] flex justify-center items-center gap-3 mb-10 ${
                           selectedProduct.stock === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-orange-500 hover:bg-orange-600 text-white shadow-orange-500/30'
                         }`}
                       >
@@ -431,7 +431,7 @@ const Catalog = () => {
                       </button>
 
                       {selectedProduct.specs && selectedProduct.specs.length > 0 && (
-                        <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 mt-auto">
+                        <div className="bg-gray-50 p-6 border border-gray-100 mt-auto">
                             <h4 className="text-sm font-bold uppercase text-gray-900 mb-5 flex items-center gap-2.5"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-blue-600"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> Thông số chi tiết</h4>
                             <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-sm">
                                 {selectedProduct.specs.map((spec, i) => (
@@ -450,13 +450,13 @@ const Catalog = () => {
                   <div className="border-t border-gray-100 pt-12 mb-16 pb-12">
                     <h3 className="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-blue-600"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg> Thông tin mô tả</h3>
                     <div className="flex flex-col lg:flex-row gap-10">
-                        <div className="prose prose-sm flex-1 text-gray-700 leading-relaxed bg-gray-50 p-8 rounded-2xl border border-gray-100 max-w-none">
+                        <div className="prose prose-sm flex-1 text-gray-700 leading-relaxed bg-gray-50 p-8 border border-gray-100 max-w-none">
                             <p>{selectedProduct.desc}</p>
                         </div>
                         {selectedProduct.images && selectedProduct.images.length > 1 && (
                             <div className="w-full lg:w-1/3 grid grid-cols-2 gap-4 flex-shrink-0">
                                 {selectedProduct.images.slice(1, 6).map((img, i) => (
-                                    <img key={i} src={img} alt={`ilust-${i}`} className={`object-cover w-full h-full rounded-xl border border-gray-100 aspect-square ${i===0 ? 'col-span-2' : ''}`} />
+                                    <img key={i} src={img} alt={`ilust-${i}`} className={`object-cover w-full h-full border border-gray-100 aspect-square ${i===0 ? 'col-span-2' : ''}`} />
                                 ))}
                             </div>
                         )}
@@ -470,31 +470,31 @@ const Catalog = () => {
                     </div>
 
                     {user ? (
-                        <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 mb-12">
+                        <div className="bg-gray-50 p-8 border border-gray-100 mb-12">
                             <div className="flex items-start gap-5 mb-6">
-                                <div className="w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white text-lg shadow-sm">{user.username?.charAt(0).toUpperCase() || 'U'}</div>
+                                <div className="w-12 h-12 rounded-none bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white text-lg shadow-sm">{user.username?.charAt(0).toUpperCase() || 'U'}</div>
                                 <div className="flex-1">
                                     <p className="font-bold text-gray-900 mb-1.5">Viết đánh giá của <strong className="text-blue-600">{user.username}</strong></p>
                                     <p className="text-xs text-gray-500 mb-4">Chia sẻ cảm nhận của bạn về sản phẩm này</p>
-                                    <div className="flex text-yellow-400 gap-1.5 mb-5 bg-white w-fit p-2 rounded-lg border border-gray-200 shadow-sm">
+                                    <div className="flex text-yellow-400 gap-1.5 mb-5 bg-white w-fit p-2 rounded-none border border-gray-200 shadow-sm">
                                         {[...Array(5)].map((_, i) => (
                                             <svg key={i} onClick={() => setModalUserRating(5 - i)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill={5 - i <= modalUserRating ? "currentColor" : "none"} className="w-7 h-7 cursor-pointer transform hover:scale-110 transition-transform"><path stroke="currentColor" strokeWidth={1} d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.12 4.637c-.194.808.691 1.451 1.425 1.02L10 14.217l4.132 2.413c.734.431 1.619-.212 1.426-1.02l-1.12-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" /></svg>
                                         ))}
                                     </div>
-                                    <textarea value={modalUserComment} onChange={(e) => setModalUserComment(e.target.value)} rows="3" placeholder="Sản phẩm tuyệt vời, đáng tiền..." className="w-full bg-white border border-gray-200 text-sm text-gray-800 rounded-xl p-4 focus:outline-none focus:border-blue-500 transition-colors outline-none mb-4 shadow-sm"></textarea>
-                                    <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-md transition-all flex items-center gap-2">Gửi Đánh Giá <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg></button>
+                                    <textarea value={modalUserComment} onChange={(e) => setModalUserComment(e.target.value)} rows="3" placeholder="Sản phẩm tuyệt vời, đáng tiền..." className="w-full bg-white border border-gray-200 text-sm text-gray-800 rounded-none p-4 focus:outline-none focus:border-blue-500 transition-colors outline-none mb-4 shadow-sm"></textarea>
+                                    <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-none shadow-md transition-all flex items-center gap-2">Gửi Đánh Giá <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg></button>
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 text-center text-gray-600 text-sm mb-12">Vui lòng <a href="https://hobbyjapan-social.vercel.app/auth/login" className="text-blue-600 font-bold hover:underline">đăng nhập</a> để gửi đánh giá.</div>
+                        <div className="bg-gray-50 p-6 rounded-none border border-gray-100 text-center text-gray-600 text-sm mb-12">Vui lòng <a href="https://hobbyjapan-social.vercel.app/auth/login" className="text-blue-600 font-bold hover:underline">đăng nhập</a> để gửi đánh giá.</div>
                     )}
 
                     {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
                         <div className="space-y-6">
                             {selectedProduct.reviews.map((review, idx) => (
-                                <div key={review.id || idx} className="bg-gray-50 p-6 rounded-2xl border border-gray-100 flex gap-5">
-                                    <div className="w-12 h-12 rounded-full bg-gray-200 flex-shrink-0 flex items-center justify-center font-bold text-gray-600 text-lg">{review.avatar || (review.name?.charAt(0).toUpperCase() || 'U')}</div>
+                                <div key={review.id || idx} className="bg-gray-50 p-6 border border-gray-100 flex gap-5">
+                                  <div className="w-12 h-12 bg-gray-200 flex-shrink-0 flex items-center justify-center font-bold text-gray-600 text-lg">{review.avatar || (review.name?.charAt(0).toUpperCase() || 'U')}</div>
                                     <div className="flex-1">
                                         <div className="mb-2 flex justify-between items-center">
                                             <div>
@@ -507,13 +507,13 @@ const Catalog = () => {
                                                 ))}
                                             </div>
                                         </div>
-                                        <p className="text-gray-700 text-sm leading-relaxed bg-white p-4 rounded-xl border border-gray-100 italic shadow-sm">"{review.comment || review.Comment}"</p>
+                                        <p className="text-gray-700 text-sm leading-relaxed bg-white p-4 border border-gray-100 italic shadow-sm">"{review.comment || review.Comment}"</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-10 bg-gray-50 rounded-2xl border border-gray-100 text-gray-500 italic text-sm">Chưa có đánh giá nào cho sản phẩm này.</div>
+                        <div className="text-center py-10 bg-gray-50 border border-gray-100 text-gray-500 italic text-sm">Chưa có đánh giá nào cho sản phẩm này.</div>
                     )}
                   </div>
 
@@ -524,10 +524,10 @@ const Catalog = () => {
                     </div>
 
                     <div className="relative group">
-                        <button onClick={() => scrollRelatedCarousel('left')} className="absolute -left-4 top-[40%] -translate-y-1/2 z-20 bg-white text-gray-800 p-3 rounded-full border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:text-blue-600 hover:bg-blue-50">
+                        <button onClick={() => scrollRelatedCarousel('left')} className="absolute -left-4 top-[40%] -translate-y-1/2 z-20 bg-white text-gray-800 p-3 border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:text-blue-600 hover:bg-blue-50">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                         </button>
-                        <button onClick={() => scrollRelatedCarousel('right')} className="absolute -right-4 top-[40%] -translate-y-1/2 z-20 bg-white text-gray-800 p-3 rounded-full border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:text-blue-600 hover:bg-blue-50">
+                        <button onClick={() => scrollRelatedCarousel('right')} className="absolute -right-4 top-[40%] -translate-y-1/2 z-20 bg-white text-gray-800 p-3 border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:text-blue-600 hover:bg-blue-50">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                         </button>
 
@@ -538,7 +538,7 @@ const Catalog = () => {
                                 </div>
                             ))}
                             {getRelatedProducts(selectedProduct.id).length === 0 && (
-                                <div className="text-center py-10 w-full text-gray-500 bg-gray-50 rounded-xl border border-gray-100">Không có sản phẩm liên quan.</div>
+                                <div className="text-center py-10 w-full text-gray-500 bg-gray-50 border border-gray-100">Không có sản phẩm liên quan.</div>
                             )}
                         </div>
                     </div>

@@ -18,7 +18,7 @@ const ProductGallery = ({ images }) => {
   // TRẠNG THÁI KHÔNG CÓ ẢNH
   if (safeImages.length === 0) {
     return (
-      <div className="w-full aspect-square bg-slate-50 rounded-3xl flex items-center justify-center border border-gray-200 shadow-sm">
+      <div className="w-full aspect-square bg-slate-50 rounded-none flex items-center justify-center border border-gray-200 shadow-sm">
         <span className="text-slate-400 text-sm font-bold tracking-widest uppercase">Chưa có hình ảnh</span>
       </div>
     );
@@ -36,7 +36,7 @@ const ProductGallery = ({ images }) => {
     <div className="space-y-4">
       
       {/* ================= KHU VỰC ẢNH CHÍNH ================= */}
-      <div className="relative w-full aspect-square bg-white rounded-3xl flex items-center justify-center p-4 lg:p-6 border border-gray-100 shadow-sm overflow-hidden group">
+      <div className="relative w-full aspect-square bg-white rounded-none flex items-center justify-center p-4 lg:p-6 border border-gray-100 shadow-sm overflow-hidden group">
         
         {/* Nền lưới công nghệ nhạt (Light Grid) */}
         <div 
@@ -55,13 +55,13 @@ const ProductGallery = ({ images }) => {
           <>
             <button 
               onClick={handlePrev} 
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-3 rounded-full border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md backdrop-blur-sm"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-3 rounded-none border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md backdrop-blur-sm"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
             </button>
             <button 
               onClick={handleNext} 
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-3 rounded-full border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md backdrop-blur-sm"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 p-3 rounded-none border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md backdrop-blur-sm"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
             </button>
@@ -76,7 +76,7 @@ const ProductGallery = ({ images }) => {
             <button 
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`relative aspect-square bg-white rounded-xl p-2 border-2 transition-all duration-300 overflow-hidden group/thumb ${
+              className={`relative aspect-square bg-white rounded-none p-2 border-2 transition-all duration-300 overflow-hidden group/thumb ${
                 currentIndex === index 
                   ? 'border-blue-500 shadow-md scale-[1.03] z-10 ring-2 ring-blue-50' 
                   : 'border-gray-100 hover:border-blue-300 hover:bg-slate-50'

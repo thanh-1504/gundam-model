@@ -62,7 +62,7 @@ const ProductCarouselSection = ({ title, data, formatPrice, onQuickView }) => {
     <div className="mb-16">
       <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-6">
         <h2 className="text-xl md:text-2xl font-black uppercase text-slate-800 tracking-tight">{title}</h2>
-        <Link to="/shop" className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1 uppercase tracking-wide whitespace-nowrap bg-blue-50 px-3 py-1.5 rounded-full">
+        <Link to="/shop" className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1 uppercase tracking-wide whitespace-nowrap bg-blue-50 px-3 py-1.5 rounded-none">
           Xem tất cả <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
         </Link>
       </div>
@@ -70,14 +70,14 @@ const ProductCarouselSection = ({ title, data, formatPrice, onQuickView }) => {
       <div className="relative group">
         <button
           onClick={() => scroll('left')}
-          className="absolute -left-3 md:-left-5 top-[40%] -translate-y-1/2 z-10 bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-400 p-3 rounded-full border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md"
+          className="absolute -left-3 md:-left-5 top-[40%] -translate-y-1/2 z-10 bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-400 p-3 rounded-none border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
         </button>
 
         <button
           onClick={() => scroll('right')}
-          className="absolute -right-3 md:-right-5 top-[40%] -translate-y-1/2 z-10 bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-400 p-3 rounded-full border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md"
+          className="absolute -right-3 md:-right-5 top-[40%] -translate-y-1/2 z-10 bg-white hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-400 p-3 rounded-none border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
         </button>
@@ -94,7 +94,7 @@ const ProductCarouselSection = ({ title, data, formatPrice, onQuickView }) => {
             ))}
           </div>
         ) : (
-          <div className="py-12 text-center text-slate-500 bg-white rounded-2xl border border-gray-100 shadow-sm font-medium">Đang tải dữ liệu sản phẩm...</div>
+          <div className="py-12 text-center text-slate-500 bg-white rounded-none border border-gray-100 shadow-sm font-medium">Đang tải dữ liệu sản phẩm...</div>
         )}
       </div>
     </div>
@@ -267,14 +267,14 @@ const Home = () => {
           />
         ))}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent pointer-events-none"></div>
-        <button onClick={() => setCurrentSlide(prev => prev === 0 ? MAIN_BANNERS.length - 1 : prev - 1)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/90 text-white hover:text-blue-600 p-3 rounded-full backdrop-blur-md transition-all border border-white/30"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
-        <button onClick={() => setCurrentSlide(prev => prev === MAIN_BANNERS.length - 1 ? 0 : prev + 1)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/90 text-white hover:text-blue-600 p-3 rounded-full backdrop-blur-md transition-all border border-white/30"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></button>
+        <button onClick={() => setCurrentSlide(prev => prev === 0 ? MAIN_BANNERS.length - 1 : prev - 1)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/90 text-white hover:text-blue-600 p-3 rounded-none backdrop-blur-md transition-all border border-white/30"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
+        <button onClick={() => setCurrentSlide(prev => prev === MAIN_BANNERS.length - 1 ? 0 : prev + 1)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/90 text-white hover:text-blue-600 p-3 rounded-none backdrop-blur-md transition-all border border-white/30"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></button>
       </div>
 
       <div className="max-w-[1280px] mx-auto px-4 lg:px-8">
 
         {/* KHU VỰC YÊN TÂM MUA HÀNG */}
-        <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 mb-16 shadow-sm">
+        <div className="bg-white border border-gray-100 rounded-none p-6 md:p-8 mb-16 shadow-sm">
           <div className="border-b-2 border-gray-100 pb-4 mb-8 inline-block">
             <h3 className="text-xl md:text-2xl font-black uppercase text-slate-800 flex items-center gap-2">
               Yên tâm mua hàng tại
@@ -284,9 +284,9 @@ const Home = () => {
             </h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-slate-600">
-            <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" /></svg><span className="text-[14px] font-medium leading-snug">Gundam Shop Chính hãng <strong className="text-slate-800">BANDAI</strong></span></div>
-            <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg><span className="text-[14px] font-medium leading-snug">Giao hàng Nhanh <strong className="text-slate-800">Toàn Quốc</strong></span></div>
-            <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg><span className="text-[14px] font-medium leading-snug">Luôn có <strong className="text-slate-800">Giá tốt nhất</strong></span></div>
+            <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349m-16.5 11.65V9.35m0 0a3.001 3.001 0 003.75-.615A2.993 2.993 0 009.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 002.25 1.016c.896 0 1.7-.393 2.25-1.016a3.001 3.001 0 003.75.614m-16.5 0a3.004 3.004 0 01-.621-4.72L4.318 3.44A1.5 1.5 0 015.378 3h13.243a1.5 1.5 0 011.06.44l1.19 1.189a3 3 0 01-.621 4.72m-13.5 8.65h3.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H6.75a.75.75 0 00-.75.75v3.75c0 .415.336.75.75.75z" /></svg><span className="text-[14px] font-medium leading-snug">Gundam Shop Chính hãng <strong className="text-slate-800">BANDAI</strong></span></div>
+            <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg><span className="text-[14px] font-medium leading-snug">Giao hàng Nhanh <strong className="text-slate-800">Toàn Quốc</strong></span></div>
+            <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg><span className="text-[14px] font-medium leading-snug">Luôn có <strong className="text-slate-800">Giá tốt nhất</strong></span></div>
             <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg><span className="text-[14px] font-medium leading-snug"><strong className="text-slate-800">Uy tín</strong>, Nhiệt tình, Thân thiện</span></div>
             <div className="flex items-center gap-4 group"><svg className="w-10 h-10 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform bg-blue-50 p-2 rounded-xl" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg><span className="text-[14px] font-medium leading-snug">Đặt hàng <strong className="text-slate-800">Online 24/7</strong></span></div>
           </div>
@@ -294,7 +294,7 @@ const Home = () => {
 
         {/* CÁC MỤC SẢN PHẨM DÙNG COMPONENT CAROUSEL */}
         {isLoading ? (
-          <div className="flex justify-center items-center py-20"><div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div></div>
+          <div className="flex justify-center items-center py-20"><div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-none animate-spin"></div></div>
         ) : (
           <>
             <ProductCarouselSection title="Hàng Đặt Trước (Pre-order)" data={preOrderProducts} formatPrice={formatPrice} onQuickView={handleOpenModal} />
@@ -310,7 +310,7 @@ const Home = () => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 animate-fade-in">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={handleCloseModal}></div>
 
-          <div className="bg-white border border-gray-200 rounded-3xl shadow-2xl w-full max-w-[1400px] h-[95vh] relative z-10 overflow-hidden flex flex-col transition-all">
+          <div className="bg-white border border-gray-200 rounded-none shadow-2xl w-full max-w-[1400px] h-[95vh] relative z-10 overflow-hidden flex flex-col transition-all">
 
             <div className="relative z-10 flex flex-col flex-1 overflow-hidden">
 
@@ -326,7 +326,7 @@ const Home = () => {
                   {/* HIỂN THỊ TÊN & GIÁ KHI CUỘN */}
                   <div className={`flex items-center gap-3 transition-all duration-300 origin-left ${isModalScrolled ? 'opacity-100 scale-100 sm:pl-4 sm:border-l border-gray-200' : 'opacity-0 scale-95 hidden'}`}>
                     {selectedProduct.images && selectedProduct.images.length > 0 && (
-                      <img src={selectedProduct.images[0]} alt="thumb" className="w-9 h-9 rounded-md bg-white object-contain border border-gray-200 flex-shrink-0" />
+                      <img src={selectedProduct.images[0]} alt="thumb" className="w-9 h-9 rounded-none bg-white object-contain border border-gray-200 flex-shrink-0" />
                     )}
                     <div className="flex flex-col justify-center min-w-0">
                       <p className="text-sm font-bold text-slate-700 truncate max-w-[150px] sm:max-w-[300px] lg:max-w-[500px]">{selectedProduct.name}</p>
@@ -335,7 +335,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                <button onClick={handleCloseModal} className="text-slate-400 hover:text-white hover:bg-red-500 p-2.5 rounded-full transition-colors bg-white border border-gray-200 shadow-sm flex-shrink-0">
+                <button onClick={handleCloseModal} className="text-slate-400 hover:text-white hover:bg-red-500 p-2.5 rounded-none transition-colors bg-white border border-gray-200 shadow-sm flex-shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
               </div>
@@ -350,33 +350,33 @@ const Home = () => {
                 {/* PHẦN 1: GALLERY & THÔNG TIN */}
                 <div className="flex flex-col md:flex-row gap-8 lg:gap-12 mb-16 border-b border-gray-100 pb-16">
 
-                  <div className="w-full md:w-2/5 flex-shrink-0 relative group bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+                  <div className="w-full md:w-2/5 flex-shrink-0 relative group bg-white p-6 rounded-none border border-gray-100 shadow-sm">
                     {selectedProduct.images && selectedProduct.images.length > 0 ? (
                       <>
                         <img src={selectedProduct.images[currentGalleryImageIndex]} alt={selectedProduct.name} className="w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] object-contain mx-auto" />
                         {selectedProduct.images.length > 1 && (
                           <>
-                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === 0 ? selectedProduct.images.length - 1 : prev - 1)} className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 p-3 rounded-full border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
-                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === selectedProduct.images.length - 1 ? 0 : prev + 1)} className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 p-3 rounded-full border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></button>
+                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === 0 ? selectedProduct.images.length - 1 : prev - 1)} className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 p-3 rounded-none border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg></button>
+                            <button onClick={() => setCurrentGalleryImageIndex(prev => prev === selectedProduct.images.length - 1 ? 0 : prev + 1)} className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 p-3 rounded-none border border-gray-200 text-slate-500 hover:text-white hover:bg-blue-600 transition-all opacity-0 group-hover:opacity-100 shadow-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg></button>
                           </>
                         )}
                         <div className="flex justify-center gap-3 mt-6">
                           {selectedProduct.images.slice(0, 5).map((img, i) => (
-                            <img key={i} src={img} alt="thumb" onClick={() => setCurrentGalleryImageIndex(i)} className={`w-16 h-16 object-contain bg-white rounded-xl border-2 cursor-pointer transition-all ${i === currentGalleryImageIndex ? 'border-blue-500 shadow-md' : 'border-gray-100 hover:border-gray-300'}`} />
+                            <img key={i} src={img} alt="thumb" onClick={() => setCurrentGalleryImageIndex(i)} className={`w-16 h-16 object-contain bg-white rounded-none border-2 cursor-pointer transition-all ${i === currentGalleryImageIndex ? 'border-blue-500 shadow-md' : 'border-gray-100 hover:border-gray-300'}`} />
                           ))}
                         </div>
                       </>
                     ) : (
-                      <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-2xl border border-gray-100 text-slate-400 font-bold">Chưa có ảnh</div>
+                      <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-none border border-gray-100 text-slate-400 font-bold">Chưa có ảnh</div>
                     )}
                   </div>
 
                   <div className="flex-1 flex flex-col pt-2">
                     <div className="mb-4 flex items-center justify-between gap-4">
                       <div className="flex items-center gap-2">
-                        <span className="bg-blue-50 text-blue-600 text-[11px] font-black uppercase px-3 py-1.5 rounded-full border border-blue-100 tracking-wider">Sản phẩm chính hãng</span>
+                        <span className="bg-blue-50 text-blue-600 text-[11px] font-black uppercase px-3 py-1.5 rounded-none border border-blue-100 tracking-wider">Sản phẩm chính hãng</span>
                       </div>
-                      <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                      <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-none border border-gray-200 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-orange-400"><path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" /></svg>
                         <span className="text-sm font-black text-slate-700">{selectedProduct.rating}</span>
                         <span className="text-slate-400 text-xs font-bold">({selectedProduct.reviews ? selectedProduct.reviews.length : 0} đánh giá)</span>
@@ -392,21 +392,21 @@ const Home = () => {
                     </p>
 
                     <div className="space-y-4 border-t border-gray-100 pt-8 mb-8">
-                      <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-gray-100">
+                      <div className="flex justify-between items-center bg-slate-50 p-4 rounded-none border border-gray-100">
                         <span className="text-slate-600 font-bold text-sm">Tình trạng kho:</span>
                         {selectedProduct.stock > 0 ? (
-                          <span className="text-emerald-600 font-bold flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 text-sm"><span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span> Còn hàng ({selectedProduct.stock} sản phẩm)</span>
+                          <span className="text-emerald-600 font-bold flex items-center gap-1.5 bg-emerald-50 px-3 py-1.5 rounded-none border border-emerald-100 text-sm"><span className="w-2.5 h-2.5 bg-emerald-500 rounded-none animate-pulse"></span> Còn hàng ({selectedProduct.stock} sản phẩm)</span>
                         ) : (
-                          <span className="text-red-500 font-bold bg-red-50 px-3 py-1.5 rounded-full border border-red-100 text-sm">Tạm hết hàng</span>
+                          <span className="text-red-500 font-bold bg-red-50 px-3 py-1.5 rounded-none border border-red-100 text-sm">Tạm hết hàng</span>
                         )}
                       </div>
 
-                      <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-gray-100">
+                      <div className="flex justify-between items-center bg-slate-50 p-4 rounded-none border border-gray-100">
                         <span className="text-slate-600 font-bold text-sm">Số lượng muốn mua:</span>
-                        <div className="flex items-center bg-white border border-gray-200 rounded-full p-1 shadow-sm h-11">
+                        <div className="flex items-center bg-white border border-gray-200 rounded-none p-1 shadow-sm h-11">
                           <button
                             onClick={() => setModalQuantity(prev => Math.max(1, Number(prev) - 1))}
-                            className="w-9 h-9 flex items-center justify-center bg-slate-50 hover:bg-blue-600 rounded-full text-slate-500 hover:text-white transition-colors cursor-pointer"
+                            className="w-9 h-9 flex items-center justify-center bg-slate-50 hover:bg-blue-600 rounded-none text-slate-500 hover:text-white transition-colors cursor-pointer"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" /></svg>
                           </button>
@@ -422,7 +422,7 @@ const Home = () => {
 
                           <button
                             onClick={() => setModalQuantity(prev => Math.max(1, Math.min(Number(selectedProduct.stock) || 99, Number(prev) + 1)))}
-                            className="w-9 h-9 flex items-center justify-center bg-slate-50 hover:bg-blue-600 rounded-full text-slate-500 hover:text-white transition-colors cursor-pointer"
+                            className="w-9 h-9 flex items-center justify-center bg-slate-50 hover:bg-blue-600 rounded-none text-slate-500 hover:text-white transition-colors cursor-pointer"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                           </button>
@@ -433,7 +433,7 @@ const Home = () => {
                     <button
                       onClick={() => handleQuickBuy(selectedProduct, modalQuantity)}
                       disabled={selectedProduct.stock === 0}
-                      className={`w-full py-5 rounded-2xl font-black uppercase text-base tracking-widest transition-all active:scale-[0.98] flex justify-center items-center gap-3 mb-10 ${
+                      className={`w-full py-5 rounded-none font-black uppercase text-base tracking-widest transition-all active:scale-[0.98] flex justify-center items-center gap-3 mb-10 ${
                         selectedProduct.stock === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed border border-gray-200' : 'bg-blue-600 hover:bg-blue-700 text-white border border-transparent shadow-lg shadow-blue-600/30'
                       }`}
                     >
@@ -442,7 +442,7 @@ const Home = () => {
                     </button>
 
                     {selectedProduct.specs && selectedProduct.specs.length > 0 && (
-                      <div className="bg-slate-50 p-6 rounded-2xl border border-gray-100 mt-auto">
+                      <div className="bg-slate-50 p-6 rounded-none border border-gray-100 mt-auto">
                         <h4 className="text-sm font-bold uppercase text-slate-600 mb-5 tracking-wide flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 text-blue-500"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> Thông số chi tiết</h4>
                         <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 text-sm">
                           {selectedProduct.specs.map((spec, i) => (
@@ -461,7 +461,7 @@ const Home = () => {
                 <div className="border-t border-gray-100 pt-16 mb-16 pb-16">
                   <h3 className="text-2xl font-black uppercase text-slate-800 mb-8 tracking-tight flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-7 h-7 text-blue-500"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg> Thông tin sản phẩm</h3>
                   <div className="flex flex-col lg:flex-row gap-10">
-                    <div className="prose prose-sm flex-1 text-slate-600 leading-relaxed bg-slate-50 p-8 rounded-2xl border border-gray-100 max-w-none">
+                    <div className="prose prose-sm flex-1 text-slate-600 leading-relaxed bg-slate-50 p-8 rounded-none border border-gray-100 max-w-none">
                       <p>{selectedProduct.desc}</p>
                     </div>
                   </div>
@@ -474,47 +474,47 @@ const Home = () => {
                   </div>
 
                   {user ? (
-                    <div className="bg-slate-50 p-8 rounded-3xl border border-gray-200 mb-12">
+                    <div className="bg-slate-50 p-8 rounded-none border border-gray-200 mb-12">
                       <div className="flex items-start gap-5 mb-6">
-                        <div className="w-12 h-12 rounded-full bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white text-lg shadow-md">{user.username?.charAt(0).toUpperCase() || 'U'}</div>
+                        <div className="w-12 h-12 rounded-none bg-blue-600 flex-shrink-0 flex items-center justify-center font-bold text-white text-lg shadow-md">{user.username?.charAt(0).toUpperCase() || 'U'}</div>
                         <div className="flex-1">
                           <p className="font-bold text-slate-800 mb-1.5">Gửi đánh giá của bạn dưới tên <strong className="text-blue-600">{user.username}</strong></p>
-                          <div className="flex text-orange-400 gap-1.5 mb-5 bg-white w-fit p-2 rounded-lg border border-gray-200 shadow-sm">
+                          <div className="flex text-orange-400 gap-1.5 mb-5 bg-white w-fit p-2 rounded-none border border-gray-200 shadow-sm">
                             {[...Array(5)].map((_, i) => (
                               <svg key={i} onClick={() => setModalUserRating(5 - i)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill={5 - i <= modalUserRating ? "currentColor" : "none"} className="w-8 h-8 cursor-pointer transform hover:scale-110 transition-transform text-orange-400"><path stroke="currentColor" strokeWidth={1} d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.12 4.637c-.194.808.691 1.451 1.425 1.02L10 14.217l4.132 2.413c.734.431 1.619-.212 1.426-1.02l-1.12-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" /></svg>
                             ))}
                           </div>
-                          <textarea value={modalUserComment} onChange={(e) => setModalUserComment(e.target.value)} rows="3" placeholder="Nhận xét của bạn về sản phẩm..." className="w-full bg-white border border-gray-200 text-sm text-slate-700 rounded-xl p-4 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-colors shadow-sm mb-4 resize-none"></textarea>
-                          <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded-lg shadow-md active:scale-95 transition-all flex items-center gap-2">Gửi Đánh Giá <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg></button>
+                          <textarea value={modalUserComment} onChange={(e) => setModalUserComment(e.target.value)} rows="3" placeholder="Nhận xét của bạn về sản phẩm..." className="w-full bg-white border border-gray-200 text-sm text-slate-700 rounded-none p-4 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-colors shadow-sm mb-4 resize-none"></textarea>
+                          <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold uppercase tracking-wider rounded-none shadow-md active:scale-95 transition-all flex items-center gap-2">Gửi Đánh Giá <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg></button>
                         </div>
                       </div>
                     </div>
                   ) : (
-                    <div className="bg-slate-50 p-6 rounded-2xl border border-gray-200 text-center text-slate-500 text-sm mb-12">Vui lòng <a href="https://hobbyjapan-social.vercel.app/auth/login" className="text-blue-600 font-bold hover:underline">đăng nhập</a> để gửi đánh giá.</div>
+                    <div className="bg-slate-50 p-6 rounded-none border border-gray-200 text-center text-slate-500 text-sm mb-12">Vui lòng <a href="https://hobbyjapan-social.vercel.app/auth/login" className="text-blue-600 font-bold hover:underline">đăng nhập</a> để gửi đánh giá.</div>
                   )}
 
                   {selectedProduct.reviews && selectedProduct.reviews.length > 0 ? (
                     <div className="space-y-6">
                       {selectedProduct.reviews.map((review, idx) => (
-                        <div key={review.id || idx} className="bg-white p-6 sm:p-7 rounded-2xl border border-gray-100 flex gap-5 shadow-sm relative">
+                        <div key={review.id || idx} className="bg-white p-6 sm:p-7 rounded-none border border-gray-100 flex gap-5 shadow-sm relative">
                           <div className="absolute top-6 right-6 flex text-orange-400 gap-0.5">
                             {[...Array(5)].map((_, i) => (
                               <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill={i < (review.rating || 5) ? "currentColor" : "none"} className="w-4 h-4"><path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.12 4.637c-.194.808.691 1.451 1.425 1.02L10 14.217l4.132 2.413c.734.431 1.619-.212 1.426-1.02l-1.12-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" /></svg>
                             ))}
                           </div>
-                          <div className="w-12 h-12 rounded-full bg-slate-100 flex-shrink-0 flex items-center justify-center font-bold text-slate-600 text-lg border border-gray-200">{review.avatar || (review.name?.charAt(0).toUpperCase() || 'U')}</div>
+                          <div className="w-12 h-12 rounded-none bg-slate-100 flex-shrink-0 flex items-center justify-center font-bold text-slate-600 text-lg border border-gray-200">{review.avatar || (review.name?.charAt(0).toUpperCase() || 'U')}</div>
                           <div className="flex-1">
                             <div className="mb-2.5">
                               <p className="font-bold text-slate-800 text-[15px]">{review.name || review.Name}</p>
                               <p className="text-xs text-slate-400 uppercase tracking-widest">{review.date || review.Date}</p>
                             </div>
-                            <p className="text-slate-600 text-sm leading-relaxed bg-slate-50 p-4 rounded-xl border border-gray-100 italic">"{review.comment || review.Comment}"</p>
+                            <p className="text-slate-600 text-sm leading-relaxed bg-slate-50 p-4 rounded-none border border-gray-100 italic">"{review.comment || review.Comment}"</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-10 bg-slate-50 rounded-2xl border border-gray-100 text-slate-400 italic text-sm">Chưa có đánh giá nào cho sản phẩm này.</div>
+                    <div className="text-center py-10 bg-slate-50 rounded-none border border-gray-100 text-slate-400 italic text-sm">Chưa có đánh giá nào cho sản phẩm này.</div>
                   )}
                 </div>
 
@@ -528,10 +528,10 @@ const Home = () => {
                   </div>
 
                   <div className="relative group">
-                    <button onClick={() => scrollRelatedCarousel('left')} className="absolute -left-3 md:-left-6 top-[40%] -translate-y-1/2 z-20 bg-white hover:bg-blue-600 hover:text-white text-slate-500 p-3 rounded-full border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md">
+                    <button onClick={() => scrollRelatedCarousel('left')} className="absolute -left-3 md:-left-6 top-[40%] -translate-y-1/2 z-20 bg-white hover:bg-blue-600 hover:text-white text-slate-500 p-3 rounded-none border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                     </button>
-                    <button onClick={() => scrollRelatedCarousel('right')} className="absolute -right-3 md:-right-6 top-[40%] -translate-y-1/2 z-20 bg-white hover:bg-blue-600 hover:text-white text-slate-500 p-3 rounded-full border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md">
+                    <button onClick={() => scrollRelatedCarousel('right')} className="absolute -right-3 md:-right-6 top-[40%] -translate-y-1/2 z-20 bg-white hover:bg-blue-600 hover:text-white text-slate-500 p-3 rounded-none border border-gray-200 opacity-0 group-hover:opacity-100 transition-all shadow-md">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                     </button>
 
@@ -542,7 +542,7 @@ const Home = () => {
                         </div>
                       ))}
                       {getRelatedProducts(selectedProduct.id).length === 0 && (
-                        <div className="text-center py-10 w-full text-slate-500 bg-slate-50 rounded-xl border border-gray-100">Không có sản phẩm liên quan.</div>
+                        <div className="text-center py-10 w-full text-slate-500 bg-slate-50 rounded-none border border-gray-100">Không có sản phẩm liên quan.</div>
                       )}
                     </div>
                   </div>

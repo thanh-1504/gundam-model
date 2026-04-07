@@ -26,8 +26,8 @@ const Orders = () => {
 
   if (!orders.length) {
     return (
-      <div className="max-w-3xl mx-auto rounded-3xl border border-gray-100 bg-white p-8 md:p-12 text-center shadow-xl shadow-slate-200/50 my-10">
-        <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+      <div className="max-w-3xl mx-auto rounded-none border border-gray-100 bg-white p-8 md:p-12 text-center shadow-xl shadow-slate-200/50 my-10">
+        <div className="w-24 h-24 bg-slate-50 rounded-none flex items-center justify-center mx-auto mb-6">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-slate-400"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
         </div>
         <p className="text-xs uppercase tracking-[0.2em] text-orange-500 mb-3 font-bold">Lịch sử giao dịch</p>
@@ -35,7 +35,7 @@ const Orders = () => {
         <p className="text-slate-500 font-medium mb-8">Lịch sử mua hàng của bạn sẽ xuất hiện ở đây sau khi bạn thanh toán thành công.</p>
         <Link
           to="/shop"
-          className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-3.5 font-bold text-white uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
+          className="inline-flex items-center justify-center rounded-none bg-blue-600 px-8 py-3.5 font-bold text-white uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
         >
           Bắt đầu mua sắm ngay
         </Link>
@@ -46,7 +46,7 @@ const Orders = () => {
   return (
     <div className="space-y-6 max-w-[1000px] mx-auto my-6">
       
-      <div className="rounded-3xl border border-gray-100 bg-white p-6 md:p-8 shadow-sm">
+      <div className="rounded-none border border-gray-100 bg-white p-6 md:p-8 shadow-sm">
         <p className="text-xs uppercase tracking-[0.2em] text-orange-500 mb-2 font-bold">Quản lý giao dịch</p>
         <h1 className="text-3xl font-black text-slate-800 tracking-tight uppercase">Lịch sử đặt hàng</h1>
         <p className="text-slate-500 text-sm font-medium mt-2">Theo dõi trạng thái và chi tiết các đơn hàng bạn đã mua tại hệ thống.</p>
@@ -54,7 +54,7 @@ const Orders = () => {
 
       <div className="grid gap-5">
         {orders.map((order) => (
-          <article key={order.id} className="rounded-3xl border border-gray-100 bg-white p-6 md:p-8 shadow-md shadow-slate-200/40 hover:shadow-lg hover:border-blue-100 transition-all duration-300">
+          <article key={order.id} className="rounded-none border border-gray-100 bg-white p-6 md:p-8 shadow-md shadow-slate-200/40 hover:shadow-lg hover:border-blue-100 transition-all duration-300">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               
               <div>
@@ -77,12 +77,12 @@ const Orders = () => {
 
               <div className="flex flex-wrap gap-2 text-[11px] font-black uppercase tracking-widest mt-2 md:mt-0">
                 {/* Trạng thái đơn hàng */}
-                <span className={`rounded-md px-3 py-1.5 border shadow-sm ${order.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
+                <span className={`rounded-none px-3 py-1.5 border shadow-sm ${order.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
                   {order.status === 'paid' ? '✅ Đã thanh toán' : '⏳ Đang chờ xử lý'}
                 </span>
                 
                 {/* Phương thức thanh toán */}
-                <span className="rounded-md bg-slate-50 px-3 py-1.5 text-slate-600 border border-gray-200 shadow-sm flex items-center gap-1">
+                <span className="rounded-none bg-slate-50 px-3 py-1.5 text-slate-600 border border-gray-200 shadow-sm flex items-center gap-1">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
                   {order.paymentMethod || 'cod'}
                 </span>
@@ -91,7 +91,7 @@ const Orders = () => {
             </div>
 
             {/* Chi tiết Tiền bạc & Sản phẩm */}
-            <div className="mt-6 grid gap-4 border-t border-gray-100 pt-6 text-sm text-slate-600 md:grid-cols-2 bg-slate-50 rounded-2xl p-5 border border-dashed">
+            <div className="mt-6 grid gap-4 border-t border-gray-100 pt-6 text-sm text-slate-600 md:grid-cols-2 bg-slate-50 rounded-none p-5 border border-dashed">
               <div>
                 <p className="text-slate-400 font-bold uppercase tracking-wider text-[11px] mb-1">Số lượng mua</p>
                 <p className="font-bold text-slate-800 text-base">{order.items?.length || 0} sản phẩm</p>
@@ -109,7 +109,7 @@ const Orders = () => {
       <div className="flex justify-center pt-6">
         <Link
           to="/shop"
-          className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-3.5 font-bold text-white uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
+          className="inline-flex items-center justify-center rounded-none bg-blue-600 px-8 py-3.5 font-bold text-white uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
         >
           Mua thêm sản phẩm
         </Link>

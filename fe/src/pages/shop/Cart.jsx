@@ -13,7 +13,7 @@ const Cart = () => {
   if (!user) {
     return (
       <div className="bg-[#f8f9fa] min-h-screen py-10 font-sans">
-        <div className="max-w-[1200px] mx-auto px-4 text-center py-20 bg-white border border-gray-200">
+        <div className="max-w-[1200px] mx-auto px-4 text-center py-20 bg-white border border-gray-200 rounded-md">
           <h2 className="text-2xl font-medium text-black mb-4">Bạn chưa đăng nhập</h2>
           <p className="text-gray-500 mb-8">Vui lòng đăng nhập để xem và quản lý giỏ hàng.</p>
           <a href="https://hobbyjapan-social.vercel.app/auth/login" className="bg-black hover:bg-gray-800 text-white px-8 py-3 font-bold transition-colors">
@@ -36,7 +36,7 @@ const Cart = () => {
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="text-center py-20 bg-white border border-gray-200">
+          <div className="text-center py-20 bg-white border border-gray-200 rounded-md">
             <p className="text-gray-500 mb-6 text-lg">Giỏ hàng của bạn đang trống.</p>
             <Link to="/shop" className="bg-black hover:bg-gray-800 text-white px-8 py-3 font-bold transition-colors uppercase">
               Tiếp tục mua sắm
@@ -46,7 +46,7 @@ const Cart = () => {
           <div className="flex flex-col lg:flex-row gap-6 items-start">
             
             {/* CỘT TRÁI: DANH SÁCH SẢN PHẨM */}
-            <div className="flex-1 bg-white p-6 border border-gray-200 w-full">
+            <div className="flex-1 bg-white p-6 border border-gray-200 w-full rounded-md">
               <div className="flex justify-between items-end border-b border-gray-200 pb-4 mb-2">
                 <h2 className="text-2xl font-semibold text-black">Giỏ hàng:</h2>
                 <button onClick={clearCart} className="text-sm text-gray-600 underline hover:text-black">
@@ -59,7 +59,7 @@ const Cart = () => {
                   <div key={item.id} className="flex flex-col sm:flex-row items-center py-5 border-b border-gray-100 last:border-0 gap-4">
                     
                     {/* Hình ảnh */}
-                    <div className="w-[100px] h-[100px] flex-shrink-0 border border-gray-200 p-1 bg-white">
+                    <div className="w-[100px] h-[100px] flex-shrink-0 border border-gray-200 p-1 bg-white rounded-md">
                       {item.images && item.images.length > 0 ? (
                         <img src={item.images[0]} alt={item.name} className="w-full h-full object-contain" />
                       ) : (
@@ -106,7 +106,7 @@ const Cart = () => {
             </div>
 
             {/* CỘT PHẢI: THÔNG TIN ĐƠN HÀNG */}
-            <div className="w-full lg:w-[340px] bg-white p-6 border border-gray-200">
+            <div className="w-full lg:w-[340px] bg-white p-6 border border-gray-200 rounded-md">
               <h2 className="text-xl font-medium text-black mb-6">Thông tin đơn hàng</h2>
               
               <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">

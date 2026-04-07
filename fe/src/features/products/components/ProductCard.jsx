@@ -2,10 +2,12 @@ import { useContext } from 'react';
 import { useCartContext } from '../../cart/context/CartContext';
 import { AuthContext } from '../../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
+import { resolveProductImages } from '../utils/productImages';
 
 const ProductCard = ({ product, formatPrice, onQuickView }) => {
   const { addToCart } = useCartContext();
   const { user } = useContext(AuthContext);
+  const productImages = resolveProductImages(product);
 
   const handleBuyNow = (e) => {
     e.stopPropagation(); 
@@ -21,11 +23,12 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
 
   return (
     <div 
-      className="group/card flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden cursor-pointer hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all duration-300 h-full"
+      // THAY ĐỔI Ở ĐÂY: border-slate-200, shadow-md mặc định. Hover: border-blue-400, shadow-lg
+      className="group/card flex flex-col bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden cursor-pointer hover:border-blue-400 hover:shadow-lg hover:shadow-blue-900/10 transition-all duration-300 h-full"
       onClick={() => onQuickView(product)} 
     >
       {/* ================= KHU VỰC ẢNH ================= */}
-      <div className="relative w-full aspect-square bg-slate-50 flex items-center justify-center overflow-hidden p-4">
+      <div className="relative w-full aspect-square bg-slate-50 flex items-center justify-center overflow-hidden p-4 border-b border-slate-100">
         
         {product.stock === 0 ? (
           <span className="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded shadow-sm">
@@ -37,36 +40,36 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
           </span>
         )}
 
-        {product.images && product.images.length > 0 ? (
+        {productImages.length > 0 ? (
           <img 
-            src={product.images[0]} 
-            alt={product.name} 
-            className="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500 ease-out" 
+            src={productImages[0]} 
+            alt={product.name || product.Name} 
+            className="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500 ease-out drop-shadow-sm" 
           />
         ) : (
-          <span className="text-slate-300 text-xs font-bold">NO IMAGE</span>
+          <span className="text-slate-400 text-xs font-bold">CHƯA CÓ ẢNH</span>
         )}
         
         {/* Nút xem nhanh (Mắt) overlay */}
-        <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px] opacity-0 group-hover/card:opacity-100 flex items-center justify-center transition-all duration-300">
-          <div className="bg-white text-blue-600 p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors shadow-lg scale-90 group-hover/card:scale-100 border border-blue-100">
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px] opacity-0 group-hover/card:opacity-100 flex items-center justify-center transition-all duration-300">
+          <div className="bg-white text-blue-600 p-3 rounded-full hover:bg-blue-600 hover:text-white transition-colors shadow-lg scale-90 group-hover/card:scale-100 border border-blue-200">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" /></svg>
           </div>
         </div>
       </div>
 
       {/* ================= KHU VỰC THÔNG TIN ================= */}
-      <div className="flex flex-col flex-1 p-4 md:p-5 items-center justify-between text-center relative z-20 bg-white border-t border-gray-50">
+      <div className="flex flex-col flex-1 p-4 md:p-5 items-center justify-between text-center relative z-20 bg-white">
         
-        <h3 className="text-slate-700 font-bold text-[13px] md:text-sm line-clamp-2 h-[40px] mb-3 w-full px-1 group-hover/card:text-blue-600 transition-colors leading-snug">
+        <h3 className="text-slate-800 font-bold text-[13px] md:text-sm line-clamp-2 h-[40px] mb-3 w-full px-1 group-hover/card:text-blue-600 transition-colors leading-snug">
           {product.name}
         </h3>
 
         {/* VÙNG CHỨA GIÁ / NÚT BẤM */}
-        <div className="relative w-full h-[36px] flex items-center justify-center overflow-hidden">
+        <div className="relative w-full h-[40px] flex items-center justify-center overflow-hidden">
           
           {/* GIÁ SẢN PHẨM */}
-          <span className="text-orange-500 font-black text-[15px] md:text-base transition-all duration-300 ease-in-out group-hover/card:opacity-0 group-hover/card:translate-y-6 absolute">
+          <span className="text-orange-600 font-black text-[15px] md:text-base transition-all duration-300 ease-in-out group-hover/card:opacity-0 group-hover/card:translate-y-6 absolute">
             {formatPrice(product.price)}
           </span>
 
@@ -83,7 +86,7 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
             ) : (
               <button 
                 onClick={(e) => { e.stopPropagation(); toast.error('Sản phẩm đang chờ nhập hàng!'); }}
-                className="w-full bg-slate-100 text-slate-400 text-[11px] md:text-xs font-bold uppercase py-2.5 rounded-xl tracking-wider cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-slate-200 text-slate-500 text-[11px] md:text-xs font-bold uppercase py-2.5 rounded-xl tracking-wider cursor-not-allowed flex items-center justify-center gap-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
                 Chờ nhập

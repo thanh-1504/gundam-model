@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useProducts } from '../../features/products/hooks/useProducts';
 import ProductCard from '../../features/products/components/ProductCard';
+import { resolveProductImages } from '../../features/products/utils/productImages';
 import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
@@ -76,7 +77,14 @@ const Catalog = () => {
         
         const formattedProducts = rawProducts.map(p => ({
           ...p,
-          images: safeJSON(p.images || p.Images), 
+          id: p.id || p.Id,
+          name: p.name || p.Name,
+          price: p.price || p.Price,
+          images: resolveProductImages({
+            id: p.id || p.Id,
+            name: p.name || p.Name,
+            images: p.images || p.Images,
+          }),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),
           rating: p.rating || p.Rating || 5.0,

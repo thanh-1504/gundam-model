@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import axios from 'axios';
 import ProductCard from '../../features/products/components/ProductCard';
+import { resolveProductImages } from '../../features/products/utils/productImages';
 import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
@@ -161,7 +162,11 @@ const Home = () => {
           id: p.id || p.Id,
           name: p.name || p.Name,
           price: p.price || p.Price,
-          images: safeJSON(p.images || p.Images),
+          images: resolveProductImages({
+            id: p.id || p.Id,
+            name: p.name || p.Name,
+            images: p.images || p.Images,
+          }),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),
           rating: p.rating || p.Rating || 5.0,

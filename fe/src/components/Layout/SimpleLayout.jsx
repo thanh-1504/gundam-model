@@ -23,7 +23,9 @@ const SimpleLayout = () => {
   const [categories, setCategories] = useState([]);
   
   const dropdownRef = useRef(null);
+  const cartButtonRef = useRef(null);
   const cartNoticeTimerRef = useRef(null);
+  const [cartNoticePosition, setCartNoticePosition] = useState({ left: 0, top: 0, arrowLeft: 0 });
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -63,6 +65,48 @@ const SimpleLayout = () => {
       }
     };
   }, [cartNotice, setCartNotice]);
+
+  useEffect(() => {
+    if (!cartNotice || !cartButtonRef.current) {
+      return undefined;
+    }
+
+    const updateCartNoticePosition = () => {
+      const buttonRect = cartButtonRef.current?.getBoundingClientRect();
+      if (!buttonRect) {
+        return;
+      }
+
+      const noticeWidth = 360;
+      const viewportPadding = 16;
+      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+      const desiredLeft = buttonCenterX - noticeWidth / 2;
+      const left = Math.min(
+        Math.max(desiredLeft, viewportPadding),
+        window.innerWidth - noticeWidth - viewportPadding,
+      );
+      const arrowLeft = Math.min(
+        Math.max(buttonCenterX - left - 10, 44),
+        noticeWidth - 44,
+      );
+
+      setCartNoticePosition({
+        left,
+        top: buttonRect.bottom + 12,
+        arrowLeft,
+      });
+    };
+
+    updateCartNoticePosition();
+
+    window.addEventListener('resize', updateCartNoticePosition);
+    window.addEventListener('scroll', updateCartNoticePosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updateCartNoticePosition);
+      window.removeEventListener('scroll', updateCartNoticePosition, true);
+    };
+  }, [cartNotice]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -109,7 +153,7 @@ const SimpleLayout = () => {
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans flex flex-col relative selection:bg-blue-200 selection:text-blue-900">
 
       {/* ================= HEADER ================= */}
-      <header className={`fixed w-full top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm' : 'bg-white border-b border-gray-100'}`}>
+      <header className={`fixed w-full top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 border-b border-orange-300 shadow-lg shadow-orange-500/10' : 'bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 border-b border-orange-300 shadow-md shadow-orange-500/10'}`}>
         <div className="max-w-[1280px] mx-auto px-4 lg:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
           
           <button onClick={() => setIsMobileMenuOpen(true)} className="lg:hidden text-slate-600 hover:text-blue-600 p-2 -ml-2 transition-colors">
@@ -117,16 +161,16 @@ const SimpleLayout = () => {
           </button>
 
           <Link to="/" className="flex items-center gap-2 flex-shrink-0 group">
-            <span className="text-xl sm:text-[28px] font-black italic tracking-tight text-blue-600 uppercase transition-colors duration-300">
-              GUNDAM<span className="text-orange-500 ml-1 group-hover:text-orange-400 transition-colors">STORES</span>
+            <span className="text-xl sm:text-[28px] font-black italic tracking-tight text-white uppercase transition-colors duration-300 drop-shadow-sm">
+              GUNDAM<span className="text-amber-100 ml-1 group-hover:text-white transition-colors">STORES</span>
             </span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[14px] font-bold text-slate-600 uppercase tracking-wide h-full whitespace-nowrap flex-1 justify-center">
-            <Link to="/" className="hover:text-blue-600 transition-colors h-full flex items-center border-b-2 border-transparent hover:border-blue-600">Trang chủ</Link>
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[14px] font-bold text-white/90 uppercase tracking-wide h-full whitespace-nowrap flex-1 justify-center">
+            <Link to="/" className="hover:text-white transition-colors h-full flex items-center border-b-2 border-transparent hover:border-white/80">Trang chủ</Link>
             
             <div className="relative group h-full flex items-center cursor-pointer">
-              <Link to="/shop" className="hover:text-blue-600 transition-colors flex items-center gap-1 border-b-2 border-transparent group-hover:border-blue-600 h-full">
+              <Link to="/shop" className="hover:text-white transition-colors flex items-center gap-1 border-b-2 border-transparent group-hover:border-white/80 h-full">
                 Sản phẩm
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-300"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
               </Link>
@@ -154,33 +198,33 @@ const SimpleLayout = () => {
               </div>
             </div>
 
-            <Link to="/contact" className="hover:text-blue-600 transition-colors h-full flex items-center border-b-2 border-transparent hover:border-blue-600">Liên hệ</Link>
+            <Link to="/contact" className="hover:text-white transition-colors h-full flex items-center border-b-2 border-transparent hover:border-white/80">Liên hệ</Link>
 
-            <a href="https://hobbyjapan-social.vercel.app/social" className="hover:text-orange-500 transition-colors h-full flex items-center gap-1.5 group relative border-b-2 border-transparent hover:border-orange-500">
+            <a href="https://hobbyjapan-social.vercel.app/social" className="hover:text-white transition-colors h-full flex items-center gap-1.5 group relative border-b-2 border-transparent hover:border-white/80">
               <span className="font-bold tracking-wide">GUNVERSE</span>
-              <span className="absolute top-4 -right-6 bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-sm font-black animate-pulse">BETA</span>
+              <span className="absolute top-4 -right-6 bg-white text-orange-600 text-[9px] px-1.5 py-0.5 rounded-sm font-black animate-pulse shadow-sm">BETA</span>
             </a>
           </nav>
 
           <div className="flex items-center gap-3 xl:gap-5 flex-shrink-0">
             <form onSubmit={handleSearch} className="hidden md:flex relative group w-48 lg:w-64">
-              <input type="text" placeholder="Tìm sản phẩm..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-slate-100 border border-transparent text-sm text-slate-800 rounded-full pl-5 pr-10 py-2.5 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"/>
-              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 transition-colors">
+              <input type="text" placeholder="Tìm sản phẩm..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full bg-white/95 border border-white/30 text-sm text-slate-800 rounded-full pl-5 pr-10 py-2.5 focus:outline-none focus:bg-white focus:border-white focus:ring-2 focus:ring-white/40 transition-all shadow-sm"/>
+              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-orange-200 hover:text-white transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
               </button>
             </form>
 
-            <div className="h-5 w-px bg-gray-200 hidden lg:block"></div>
+            <div className="h-5 w-px bg-white/30 hidden lg:block"></div>
 
-            <button onClick={() => setIsNotifOpen(true)} className="relative text-slate-500 hover:text-blue-600 transition-colors">
+            <button onClick={() => setIsNotifOpen(true)} className="relative text-white/90 hover:text-white transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
-              <span className="absolute top-0 right-0.5 bg-orange-500 w-2.5 h-2.5 rounded-full border-2 border-white animate-pulse"></span>
+              <span className="absolute top-0 right-0.5 bg-white w-2.5 h-2.5 rounded-full border-2 border-orange-500 animate-pulse"></span>
             </button>
 
-            <button onClick={() => setIsCartOpen(true)} className="relative text-slate-500 hover:text-blue-600 transition-colors mr-1">
+            <button ref={cartButtonRef} onClick={() => setIsCartOpen(true)} className="relative text-white hover:text-white transition-colors mr-1">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
               {totalItems > 0 && (
-                <span className="absolute -top-1.5 -right-2 bg-orange-500 text-white text-[10px] font-black h-[18px] min-w-[18px] flex items-center justify-center rounded-full px-1 shadow-sm">
+                <span className="absolute -top-1.5 -right-2 bg-white text-orange-600 text-[10px] font-black h-[18px] min-w-[18px] flex items-center justify-center rounded-full px-1 shadow-sm border border-orange-200">
                   {totalItems}
                 </span>
               )}
@@ -227,10 +271,16 @@ const SimpleLayout = () => {
 
       {/* CART NOTICE */}
       {cartNotice && (
-        <div className="fixed top-[5.5rem] right-4 sm:right-6 z-[70] w-[360px] max-w-[calc(100vw-2rem)] animate-[fade-in_0.2s_ease-out]">
-          <div className="absolute -top-2 right-12 h-4 w-4 rotate-45 border-l border-t border-gray-200 bg-white shadow-[-2px_-2px_6px_rgba(15,23,42,0.05)]"></div>
-          <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_20px_40px_rgba(15,23,42,0.16)] overflow-hidden relative">
-            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-slate-50">
+        <div
+          className="fixed z-[70] w-[360px] max-w-[calc(100vw-2rem)] animate-[fade-in_0.2s_ease-out]"
+          style={{ top: `${cartNoticePosition.top}px`, left: `${cartNoticePosition.left}px` }}
+        >
+          <div
+            className="absolute -top-2 h-4 w-4 rotate-45 border-l border-t border-orange-100 bg-white shadow-[-2px_-2px_6px_rgba(15,23,42,0.05)]"
+            style={{ left: `${cartNoticePosition.arrowLeft}px` }}
+          ></div>
+          <div className="rounded-2xl border border-orange-100 bg-white shadow-[0_22px_45px_rgba(15,23,42,0.18)] overflow-hidden relative">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-orange-50 bg-gradient-to-r from-orange-50 to-white">
               <h3 className="text-[15px] font-bold text-slate-800 uppercase tracking-wide">Giỏ hàng</h3>
               <button onClick={closeCartNotice} className="text-slate-400 hover:text-slate-700 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>

@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import axios from 'axios';
 import { AuthContext } from '../../features/auth/context/AuthContext'; 
 import { useCartContext } from '../../features/cart/context/CartContext';
@@ -9,7 +8,7 @@ const API_BASE_URL = 'https://gundamstoreapi-gpd3fxemg8d3cpdt.eastasia-01.azurew
 
 const SimpleLayout = () => {
   const { user, logout } = useContext(AuthContext);
-  const { cartItems, totalItems, totalPrice, removeItem } = useCartContext();
+  const { cartItems, totalItems, totalPrice, removeItem, cartNotice, setCartNotice } = useCartContext();
   const navigate = useNavigate();
   
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -24,6 +23,7 @@ const SimpleLayout = () => {
   const [categories, setCategories] = useState([]);
   
   const dropdownRef = useRef(null);
+  const cartNoticeTimerRef = useRef(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -44,6 +44,25 @@ const SimpleLayout = () => {
     if (isCartOpen || isNotifOpen || isMobileMenuOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'auto';
   }, [isCartOpen, isNotifOpen, isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (cartNoticeTimerRef.current) {
+      clearTimeout(cartNoticeTimerRef.current);
+      cartNoticeTimerRef.current = null;
+    }
+
+    if (cartNotice) {
+      cartNoticeTimerRef.current = setTimeout(() => {
+        setCartNotice(null);
+      }, 3000);
+    }
+
+    return () => {
+      if (cartNoticeTimerRef.current) {
+        clearTimeout(cartNoticeTimerRef.current);
+      }
+    };
+  }, [cartNotice, setCartNotice]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -80,6 +99,10 @@ const SimpleLayout = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const closeCartNotice = () => {
+    setCartNotice(null);
   };
 
   return (
@@ -198,8 +221,66 @@ const SimpleLayout = () => {
       <div className="h-16 md:h-20"></div>
 
       {/* LỚP PHỦ MỜ */}
-      {(isCartOpen || isNotifOpen || isMobileMenuOpen) && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 transition-opacity" onClick={() => { setIsCartOpen(false); setIsNotifOpen(false); setIsMobileMenuOpen(false); }}></div>
+      {(isCartOpen || isNotifOpen || isMobileMenuOpen || cartNotice) && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 transition-opacity" onClick={() => { setIsCartOpen(false); setIsNotifOpen(false); setIsMobileMenuOpen(false); setCartNotice(null); }}></div>
+      )}
+
+      {/* CART NOTICE */}
+      {cartNotice && (
+        <div className="fixed top-20 right-4 sm:right-6 z-[70] w-[360px] max-w-[calc(100vw-2rem)] animate-[fade-in_0.2s_ease-out]">
+          <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_20px_40px_rgba(15,23,42,0.16)] overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-slate-50">
+              <h3 className="text-[15px] font-bold text-slate-800 uppercase tracking-wide">Giỏ hàng</h3>
+              <button onClick={closeCartNotice} className="text-slate-400 hover:text-slate-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+
+            <div className="px-5 py-4">
+              <div className="flex gap-4 items-start">
+                <div className="w-20 h-20 rounded-xl border border-gray-200 bg-white overflow-hidden flex-shrink-0 flex items-center justify-center">
+                  {cartNotice.product?.images?.length > 0 ? (
+                    <img src={cartNotice.product.images[0]} alt={cartNotice.product.name || cartNotice.product.Name} className="w-full h-full object-contain" />
+                  ) : (
+                    <span className="text-[10px] text-slate-400">No Image</span>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <p className="text-[15px] font-semibold text-slate-900 line-clamp-2 leading-snug">
+                    {cartNotice.product?.name || cartNotice.product?.Name}
+                  </p>
+                  <p className="text-sm text-slate-500 mt-1">
+                    {cartNotice.mode === 'updated' ? 'Đã tăng số lượng trong giỏ' : 'Đã thêm vào giỏ hàng'}
+                  </p>
+                  <div className="mt-3 flex items-center justify-between gap-3">
+                    <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700 border border-blue-100">
+                      SL: {cartNotice.quantity}
+                    </span>
+                    <span className="text-base font-black text-orange-500">
+                      {formatPrice(cartNotice.product?.price || cartNotice.product?.Price || 0)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
+                <button
+                  onClick={() => { closeCartNotice(); setIsCartOpen(true); }}
+                  className="flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-colors"
+                >
+                  Xem giỏ hàng
+                </button>
+                <button
+                  onClick={() => { closeCartNotice(); navigate('/checkout'); }}
+                  className="flex-1 py-3 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-50 text-sm font-bold transition-colors"
+                >
+                  Thanh toán
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* DRAWER MENU MOBILE */}

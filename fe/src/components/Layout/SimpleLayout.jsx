@@ -15,7 +15,6 @@ const SimpleLayout = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -43,9 +42,9 @@ const SimpleLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (isCartOpen || isNotifOpen || isMobileMenuOpen) document.body.style.overflow = 'hidden';
+    if (isNotifOpen || isMobileMenuOpen) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'auto';
-  }, [isCartOpen, isNotifOpen, isMobileMenuOpen]);
+  }, [isNotifOpen, isMobileMenuOpen]);
 
   useEffect(() => {
     if (cartNoticeTimerRef.current) {
@@ -221,7 +220,23 @@ const SimpleLayout = () => {
               <span className="absolute top-0 right-0.5 bg-white w-2.5 h-2.5 rounded-full border-2 border-orange-500 animate-pulse"></span>
             </button>
 
-            <button ref={cartButtonRef} onClick={() => setIsCartOpen(true)} className="relative text-white hover:text-white transition-colors mr-1">
+            <button
+              ref={cartButtonRef}
+              onClick={() => {
+                if (cartItems.length === 0) {
+                  navigate('/cart');
+                  return;
+                }
+
+                setCartNotice({
+                  id: `view-${Date.now()}`,
+                  product: cartItems[0],
+                  quantity: totalItems,
+                  mode: 'view',
+                });
+              }}
+              className="relative text-white hover:text-white transition-colors mr-1"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
               {totalItems > 0 && (
                 <span className="absolute -top-1.5 -right-2 bg-white text-orange-600 text-[10px] font-black h-[18px] min-w-[18px] flex items-center justify-center rounded-full px-1 shadow-sm border border-orange-200">
@@ -302,7 +317,11 @@ const SimpleLayout = () => {
                     {cartNotice.product?.name || cartNotice.product?.Name}
                   </p>
                   <p className="text-sm text-slate-500 mt-1">
-                    {cartNotice.mode === 'updated' ? 'Đã tăng số lượng trong giỏ' : 'Đã thêm vào giỏ hàng'}
+                    {cartNotice.mode === 'updated'
+                      ? 'Đã tăng số lượng trong giỏ'
+                      : cartNotice.mode === 'view'
+                        ? `Hiện có ${totalItems} sản phẩm trong giỏ`
+                        : 'Đã thêm vào giỏ hàng'}
                   </p>
                 </div>
               </div>
@@ -337,7 +356,7 @@ const SimpleLayout = () => {
 
               <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">
                 <button
-                  onClick={() => { closeCartNotice(); setIsCartOpen(false); navigate('/cart'); }}
+                  onClick={() => { closeCartNotice(); navigate('/cart'); }}
                   className="flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition-colors"
                 >
                   Xem giỏ hàng
@@ -403,63 +422,6 @@ const SimpleLayout = () => {
           <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-slate-400"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg></div>
           <p className="text-slate-500 text-sm font-medium">Bạn chưa có thông báo nào.</p>
         </div>
-      </div>
-
-      {/* DRAWER GIỎ HÀNG */}
-      <div className={`fixed top-0 right-0 h-full w-[320px] sm:w-[400px] bg-white shadow-2xl z-[60] transform transition-transform duration-300 ease-out flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-slate-50">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-bold text-slate-800">Giỏ hàng của bạn</h2>
-            <span className="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full">{totalItems}</span>
-          </div>
-          <button onClick={() => setIsCartOpen(false)} className="text-slate-400 hover:text-slate-700 bg-white p-1.5 rounded-full shadow-sm border border-gray-100"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
-        </div>
-        
-        <div className="flex-1 overflow-y-auto bg-slate-50/50 p-4">
-          {cartItems.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-24 h-24 text-slate-300 mb-4"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 10.5l6-6m0 6l-6-6" /></svg>
-              <p className="text-base font-semibold text-slate-500 mb-6">Giỏ hàng đang trống</p>
-              <button onClick={() => { setIsCartOpen(false); navigate('/shop'); }} className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-2.5 px-6 rounded-full transition-colors shadow-md shadow-blue-500/20">Khám phá ngay</button>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {cartItems.map((item) => (
-                <div key={item.id} className="flex gap-4 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 relative group">
-                  <div className="w-20 h-20 bg-slate-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden">
-                     {item.images && item.images.length > 0 ? (
-                       <img src={item.images[0]} alt={item.name} className="w-full h-full object-contain"/>
-                     ) : (
-                       <span className="text-[10px] text-slate-400 font-medium">No Image</span>
-                     )}
-                  </div>
-                  <div className="flex-1 py-1 pr-6">
-                    <h4 className="text-[13px] font-semibold text-slate-800 line-clamp-2 leading-snug">{item.name}</h4>
-                    <p className="text-orange-500 font-bold text-sm mt-1">{formatPrice(item.price)}</p>
-                    <p className="text-slate-500 text-xs font-medium mt-1 bg-slate-50 w-fit px-2 py-0.5 rounded border border-gray-100">SL: {item.quantity}</p>
-                  </div>
-                  <button onClick={() => removeItem(item.id)} className="absolute top-2 right-2 text-slate-300 hover:text-red-500 hover:bg-red-50 p-1.5 rounded-full transition-colors"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        
-        {cartItems.length > 0 && (
-          <div className="p-5 border-t border-gray-100 bg-white shadow-[0_-5px_15px_rgba(0,0,0,0.03)] z-10">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-slate-500 font-semibold text-sm">Tổng cộng:</span>
-              <span className="text-orange-500 font-black text-2xl">{formatPrice(totalPrice)}</span>
-            </div>
-            {user ? (
-              <button onClick={() => { setIsCartOpen(false); navigate('/checkout'); }} className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-orange-500/20 flex justify-center items-center gap-2">
-                Thanh toán <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" /></svg>
-              </button>
-            ) : (
-              <a href="https://hobbyjapan-social.vercel.app/auth/login" className="block w-full text-center bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 rounded-xl transition-colors">Đăng nhập để mua hàng</a>
-            )}
-          </div>
-        )}
       </div>
 
       {/* ================= MAIN CONTENT ================= */}

@@ -17,6 +17,9 @@ const getOrders = async (req, res) => {
   });
 };
 
+const redirectOrderStatus = (res, status) =>
+  res.redirect(`https://gundam-fe.netlify.app/orders?status=${status}`);
+
 const createOrder = async (req, res) => {
   const order = await handleCreateOrder(req.body);
 
@@ -37,10 +40,14 @@ const vnpayReturn = async (req, res) => {
         where: { id: Number(orderId) },
         data: { status: "paid" },
       });
-      return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+      return redirectOrderStatus(res, "success");
     } else {
       // Thanh toán thất bại hoặc user hủy
-      return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+      await prisma.orders.update({
+        where: { id: Number(orderId) },
+        data: { status: "cancelled" },
+      });
+      return redirectOrderStatus(res, "cancelled");
     }
   } else {
     res.status(400).json({ code: "97", message: "Checksum failed" });
@@ -61,14 +68,22 @@ const momoReturn = async (req, res) => {
         where: { id: orderId },
         data: { status: "paid" },
       });
-      return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+      return redirectOrderStatus(res, "success");
     } else {
       // Thanh toán momo thất bại hoặc huỷ
-      return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+      const orderIdStr = queryData.orderId?.split("-").pop();
+      const orderId = Number(orderIdStr);
+      if (orderId) {
+        await prisma.orders.update({
+          where: { id: orderId },
+          data: { status: "cancelled" },
+        });
+      }
+      return redirectOrderStatus(res, "cancelled");
     }
   } else {
     // Sai chữ ký
-    return res.redirect("https://gundam-fe.netlify.app/orders?status=invalid_signature");
+    return redirectOrderStatus(res, "cancelled");
   }
 };
 
@@ -95,7 +110,13 @@ const payosReturn = async (req, res) => {
 
   // Nếu user ấn nút Hủy trên giao diện Web PayOS
   if (cancel === "true") {
-    return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+    if (orderCode) {
+      await prisma.orders.update({
+        where: { id: Number(orderCode) },
+        data: { status: "cancelled" },
+      });
+    }
+    return redirectOrderStatus(res, "cancelled");
   }
 
   // code="00" là thành công
@@ -104,10 +125,16 @@ const payosReturn = async (req, res) => {
       where: { id: Number(orderCode) },
       data: { status: "paid" },
     });
-    return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+    return redirectOrderStatus(res, "success");
   }
 
-  return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+  if (orderCode) {
+    await prisma.orders.update({
+      where: { id: Number(orderCode) },
+      data: { status: "cancelled" },
+    });
+  }
+  return redirectOrderStatus(res, "cancelled");
 };
 
 const payosWebhook = async (req, res) => {
@@ -131,7 +158,7 @@ const payosWebhook = async (req, res) => {
 const demoPay = async (req, res) => {
   const { orderId } = req.query;
   if (!orderId) {
-    return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+    return redirectOrderStatus(res, "cancelled");
   }
   try {
     // Đổi trạng thái trong DB thành 'paid' trực tiếp
@@ -140,10 +167,10 @@ const demoPay = async (req, res) => {
       data: { status: "paid" },
     });
     // Chuyển hướng người dùng về trang giao diện với status=success
-    return res.redirect("https://gundam-fe.netlify.app/orders?status=success");
+    return redirectOrderStatus(res, "success");
   } catch (error) {
     console.error(error);
-    return res.redirect("https://gundam-fe.netlify.app/orders?status=failed");
+    return redirectOrderStatus(res, "cancelled");
   }
 };
 

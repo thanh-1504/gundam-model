@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
+const cancelStatuses = new Set(['cancelled', 'failed', 'cancel', 'canceled']);
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [searchParams] = useSearchParams();
@@ -8,12 +10,17 @@ const Orders = () => {
   useEffect(() => {
     let savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
     
-    // Đón URL status=success từ VNPay/MoMo/PayOS/Demo trả về
+    // Đón URL status=success hoặc cancelled từ VNPay/MoMo/PayOS/Demo trả về
     const paymentStatus = searchParams.get("status");
     if (paymentStatus === "success" && savedOrders.length > 0) {
       // Cập nhật đơn hàng mới nhất thành paid
       if (savedOrders[0].status === "pending") {
         savedOrders[0].status = "paid";
+        localStorage.setItem('orders', JSON.stringify(savedOrders));
+      }
+    } else if (cancelStatuses.has(paymentStatus) && savedOrders.length > 0) {
+      if (savedOrders[0].status === "pending") {
+        savedOrders[0].status = "cancelled";
         localStorage.setItem('orders', JSON.stringify(savedOrders));
       }
     }
@@ -77,8 +84,8 @@ const Orders = () => {
 
               <div className="flex flex-wrap gap-2 text-[11px] font-black uppercase tracking-widest mt-2 md:mt-0">
                 {/* Trạng thái đơn hàng */}
-                <span className={`rounded-none px-3 py-1.5 border shadow-sm ${order.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
-                  {order.status === 'paid' ? '✅ Đã thanh toán' : '⏳ Đang chờ xử lý'}
+                <span className={`rounded-none px-3 py-1.5 border shadow-sm ${order.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : order.status === 'cancelled' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
+                  {order.status === 'paid' ? '✅ Đã thanh toán' : order.status === 'cancelled' ? '❌ Đã huỷ' : '⏳ Đang chờ xử lý'}
                 </span>
                 
                 {/* Phương thức thanh toán */}

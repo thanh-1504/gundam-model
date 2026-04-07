@@ -227,8 +227,9 @@ const SimpleLayout = () => {
 
       {/* CART NOTICE */}
       {cartNotice && (
-        <div className="fixed top-20 right-4 sm:right-6 z-[70] w-[360px] max-w-[calc(100vw-2rem)] animate-[fade-in_0.2s_ease-out]">
-          <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_20px_40px_rgba(15,23,42,0.16)] overflow-hidden">
+        <div className="fixed top-[5.5rem] right-4 sm:right-6 z-[70] w-[360px] max-w-[calc(100vw-2rem)] animate-[fade-in_0.2s_ease-out]">
+          <div className="absolute -top-2 right-12 h-4 w-4 rotate-45 border-l border-t border-gray-200 bg-white shadow-[-2px_-2px_6px_rgba(15,23,42,0.05)]"></div>
+          <div className="rounded-2xl border border-gray-200 bg-white shadow-[0_20px_40px_rgba(15,23,42,0.16)] overflow-hidden relative">
             <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-slate-50">
               <h3 className="text-[15px] font-bold text-slate-800 uppercase tracking-wide">Giỏ hàng</h3>
               <button onClick={closeCartNotice} className="text-slate-400 hover:text-slate-700 transition-colors">

@@ -125,14 +125,13 @@ const Checkout = () => {
 
       clearCart();
 
-      // Nếu API trả về momo hoặc vnpay payUrl, lập tức chuyển hướng
       if (createdOrder?.paymentUrl) {
         toast.success('Đang chuyển hướng sang cổng thanh toán...');
         window.location.href = createdOrder.paymentUrl;
         return;
       }
 
-      toast.success('Thanh toán thành công. Đơn hàng đã được tạo.');
+      toast.success('Thanh toán thành công. Đơn hàng đã được tạo!', { icon: '✅' });
       navigate('/orders', { replace: true });
     } catch (error) {
       const message = error?.response?.data?.message || 'Không thể tạo đơn hàng vào lúc này.';
@@ -142,33 +141,39 @@ const Checkout = () => {
     }
   };
 
+  // UI Khi chưa đăng nhập
   if (!user) {
     return (
-      <div className="max-w-3xl mx-auto rounded-3xl border border-gray-800 bg-gradient-to-br from-[#141414] via-[#101010] to-black p-8 md:p-12 shadow-2xl shadow-black/40">
-        <p className="text-xs uppercase tracking-[0.35em] text-blue-400 mb-4">Checkout</p>
-        <h1 className="text-3xl md:text-4xl font-black text-white mb-4">Bạn cần đăng nhập để thanh toán</h1>
-        <p className="text-gray-400 mb-8 max-w-xl">
-          Đơn hàng sẽ được gắn với tài khoản của bạn để theo dõi trạng thái và lịch sử mua hàng.
+      <div className="max-w-3xl mx-auto rounded-3xl border border-gray-100 bg-white p-8 md:p-12 text-center shadow-xl shadow-slate-200/50 my-10">
+        <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 text-blue-500"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+        </div>
+        <h1 className="text-3xl md:text-4xl font-black text-slate-800 mb-4 uppercase tracking-tight">Bạn cần đăng nhập</h1>
+        <p className="text-slate-500 mb-8 max-w-xl mx-auto font-medium">
+          Vui lòng đăng nhập để tiến hành thanh toán. Đơn hàng sẽ được gắn với tài khoản của bạn để dễ dàng theo dõi trạng thái và lịch sử.
         </p>
         <a
           href="https://hobbyjapan-social.vercel.app/auth/login"
-          className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-bold text-white uppercase tracking-wider hover:bg-blue-500 transition-colors"
+          className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-3.5 font-bold text-white uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
         >
-          Đăng nhập để thanh toán
+          Đăng nhập ngay
         </a>
       </div>
     );
   }
 
+  // UI Khi giỏ hàng trống
   if (!cartItems.length) {
     return (
-      <div className="max-w-3xl mx-auto rounded-3xl border border-gray-800 bg-[#121212] p-8 md:p-12 text-center shadow-2xl shadow-black/40">
-        <p className="text-xs uppercase tracking-[0.35em] text-blue-400 mb-4">Checkout</p>
-        <h1 className="text-3xl md:text-4xl font-black text-white mb-4">Giỏ hàng đang trống</h1>
-        <p className="text-gray-400 mb-8">Thêm sản phẩm vào giỏ trước khi tiến hành thanh toán.</p>
+      <div className="max-w-3xl mx-auto rounded-3xl border border-gray-100 bg-white p-8 md:p-12 text-center shadow-xl shadow-slate-200/50 my-10">
+        <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-slate-400"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+        </div>
+        <h1 className="text-3xl md:text-4xl font-black text-slate-800 mb-4 uppercase tracking-tight">Giỏ hàng đang trống</h1>
+        <p className="text-slate-500 mb-8 font-medium">Bạn chưa chọn sản phẩm nào. Hãy thêm sản phẩm vào giỏ trước khi tiến hành thanh toán nhé.</p>
         <Link
           to="/shop"
-          className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-bold text-white uppercase tracking-wider hover:bg-blue-500 transition-colors"
+          className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-3.5 font-bold text-white uppercase tracking-wider hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/30"
         >
           Tiếp tục mua sắm
         </Link>
@@ -177,77 +182,83 @@ const Checkout = () => {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+    <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] max-w-[1100px] mx-auto my-6">
+      
+      {/* CỘT TRÁI: FORM THANH TOÁN */}
       <form
         onSubmit={handleSubmit}
-        className="rounded-3xl border border-gray-800 bg-[#121212] p-6 md:p-8 shadow-2xl shadow-black/40"
+        className="rounded-3xl border border-gray-100 bg-white p-6 md:p-8 shadow-xl shadow-slate-200/50"
       >
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.35em] text-blue-400 mb-3">Checkout</p>
-          <h1 className="text-3xl font-black text-white mb-3">Thanh toán đơn hàng</h1>
-          <p className="text-gray-400">Xác nhận thông tin giao hàng và chọn phương thức thanh toán phù hợp.</p>
+        <div className="mb-8 border-b border-gray-100 pb-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-orange-500 mb-2 font-bold">Thủ tục thanh toán</p>
+          <h1 className="text-3xl font-black text-slate-800 mb-2 uppercase tracking-tight">Thông tin đặt hàng</h1>
+          <p className="text-slate-500 text-sm font-medium">Vui lòng kiểm tra kỹ thông tin giao hàng và chọn phương thức thanh toán phù hợp.</p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2">
           <label className="block">
-            <span className="mb-2 block text-sm font-bold uppercase tracking-wider text-gray-300">Người nhận</span>
+            <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">Họ tên người nhận</span>
             <input
               name="receiverName"
               value={formData.receiverName}
               onChange={handleChange}
-              className="w-full rounded-2xl border border-gray-700 bg-black px-4 py-3 text-white outline-none transition-colors focus:border-blue-500"
-              placeholder="Họ và tên người nhận"
+              className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-3.5 text-slate-800 outline-none transition-all focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              placeholder="Nhập họ và tên..."
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-bold uppercase tracking-wider text-gray-300">Số điện thoại</span>
+            <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">Số điện thoại</span>
             <input
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full rounded-2xl border border-gray-700 bg-black px-4 py-3 text-white outline-none transition-colors focus:border-blue-500"
-              placeholder="Số điện thoại liên hệ"
+              className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-3.5 text-slate-800 outline-none transition-all focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              placeholder="Nhập số điện thoại..."
             />
           </label>
         </div>
 
-        <label className="mt-5 block">
-          <span className="mb-2 block text-sm font-bold uppercase tracking-wider text-gray-300">Địa chỉ giao hàng</span>
+        <label className="mt-6 block">
+          <span className="mb-2 block text-xs font-bold uppercase tracking-wide text-slate-500">Địa chỉ giao hàng chi tiết</span>
           <textarea
             name="address"
             value={formData.address}
             onChange={handleChange}
-            rows="4"
-            className="w-full rounded-2xl border border-gray-700 bg-black px-4 py-3 text-white outline-none transition-colors focus:border-blue-500"
+            rows="3"
+            className="w-full rounded-xl border border-gray-200 bg-slate-50 px-4 py-3.5 text-slate-800 outline-none transition-all focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 resize-none"
             placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"
           />
         </label>
 
-        <div className="mt-6">
-          <span className="mb-3 block text-sm font-bold uppercase tracking-wider text-gray-300">Phương thức thanh toán</span>
-          <div className="grid gap-3">
+        <div className="mt-10">
+          <span className="mb-4 block text-sm font-bold uppercase tracking-wide text-slate-800 border-b border-gray-100 pb-3">Phương thức thanh toán</span>
+          <div className="grid gap-4">
             {PAYMENT_METHODS.map((method) => (
               <label
                 key={method.value}
-                className={`cursor-pointer rounded-2xl border p-4 transition-all ${
+                className={`cursor-pointer rounded-2xl border p-4 transition-all duration-300 ${
                   formData.paymentMethod === method.value
-                    ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_0_1px_rgba(59,130,246,0.25)]'
-                    : 'border-gray-800 bg-black hover:border-gray-600'
+                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-100 shadow-sm'
+                    : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-slate-50'
                 }`}
               >
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-4">
                   <input
                     type="radio"
                     name="paymentMethod"
                     value={method.value}
                     checked={formData.paymentMethod === method.value}
                     onChange={handleChange}
-                    className="mt-1 accent-blue-500"
+                    className="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 cursor-pointer"
                   />
                   <div>
-                    <div className="font-bold text-white">{method.label}</div>
-                    <p className="mt-1 text-sm text-gray-400">{method.description}</p>
+                    <div className={`font-bold ${formData.paymentMethod === method.value ? 'text-blue-700' : 'text-slate-800'}`}>
+                      {method.label}
+                    </div>
+                    <p className={`mt-1 text-sm ${formData.paymentMethod === method.value ? 'text-blue-600/80' : 'text-slate-500'}`}>
+                      {method.description}
+                    </p>
                   </div>
                 </div>
               </label>
@@ -255,56 +266,66 @@ const Checkout = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <Link to="/cart" className="text-sm font-bold uppercase tracking-wider text-gray-400 hover:text-white transition-colors">
+        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-gray-100 pt-6">
+          <Link to="/cart" className="text-sm font-bold flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
             Quay lại giỏ hàng
           </Link>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-full bg-blue-600 px-8 py-3 font-black uppercase tracking-widest text-white transition-all hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-xl bg-orange-500 px-8 py-3.5 font-black uppercase tracking-widest text-white transition-all hover:bg-orange-600 shadow-md shadow-orange-500/20 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 disabled:active:scale-100"
           >
             {isSubmitting ? 'Đang xử lý...' : 'Xác nhận thanh toán'}
           </button>
         </div>
       </form>
 
-      <aside className="h-fit rounded-3xl border border-gray-800 bg-[#121212] p-6 md:p-8 shadow-2xl shadow-black/40 lg:sticky lg:top-24">
-        <h2 className="text-xl font-black text-white uppercase tracking-wide">Tóm tắt đơn hàng</h2>
-        <div className="mt-6 space-y-4">
+      {/* CỘT PHẢI: TÓM TẮT ĐƠN HÀNG */}
+      <aside className="h-fit rounded-3xl border border-gray-100 bg-slate-50 p-6 md:p-8 shadow-lg shadow-slate-200/30 lg:sticky lg:top-28">
+        <h2 className="text-lg font-black text-slate-800 uppercase tracking-wide border-b border-gray-200 pb-4">Tóm tắt đơn hàng</h2>
+        
+        <div className="mt-6 space-y-4 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300">
           {cartItems.map((item) => (
-            <div key={item.id} className="flex items-center gap-4 rounded-2xl border border-gray-800 bg-black p-3">
-              <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-gray-800 bg-[#111111] overflow-hidden">
+            <div key={item.id} className="flex items-center gap-4 rounded-2xl border border-white bg-white p-3 shadow-sm">
+              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-slate-50 overflow-hidden flex-shrink-0">
                 {item.images?.[0] ? (
                   <img src={item.images[0]} alt={item.name} className="h-full w-full object-contain" />
                 ) : (
-                  <span className="text-[10px] text-gray-600">No Image</span>
+                  <span className="text-[10px] font-bold text-slate-400">NO IMG</span>
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-bold text-gray-200">{item.name}</p>
-                <p className="mt-1 text-sm text-gray-400">Số lượng: {item.quantity}</p>
+                <p className="truncate font-bold text-slate-700 text-sm leading-snug">{item.name}</p>
+                <p className="mt-1 text-xs font-semibold text-slate-500">Số lượng: {item.quantity}</p>
               </div>
-              <div className="text-right text-sm font-bold text-red-500">
+              <div className="text-right text-sm font-black text-orange-500">
                 {formatPrice(item.price * item.quantity)}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-6 space-y-3 border-t border-gray-800 pt-5 text-sm">
-          <div className="flex items-center justify-between text-gray-400">
+        <div className="mt-6 space-y-3 border-t border-gray-200 pt-6">
+          <div className="flex items-center justify-between text-sm font-bold text-slate-500">
             <span>Tạm tính</span>
             <span>{formatPrice(totalPrice)}</span>
           </div>
-          <div className="flex items-center justify-between text-base font-black text-white">
+          <div className="flex items-center justify-between text-sm font-bold text-slate-500">
+            <span>Phí vận chuyển</span>
+            <span className="text-emerald-500">Miễn phí</span>
+          </div>
+          <div className="flex items-center justify-between text-lg font-black text-slate-800 pt-3 border-t border-gray-200 border-dashed">
             <span>Tổng thanh toán</span>
-            <span className="text-red-500">{formatPrice(totalPrice)}</span>
+            <span className="text-orange-500 text-2xl">{formatPrice(totalPrice)}</span>
           </div>
         </div>
 
-        <div className="mt-6 rounded-2xl border border-blue-500/20 bg-blue-500/10 p-4 text-sm text-blue-100">
-          Đơn hàng sẽ được chuyển sang trạng thái <span className="font-bold">pending</span> với COD, hoặc <span className="font-bold">paid</span> với các phương thức còn lại.
+        <div className="mt-8 flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-xs font-medium text-blue-800 leading-relaxed shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 flex-shrink-0 text-blue-500"><path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
+          <p>
+            Đơn hàng sẽ được chuyển sang trạng thái <strong className="text-blue-600">Pending (Chờ xử lý)</strong> với COD, hoặc <strong className="text-blue-600">Paid (Đã thanh toán)</strong> với các phương thức chuyển khoản trực tuyến.
+          </p>
         </div>
       </aside>
     </div>

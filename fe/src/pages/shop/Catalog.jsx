@@ -162,7 +162,6 @@ const Catalog = () => {
     const params = new URLSearchParams(location.search);
     params.delete('pid');
     navigate(`?${params.toString()}`, { replace: true });
-    toast.success("Đã thêm vào giỏ hàng!");
   };
 
   const getRelatedProducts = (currentProductId) => {

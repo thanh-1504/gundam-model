@@ -18,7 +18,6 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
     }
     
     addToCart({ ...product, quantity: 1 });
-    toast.success('Đã thêm vào giỏ hàng!', { icon: '🛒', style: { borderRadius: '10px', background: '#fff', color: '#333' } });
   };
 
   return (

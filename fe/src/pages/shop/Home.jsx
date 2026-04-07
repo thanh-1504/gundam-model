@@ -222,7 +222,6 @@ const Home = () => {
     const params = new URLSearchParams(location.search);
     params.delete('pid');
     navigate(`?${params.toString()}`, { replace: true });
-    toast.success("Đã thêm vào giỏ hàng!", { icon: '🛒', style: { borderRadius: '10px', background: '#fff', color: '#333' } });
   };
 
   const preOrderProducts = products.slice(0, 8);

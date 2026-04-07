@@ -20,12 +20,18 @@ export const CartProvider = ({ children }) => {
     setCartItems((prev) => {
       const existingItem = prev.find(item => item.id === product.id);
       if (existingItem) {
-        toast.success(`Đã tăng số lượng: ${product.name}`);
+        toast.success(`Đã tăng số lượng ${product.name || product.Name} trong giỏ hàng`, {
+          icon: '🛒',
+          style: { borderRadius: '10px', background: '#fff', color: '#111827' },
+        });
         return prev.map(item => 
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
-      toast.success(`Đã thêm vào giỏ: ${product.name}`);
+      toast.success(`Đã thêm ${product.name || product.Name} vào giỏ hàng`, {
+        icon: '🛒',
+        style: { borderRadius: '10px', background: '#fff', color: '#111827' },
+      });
       return [...prev, { ...product, quantity: 1 }];
     });
   };

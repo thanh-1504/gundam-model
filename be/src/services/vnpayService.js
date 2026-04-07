@@ -4,8 +4,8 @@ const crypto = require("crypto");
 const qs = require("qs");
 
 // Thông tin cấu hình VNPay
-const vnp_TmnCode = "61ASD6BA";
-const vnp_HashSecret = "KVHINXHRZ7IKF35D55SVV577L9JR1M4H";
+const vnp_TmnCode = "TCCZBATC";
+const vnp_HashSecret = "W4VUY93IUTJVX9L7TQTBZVJPZ6JLD7JE";
 const vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 const vnp_ReturnUrl = "https://gundam-model.onrender.com/orders/vnpay_return"; // Backend webhook URL
 

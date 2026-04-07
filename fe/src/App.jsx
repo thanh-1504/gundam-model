@@ -54,16 +54,28 @@ function App() {
         <Router>
           {/* Thông báo góc phải */}
           <Toaster
-            position="top-right"
+            position="top-center"
+            containerStyle={{
+              top: 92,
+              left: 16,
+              right: 16,
+            }}
             toastOptions={{
               duration: 3000,
               style: {
-                background: "#1f1f1f",
-                color: "#fff",
-                border: "1px solid #333",
+                background: "#ffffff",
+                color: "#111827",
+                border: "1px solid #d1d5db",
+                boxShadow: "0 12px 30px rgba(15, 23, 42, 0.12)",
+                borderRadius: "12px",
+                fontWeight: 600,
               },
-              success: { iconTheme: { primary: "#22c55e", secondary: "#fff" } },
-              error: { iconTheme: { primary: "#ef4444", secondary: "#fff" } },
+              success: {
+                iconTheme: { primary: "#22c55e", secondary: "#ffffff" },
+              },
+              error: {
+                iconTheme: { primary: "#ef4444", secondary: "#ffffff" },
+              },
             }}
           />
 

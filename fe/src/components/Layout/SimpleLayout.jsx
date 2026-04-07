@@ -288,8 +288,8 @@ const SimpleLayout = () => {
             </div>
 
             <div className="px-5 py-4">
-              <div className="flex gap-4 items-start">
-                <div className="w-20 h-20 rounded-xl border border-gray-200 bg-white overflow-hidden flex-shrink-0 flex items-center justify-center">
+              <div className="flex gap-4 items-start mb-4">
+                <div className="w-16 h-16 rounded-xl border border-gray-200 bg-white overflow-hidden flex-shrink-0 flex items-center justify-center">
                   {cartNotice.product?.images?.length > 0 ? (
                     <img src={cartNotice.product.images[0]} alt={cartNotice.product.name || cartNotice.product.Name} className="w-full h-full object-contain" />
                   ) : (
@@ -304,15 +304,35 @@ const SimpleLayout = () => {
                   <p className="text-sm text-slate-500 mt-1">
                     {cartNotice.mode === 'updated' ? 'Đã tăng số lượng trong giỏ' : 'Đã thêm vào giỏ hàng'}
                   </p>
-                  <div className="mt-3 flex items-center justify-between gap-3">
-                    <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700 border border-blue-100">
-                      SL: {cartNotice.quantity}
-                    </span>
-                    <span className="text-base font-black text-orange-500">
-                      {formatPrice(cartNotice.product?.price || cartNotice.product?.Price || 0)}
-                    </span>
-                  </div>
                 </div>
+              </div>
+
+              <div className={`space-y-3 ${cartItems.length > 2 ? 'max-h-[164px] overflow-y-auto pr-2' : ''}`}>
+                {cartItems.map((item) => (
+                  <div key={item.id} className="flex items-center gap-3 rounded-xl border border-gray-100 bg-slate-50 px-3 py-2.5">
+                    <div className="w-12 h-12 rounded-lg border border-gray-200 bg-white overflow-hidden flex-shrink-0 flex items-center justify-center">
+                      {item.images?.length > 0 ? (
+                        <img src={item.images[0]} alt={item.name || item.Name} className="w-full h-full object-contain" />
+                      ) : (
+                        <span className="text-[9px] text-slate-400">No Image</span>
+                      )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-slate-800 truncate">
+                        {item.name || item.Name}
+                      </p>
+                      <div className="mt-1 flex items-center gap-2 text-xs text-slate-500">
+                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 font-bold text-blue-700 border border-blue-100">
+                          SL: {item.quantity}
+                        </span>
+                        <span className="font-semibold text-orange-500">
+                          {formatPrice(item.price || item.Price || 0)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-100 flex gap-3">

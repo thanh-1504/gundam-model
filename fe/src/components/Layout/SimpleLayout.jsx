@@ -266,7 +266,7 @@ const SimpleLayout = () => {
 
       {/* LỚP PHỦ MỜ */}
       {(isCartOpen || isNotifOpen || isMobileMenuOpen || cartNotice) && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 transition-opacity" onClick={() => { setIsCartOpen(false); setIsNotifOpen(false); setIsMobileMenuOpen(false); setCartNotice(null); }}></div>
+        <div className="fixed inset-x-0 top-16 md:top-20 bottom-0 bg-slate-900/35 z-50 transition-opacity" onClick={() => { setIsCartOpen(false); setIsNotifOpen(false); setIsMobileMenuOpen(false); setCartNotice(null); }}></div>
       )}
 
       {/* CART NOTICE */}

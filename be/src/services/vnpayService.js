@@ -12,7 +12,7 @@ const vnp_ReturnUrl = "https://gundam-model.onrender.com/orders/vnpay_return"; /
 const createPaymentUrl = (order, ipAddr) => {
   const date = new Date();
   const createDate = moment(date).format("YYYYMMDDHHmmss");
-  
+
   const vnp_Params = {};
   vnp_Params["vnp_Version"] = "2.1.0";
   vnp_Params["vnp_Command"] = "pay";
@@ -79,7 +79,7 @@ const verifyReturn = (vnp_Params) => {
     }
     return sorted;
   };
-  
+
   const sortedParams = sortObject(vnp_Params);
   const signData = qs.stringify(sortedParams, { encode: false });
   const hmac = crypto.createHmac("sha512", vnp_HashSecret);
@@ -90,5 +90,5 @@ const verifyReturn = (vnp_Params) => {
 
 module.exports = {
   createPaymentUrl,
-  verifyReturn
+  verifyReturn,
 };

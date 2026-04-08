@@ -201,7 +201,7 @@ const SimpleLayout = () => {
 
             <a href="https://hobbyjapan-social.vercel.app/social" className="hover:text-white transition-colors h-full flex items-center gap-1.5 group relative border-b-2 border-transparent hover:border-white/80">
               <span className="font-bold tracking-wide">GUNVERSE</span>
-              <span className="absolute top-4 -right-6 bg-white text-orange-600 text-[9px] px-1.5 py-0.5 rounded-none font-black animate-pulse shadow-sm">BETA</span>
+              <span className="absolute top-4 -right-6 bg-white text-orange-600 text-[9px] px-1.5 py-0.5 rounded-none font-black animate-pulse shadow-sm">SOCIAL</span>
             </a>
           </nav>
 

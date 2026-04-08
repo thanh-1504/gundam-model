@@ -6,8 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import logoHobby from "../../assets/logo.png";
 import { AuthContext } from "../../features/auth/context/AuthContext";
-import ProductManagement from "./ProductManagement";
 import CategoryManagement from "./CategoryManagement";
+import ProductManagement from "./ProductManagement";
 import SubCategoryManagement from "./SubCategoryManagement";
 
 // Import các component quản lý
@@ -112,10 +112,6 @@ const UserContent = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">
-      <h1 className="text-2xl font-black uppercase tracking-wide mb-8">
-        Quản lý hệ thống Users
-      </h1>
-
       {/* FORM THÊM/SỬA USERS */}
       <form
         onSubmit={handleSubmit}

@@ -64,10 +64,6 @@ export default function CategoryManagement() {
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">
-      <h1 className="text-2xl font-black uppercase tracking-wide mb-8">
-        Quản lý Danh mục
-      </h1>
-
       {/* FORM THÊM/SỬA DANH MỤC */}
       <form
         onSubmit={handleSubmit}

@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const API_PRODUCTS = "https://gundam-model.onrender.com/products";
+//const API_PRODUCTS = "https://gundam-model.onrender.com/products";
+const API_PRODUCTS = "http://localhost:3000/products";
 const API_CATEGORIES = "https://gundam-model.onrender.com/categories";
 const API_SUBCATEGORIES = "https://gundam-model.onrender.com/subcategories";
 
@@ -123,8 +124,10 @@ export default function ProductManagement() {
       setEditingId(null);
       fetchProducts();
     } catch (err) {
+      console.log(err.response);
       toast.error(
-        "Lỗi: " + (err.response?.data?.message || "Không thể xử lý yêu cầu"),
+        "Lỗi: " +
+          (err.response?.data?.errors[0]?.message || "Không thể xử lý yêu cầu"),
       );
     }
   };
@@ -149,10 +152,6 @@ export default function ProductManagement() {
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">
-      <h1 className="text-2xl font-black uppercase tracking-wide mb-8">
-        Quản lý Sản phẩm
-      </h1>
-
       {/* FORM THÊM/SỬA SẢN PHẨM */}
       <form
         onSubmit={handleSubmit}
@@ -199,11 +198,12 @@ export default function ProductManagement() {
             required
           >
             <option value="">-- Chọn danh mục --</option>
-            {categories && categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
+            {categories &&
+              categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -212,17 +212,19 @@ export default function ProductManagement() {
             Danh mục Con
           </label>
           <select
+            required
             name="subcategory_id"
             value={form.subcategory_id}
             onChange={handleChange}
             className="w-full bg-black border border-gray-700 p-2.5 rounded text-sm focus:border-blue-500 outline-none text-white"
           >
             <option value="">-- Chọn danh mục con --</option>
-            {subcategories && subcategories.map((subcat) => (
-              <option key={subcat.id} value={subcat.id}>
-                {subcat.name}
-              </option>
-            ))}
+            {subcategories &&
+              subcategories.map((subcat) => (
+                <option key={subcat.id} value={subcat.id}>
+                  {subcat.name}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -292,7 +294,9 @@ export default function ProductManagement() {
             className="w-full bg-black border border-gray-700 p-2.5 rounded text-sm focus:border-blue-500 outline-none text-gray-400 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded file:cursor-pointer file:mr-4"
           />
           <p className="text-xs text-gray-500 mt-1">
-            {images.length > 0 ? `${images.length} ảnh được chọn` : "Chưa chọn ảnh"}
+            {images.length > 0
+              ? `${images.length} ảnh được chọn`
+              : "Chưa chọn ảnh"}
           </p>
         </div>
 
@@ -423,10 +427,6 @@ export default function ProductManagement() {
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">
-      <h1 className="text-2xl font-black uppercase tracking-wide mb-8">
-        Quản lý Sản phẩm
-      </h1>
-
       {/* FORM THÊM/SỬA SẢN PHẨM */}
       <form
         onSubmit={handleSubmit}

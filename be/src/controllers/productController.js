@@ -35,7 +35,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const id = req.params.id;
-await handleDelete(id);
+  await handleDelete(id);
   res.json({
     status: "success",
     data: null,

@@ -1,5 +1,3 @@
-const e = require("cors");
-const prisma = require("../../lib/prisma");
 const {
   getUsers,
   handleCreateUser,
@@ -76,16 +74,12 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-  console.log("Dữ liệu nhận từ FE:", req.body); // Dòng này giúp bạn soi lỗi
   const { username, password, email, avatar, role, phone, address } = req.body;
-
-  // Kiểm tra nếu thiếu thông tin quan trọng
   if (!username || !email) {
     return res
       .status(400)
       .json({ status: "fail", message: "Thiếu username hoặc email" });
   }
-
   try {
     const newUser = await handleCreateUser(
       username,

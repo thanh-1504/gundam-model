@@ -109,10 +109,6 @@ export default function SubCategoryManagement() {
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">
-      <h1 className="text-2xl font-black uppercase tracking-wide mb-8">
-        Quản lý Danh mục Con
-      </h1>
-
       {/* FORM THÊM/SỬA DANH MỤC CON */}
       <form
         onSubmit={handleSubmit}
@@ -144,11 +140,12 @@ export default function SubCategoryManagement() {
             required
           >
             <option value="">-- Chọn danh mục cha --</option>
-            {categories && categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
+            {categories &&
+              categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -234,10 +231,6 @@ export default function SubCategoryManagement() {
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">
-      <h1 className="text-2xl font-black uppercase tracking-wide mb-8">
-        Quản lý Danh mục Con
-      </h1>
-
       {/* FORM THÊM/SỬA DANH MỤC CON */}
       <form
         onSubmit={handleSubmit}

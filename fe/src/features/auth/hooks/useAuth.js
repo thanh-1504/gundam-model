@@ -1,11 +1,11 @@
-import { useContext } from 'react';
-import { AuthContext } from './AuthContext'; // Bạn có thể để AuthContext ở đây hoặc components dùng chung
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within AuthProvider');
-  
-  const isAdmin = context.user?.role === 'admin';
-  
+  if (!context) throw new Error("useAuth must be used within AuthProvider");
+
+  const isAdmin = context.user?.role === "admin";
+
   return { ...context, isAdmin };
 };

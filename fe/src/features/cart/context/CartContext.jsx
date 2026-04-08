@@ -8,6 +8,16 @@ export const CartProvider = ({ children }) => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
+  const [cartNotice, setCartNotice] = useState(null);
+
+  const showCartNotice = (product, quantity, mode) => {
+    setCartNotice({
+      id: `${product.id}-${Date.now()}`,
+      product,
+      quantity,
+      mode,
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
@@ -18,13 +28,11 @@ export const CartProvider = ({ children }) => {
       const existingItem = prev.find((item) => item.id === product.id);
       if (existingItem) {
         toast.success(`Đã tăng số lượng: ${product.name}`);
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
+        return prev.map(item => 
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
-      toast.success(`Đã thêm vào giỏ: ${product.name}`);
+      showCartNotice(product, 1, 'added');
       return [...prev, { ...product, quantity: 1 }];
     });
   };
@@ -58,17 +66,9 @@ export const CartProvider = ({ children }) => {
   );
 
   return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        updateQuantity,
-        removeItem,
-        clearCart,
-        totalItems,
-        totalPrice,
-      }}
-    >
+    <CartContext.Provider value={{ 
+      cartItems, addToCart, updateQuantity, removeItem, clearCart, totalItems, totalPrice 
+    }}>
       {children}
     </CartContext.Provider>
   );

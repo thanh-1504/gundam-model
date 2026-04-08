@@ -13,9 +13,10 @@ import { CartProvider } from "./features/cart/context/CartContext";
 // 2. Import Layout & Pages
 import SimpleLayout from "./components/Layout/SimpleLayout";
 import Cart from "./pages/shop/Cart";
+import Checkout from "./pages/shop/Checkout";
 import Catalog from "./pages/shop/Catalog";
 import Home from "./pages/shop/Home";
-
+import Orders from "./pages/shop/Orders";
 // 🔥 ĐÃ ĐỔI TÊN IMPORT Ở ĐÂY THÀNH AdminDashboard 🔥
 import { Toaster } from "react-hot-toast";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -53,16 +54,28 @@ function App() {
         <Router>
           {/* Thông báo góc phải */}
           <Toaster
-            position="top-right"
+            position="top-center"
+            containerStyle={{
+              top: 92,
+              left: 16,
+              right: 16,
+            }}
             toastOptions={{
               duration: 3000,
               style: {
-                background: "#1f1f1f",
-                color: "#fff",
-                border: "1px solid #333",
+                background: "#ffffff",
+                color: "#111827",
+                border: "1px solid #d1d5db",
+                boxShadow: "0 12px 30px rgba(15, 23, 42, 0.12)",
+                borderRadius: "12px",
+                fontWeight: 600,
               },
-              success: { iconTheme: { primary: "#22c55e", secondary: "#fff" } },
-              error: { iconTheme: { primary: "#ef4444", secondary: "#fff" } },
+              success: {
+                iconTheme: { primary: "#22c55e", secondary: "#ffffff" },
+              },
+              error: {
+                iconTheme: { primary: "#ef4444", secondary: "#ffffff" },
+              },
             }}
           />
 
@@ -72,6 +85,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="shop" element={<Catalog />} />
               <Route path="cart" element={<Cart />} />
+              <Route path="checkout" element={<Checkout />} />
+              <Route path="orders" element={<Orders />} />
 
               {/* TẠM THỜI ĐÓNG ROUTE NÀY LẠI */}
               {/* <Route path="contact" element={<Contact />} />  */}

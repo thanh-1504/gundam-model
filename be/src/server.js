@@ -5,6 +5,7 @@ const { globalError } = require("./middlewares/globalError");
 const productRoute = require("./routes/productRoute");
 const categoriesRoute = require("./routes/categoriseRoute");
 const subCategoryRoute = require("./routes/subCategoryRoute");
+const orderRoute = require("./routes/orderRoute");
 const app = express();
 const port = 3000;
 
@@ -24,6 +25,7 @@ app.use("/users", userRoute);
 app.use("/categories", categoriesRoute);
 app.use("/subcategories", subCategoryRoute);
 app.use("/products", productRoute);
+app.use("/orders", orderRoute);
 
 app.use("/", (req, res) => {
   res.send("<h1>Thầy truy cập /users để xem thầy nhé :3</h1>");

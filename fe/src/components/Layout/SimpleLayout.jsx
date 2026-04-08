@@ -179,7 +179,6 @@ const SimpleLayout = () => {
                   <Link to="/shop" className="block px-6 py-3 text-sm text-blue-600 hover:bg-blue-50 transition-colors font-bold normal-case tracking-normal border-b border-gray-100">
                      Tất cả sản phẩm
                   </Link>
-                  {/* TRUYỀN ID DANH MỤC VÀO URL KHI CLICK (DESKTOP) */}
                   {categories.length > 0 ? (
                     categories.map(cat => (
                       <Link 
@@ -394,7 +393,6 @@ const SimpleLayout = () => {
              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Danh mục sản phẩm</span>
              <div className="space-y-1">
                 <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="block py-2.5 px-3 text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-none">Tất cả sản phẩm</Link>
-                {/* TRUYỀN ID DANH MỤC VÀO URL KHI CLICK (MOBILE) */}
                 {categories.map(cat => (
                   <Link 
                     key={cat.id || cat.Id} 

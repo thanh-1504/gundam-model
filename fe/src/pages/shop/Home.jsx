@@ -709,7 +709,7 @@ const Home = () => {
                         </>
                       ) : (
                         <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-none border border-gray-100 text-slate-400 font-bold">
-                          Chưa có ảnh
+                          Chưa có ảnh 
                         </div>
                       )}
                     </div>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { AuthContext } from '../../features/auth/context/AuthContext'; 
 import { useCartContext } from '../../features/cart/context/CartContext';
 
-const API_BASE_URL = 'https://gundamstoreapi-gpd3fxemg8d3cpdt.eastasia-01.azurewebsites.net/';
+const API_BASE_URL = 'https://gundam-store-api.onrender.com';
 
 const SimpleLayout = () => {
   const { user, logout } = useContext(AuthContext);

@@ -11,7 +11,7 @@ import ProductCard from "../../features/products/components/ProductCard";
 import { resolveProductImages } from "../../features/products/utils/productImages";
 
 const API_BASE_URL =
-  "https://gundamstoreapi-gpd3fxemg8d3cpdt.eastasia-01.azurewebsites.net/";
+  "https://gundam-store-api.onrender.com";
 
 const safeArray = (data) => (Array.isArray(data) ? data : []);
 const safeJSON = (data) => {

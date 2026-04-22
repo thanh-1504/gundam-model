@@ -6,6 +6,7 @@ const productRoute = require("./routes/productRoute");
 const categoriesRoute = require("./routes/categoriseRoute");
 const subCategoryRoute = require("./routes/subCategoryRoute");
 const orderRoute = require("./routes/orderRoute");
+const path = require("node:path");
 const app = express();
 const port = 3000;
 

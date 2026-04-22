@@ -2,10 +2,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const API_PRODUCTS = "http://localhost:3000/products";
-//const API_PRODUCTS = "http://localhost:3000/products";
-const API_CATEGORIES = "http://localhost:3000/categories";
-const API_SUBCATEGORIES = "http://localhost:3000/subcategories";
+
+
+const API_PRODUCTS = "https://gundam-model.onrender.com/products";
+const API_CATEGORIES = "https://gundam-model.onrender.com/categories";
+const API_SUBCATEGORIES = "https://gundam-model.onrender.com/subcategories";
 
 export default function ProductManagement() {
   const [products, setProducts] = useState([]);

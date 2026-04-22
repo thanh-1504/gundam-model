@@ -10,8 +10,7 @@ import { useCartContext } from "../../features/cart/context/CartContext";
 import ProductCard from "../../features/products/components/ProductCard";
 import { resolveProductImages } from "../../features/products/utils/productImages";
 
-const API_BASE_URL =
-  "http://localhost:3000";
+  const API_BASE_URL = "https://gundam-store-api.onrender.com";
 
 const safeArray = (data) => (Array.isArray(data) ? data : []);
 const safeJSON = (data) => {

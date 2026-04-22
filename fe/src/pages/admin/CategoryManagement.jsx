@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const API = "http://localhost:3000/categories";
+const API = "https://gundam-model.onrender.com/categories";
 
 export default function CategoryManagement() {
   const [data, setData] = useState([]);

@@ -6,7 +6,7 @@ exports.getUser = async (id) => {
     where: { id },
     select: {
       email: true,
-      password: false,
+      password: true,
       createdAt: false,
       address: true,
       avatar: true,

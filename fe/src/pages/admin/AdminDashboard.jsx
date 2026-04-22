@@ -13,7 +13,7 @@ import SubCategoryManagement from "./SubCategoryManagement";
 // Import các component quản lý
 
 // 🔥 ĐÃ ĐỔI LINK API VỀ RENDER CỦA BẠN 🔥
-const API_URL = "http://localhost:3000/users";
+const API_URL = "https://gundam-model.onrender.com/users";
 
 // ====================================================================================
 // ==================== COMPONENT QUẢN LÝ USER (NỘI DUNG BÊN PHẢI) ====================

@@ -9,7 +9,7 @@ import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
 
-const API_BASE_URL = 'https://gundamstoreapi-gpd3fxemg8d3cpdt.eastasia-01.azurewebsites.net/';
+const API_BASE_URL = 'https://gundam-store-api.onrender.com';
 
 const safeArray = (data) => Array.isArray(data) ? data : [];
 const safeJSON = (data) => {

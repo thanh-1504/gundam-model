@@ -27,9 +27,11 @@ export const CartProvider = ({ children }) => {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === product.id);
       if (existingItem) {
+        const nextQuantity = existingItem.quantity + 1;
         toast.success(`Đã tăng số lượng: ${product.name}`);
+        showCartNotice({ ...existingItem, quantity: nextQuantity }, nextQuantity, "updated");
         return prev.map(item => 
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id ? { ...item, quantity: nextQuantity } : item
         );
       }
       showCartNotice(product, 1, 'added');
@@ -67,7 +69,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider value={{ 
-      cartItems, addToCart, updateQuantity, removeItem, clearCart, totalItems, totalPrice 
+      cartItems, addToCart, updateQuantity, removeItem, clearCart, totalItems, totalPrice, cartNotice, setCartNotice, showCartNotice
     }}>
       {children}
     </CartContext.Provider>

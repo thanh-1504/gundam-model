@@ -179,6 +179,7 @@ const SimpleLayout = () => {
                   <Link to="/shop" className="block px-6 py-3 text-sm text-blue-600 hover:bg-blue-50 transition-colors font-bold normal-case tracking-normal border-b border-gray-100">
                      Tất cả sản phẩm
                   </Link>
+                  {/* TRUYỀN ID DANH MỤC VÀO URL KHI CLICK (DESKTOP) */}
                   {categories.length > 0 ? (
                     categories.map(cat => (
                       <Link 
@@ -200,7 +201,7 @@ const SimpleLayout = () => {
 
             <a href="https://hobbyjapan-social.vercel.app/social" className="hover:text-white transition-colors h-full flex items-center gap-1.5 group relative border-b-2 border-transparent hover:border-white/80">
               <span className="font-bold tracking-wide">GUNVERSE</span>
-              <span className="absolute top-4 -right-6 bg-white text-orange-600 text-[9px] px-1.5 py-0.5 rounded-none font-black animate-pulse shadow-sm">BETA</span>
+              <span className="absolute top-4 -right-6 bg-white text-orange-600 text-[9px] px-1.5 py-0.5 rounded-none font-black animate-pulse shadow-sm">SOCIAL</span>
             </a>
           </nav>
 
@@ -393,6 +394,7 @@ const SimpleLayout = () => {
              <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Danh mục sản phẩm</span>
              <div className="space-y-1">
                 <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="block py-2.5 px-3 text-sm font-semibold text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-none">Tất cả sản phẩm</Link>
+                {/* TRUYỀN ID DANH MỤC VÀO URL KHI CLICK (MOBILE) */}
                 {categories.map(cat => (
                   <Link 
                     key={cat.id || cat.Id} 

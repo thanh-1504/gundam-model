@@ -11,7 +11,7 @@ import ProductCard from "../../features/products/components/ProductCard";
 import { resolveProductImages } from "../../features/products/utils/productImages";
 
 const API_BASE_URL =
-  "https://gundam-store-api.onrender.com";
+  "http://localhost:3000";
 
 const safeArray = (data) => (Array.isArray(data) ? data : []);
 const safeJSON = (data) => {
@@ -229,7 +229,9 @@ const Home = () => {
           images: resolveProductImages({
             id: p.id || p.Id,
             name: p.name || p.Name,
-            images: p.images || p.Images,
+            images: (p.product_images && p.product_images.length > 0)
+              ? p.product_images.map(img => `${API_BASE_URL}/product/images/${img.image_url}`)
+              : (p.images || p.Images),
           }),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),

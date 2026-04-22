@@ -2,11 +2,23 @@ const prisma = require("../lib/prisma");
 const AppError = require("../util/AppError");
 
 const findProductById = async (id) => {
-  return await prisma.products.findUnique({ where: { id: +id } });
+  return await prisma.products.findUnique({
+    where: { id: +id },
+    include: {
+      product_images: true,
+    },
+  });
 };
 
 const handleGetAll = async () => {
-  return await prisma.products.findMany();
+  return await prisma.products.findMany({
+    include:{
+      product_images:true
+    },
+    orderBy: {
+      id: 'desc',
+    },
+  });
 };
 
 const handleCreate = async (data, images) => {

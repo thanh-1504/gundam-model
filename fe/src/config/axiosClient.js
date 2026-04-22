@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "https://gundam-store-api.onrender.com";
+const baseURL = "http://localhost:3000";
 
 const axiosClient = axios.create({
   baseURL: baseURL,

@@ -9,7 +9,7 @@ import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
 
-const API_BASE_URL = 'https://gundam-store-api.onrender.com';
+const API_BASE_URL = 'http://localhost:3000';
 
 const safeArray = (data) => Array.isArray(data) ? data : [];
 const safeJSON = (data) => {
@@ -83,7 +83,9 @@ const Catalog = () => {
           images: resolveProductImages({
             id: p.id || p.Id,
             name: p.name || p.Name,
-            images: p.images || p.Images,
+            images: (p.product_images && p.product_images.length > 0)
+              ? p.product_images.map(img => `${API_BASE_URL}/product/images/${img.image_url}`)
+              : (p.images || p.Images),
           }),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),

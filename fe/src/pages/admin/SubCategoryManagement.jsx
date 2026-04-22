@@ -2,8 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const API_SUBCATEGORIES = "https://gundam-model.onrender.com/subcategories";
-const API_CATEGORIES = "https://gundam-model.onrender.com/categories";
+const API_SUBCATEGORIES = "http://localhost:3000/subcategories";
+const API_CATEGORIES = "http://localhost:3000/categories";
 
 export default function SubCategoryManagement() {
   const [data, setData] = useState([]);

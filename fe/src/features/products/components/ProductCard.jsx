@@ -6,7 +6,6 @@ import { useCartContext } from "../../cart/context/CartContext";
 const ProductCard = ({ product, formatPrice, onQuickView }) => {
   const { addToCart } = useCartContext();
   const { user } = useContext(AuthContext);
-  console.log(product)
   const handleBuyNow = (e) => {
     e.stopPropagation();
 

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
-const uploadPath =path.join(__dirname, "../../../fe/public/images")
+const uploadPath = path.join(__dirname, "../../public/product/images");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }

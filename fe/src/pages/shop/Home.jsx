@@ -11,7 +11,7 @@ import ProductCard from "../../features/products/components/ProductCard";
 
 
   const API_BASE_URL = "https://gundam-model.onrender.com";
-  const API_BASE_URL_IMAGE = "https://gundam-fe.netlify.app";
+
 
 const safeArray = (data) => (Array.isArray(data) ? data : []);
 const safeJSON = (data) => {
@@ -227,7 +227,7 @@ const Home = () => {
           name: p.name || p.Name,
           price: p.price || p.Price,
             images: (p.product_images && p.product_images.length > 0)
-              ? p.product_images.map(img => `${API_BASE_URL_IMAGE}/images/${img.image_url}`)
+              ? p.product_images.map(img => `${API_BASE_URL}/images/${img.image_url}`)
               : (p.images || p.Images),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),

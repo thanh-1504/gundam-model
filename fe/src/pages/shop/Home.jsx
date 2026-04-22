@@ -8,10 +8,10 @@ import imgBanner3 from "../../assets/banner2.png";
 import { AuthContext } from "../../features/auth/context/AuthContext";
 import { useCartContext } from "../../features/cart/context/CartContext";
 import ProductCard from "../../features/products/components/ProductCard";
-import { resolveProductImages } from "../../features/products/utils/productImages";
 
-  const API_BASE_URL = "https://gundam-store-api.onrender.com";
-  const API_BASE_URL_IMAGE = "https://gundam-fe.netlify.app/";
+
+  const API_BASE_URL = "https://gundam-model.onrender.com";
+  const API_BASE_URL_IMAGE = "https://gundam-fe.netlify.app";
 
 const safeArray = (data) => (Array.isArray(data) ? data : []);
 const safeJSON = (data) => {
@@ -220,19 +220,15 @@ const Home = () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/products`);
         const rawProducts = safeArray(res.data?.data || res.data);
-
+        console.log(res.data)
         const formattedProducts = rawProducts.map((p) => ({
           ...p,
           id: p.id || p.Id,
           name: p.name || p.Name,
           price: p.price || p.Price,
-          images: resolveProductImages({
-            id: p.id || p.Id,
-            name: p.name || p.Name,
             images: (p.product_images && p.product_images.length > 0)
               ? p.product_images.map(img => `${API_BASE_URL_IMAGE}/images/${img.image_url}`)
               : (p.images || p.Images),
-          }),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),
           rating: p.rating || p.Rating || 5.0,
@@ -245,6 +241,7 @@ const Home = () => {
         }));
         setProducts(formattedProducts);
       } catch (error) {
+        console.log(error)
         console.error("Lỗi tải API:", error);
       } finally {
         setIsLoading(false);

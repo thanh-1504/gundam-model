@@ -2,13 +2,11 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../features/auth/context/AuthContext";
 import { useCartContext } from "../../cart/context/CartContext";
-import { resolveProductImages } from "../utils/productImages";
 
 const ProductCard = ({ product, formatPrice, onQuickView }) => {
   const { addToCart } = useCartContext();
   const { user } = useContext(AuthContext);
-  const productImages = resolveProductImages(product);
-
+  console.log(product)
   const handleBuyNow = (e) => {
     e.stopPropagation();
 
@@ -37,9 +35,9 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
           </span>
         )}
 
-        {productImages.length > 0 ? (
+        {product.images  ? (
           <img
-            src={`https://gundam-fe.netlify.app/images/${productImages[0]}`}
+            src={product?.images[0] || ""}
             alt={product.name || product.Name}
             className="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500 ease-out drop-shadow-sm"
           />

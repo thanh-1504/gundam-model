@@ -28,9 +28,6 @@ app.use("/subcategories", subCategoryRoute);
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
 
-app.use("/", (req, res) => {
-  res.send("<h1>Thầy truy cập /users để xem thầy nhé :3</h1>");
-});
 
 app.use(globalError);
 

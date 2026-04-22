@@ -124,7 +124,6 @@ export default function ProductManagement() {
       setEditingId(null);
       fetchProducts();
     } catch (err) {
-      console.log(err.response);
       toast.error(
         "Lỗi: " +
           (err.response?.data?.errors[0]?.message || "Không thể xử lý yêu cầu"),

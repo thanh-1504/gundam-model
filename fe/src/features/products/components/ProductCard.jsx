@@ -19,7 +19,6 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
 
     addToCart({ ...product, quantity: 1 });
   };
-  console.log(product);
   return (
     <div
       // THAY ĐỔI Ở ĐÂY: border-slate-200, shadow-md mặc định. Hover: border-blue-400, shadow-lg

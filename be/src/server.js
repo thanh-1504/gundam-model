@@ -19,6 +19,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static("public"));
+app.use('/public/product/images', express.static('public/product'));
 
 // Routes
 app.use("/users", userRoute);

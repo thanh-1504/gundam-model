@@ -39,7 +39,7 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
 
         {productImages.length > 0 ? (
           <img
-            src={productImages[0]}
+            src={`https://gundam-model.onrender.com/public/product/images/${productImages[0]}`}
             alt={product.name || product.Name}
             className="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500 ease-out drop-shadow-sm"
           />

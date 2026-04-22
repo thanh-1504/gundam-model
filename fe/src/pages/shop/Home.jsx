@@ -229,8 +229,11 @@ const Home = () => {
             id: p.id || p.Id,
             name: p.name || p.Name,
             images: (p.product_images && p.product_images.length > 0)
-              ? p.product_images.map(img => `${API_BASE_URL}/product/images/${img.image_url}`)
-              : (p.images || p.Images),
+              ?  p.product_images.map(img => {
+      const cleanPath = img.image_url.replace('/assets/', '');
+      return `${API_BASE_URL}/product/images/${cleanPath}`;
+    })
+  : (p.images || p.Images),
           }),
           specs: safeJSON(p.specs || p.Specs),
           reviews: safeJSON(p.reviews || p.Reviews),

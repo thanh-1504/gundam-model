@@ -1,22 +1,34 @@
-const resolveProductImages = ({ id, name, images } = {}) => {
-	if (Array.isArray(images) && images.length > 0) {
-		return images;
+const normalizeImageUrl = (image) => {
+	if (!image) {
+		return null;
 	}
 
-	if (!id && !name) {
+	if (typeof image === 'string') {
+		const trimmed = image.trim();
+		if (!trimmed) {
+			return null;
+		}
+
+		if (/^(https?:|data:|blob:|\/)/i.test(trimmed)) {
+			return trimmed;
+		}
+
+		return trimmed;
+	}
+
+	if (typeof image === 'object') {
+		return normalizeImageUrl(image.image_url || image.url || image.path);
+	}
+
+	return null;
+};
+
+const resolveProductImages = ({ images } = {}) => {
+	if (!Array.isArray(images)) {
 		return [];
 	}
 
-	const slug = String(name || id || '')
-		.toLowerCase()
-		.trim()
-		.replace(/[^a-z0-9]+/g, '-');
-
-	if (!slug) {
-		return [];
-	}
-
-	return [`/images/products/${slug}.jpg`];
+	return images.map(normalizeImageUrl).filter(Boolean);
 };
 
 export default resolveProductImages;

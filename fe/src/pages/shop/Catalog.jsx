@@ -82,10 +82,8 @@ const Catalog = () => {
           name: p.name || p.Name,
           price: p.price || p.Price,
           images: resolveProductImages({
-            id: p.id || p.Id,
-            name: p.name || p.Name,
             images: (p.product_images && p.product_images.length > 0)
-              ? p.product_images.map(img => `${API_BASE_URL}/product/images/${img.image_url}`)
+              ? p.product_images
               : (p.images || p.Images),
           }),
           specs: safeJSON(p.specs || p.Specs),

@@ -117,7 +117,6 @@ const Checkout = () => {
       storeOrderHistory({
         id: createdOrder?.id,
         status: createdOrder?.status || (formData.paymentMethod === 'cod' ? 'pending' : 'paid'),
-        paymentMethod: formData.paymentMethod,
         receiverName: formData.receiverName.trim(),
         phone: formData.phone.trim(),
         address: formData.address.trim(),

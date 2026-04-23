@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { AuthContext } from '../../features/auth/context/AuthContext';
 
 const cancelStatuses = new Set(['cancelled', 'failed', 'cancel', 'canceled']);
+const getOrderHistoryKey = (userId) => `orders_${userId || 'guest'}`;
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [searchParams] = useSearchParams();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    let savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const historyKey = getOrderHistoryKey(user?.id);
+    let savedOrders = JSON.parse(localStorage.getItem(historyKey) || '[]');
     
     // Đón URL status=success hoặc cancelled từ VNPay/MoMo/PayOS/Demo trả về
     const paymentStatus = searchParams.get("status");
@@ -16,17 +20,17 @@ const Orders = () => {
       // Cập nhật đơn hàng mới nhất thành paid
       if (savedOrders[0].status === "pending") {
         savedOrders[0].status = "paid";
-        localStorage.setItem('orders', JSON.stringify(savedOrders));
+        localStorage.setItem(historyKey, JSON.stringify(savedOrders));
       }
     } else if (cancelStatuses.has(paymentStatus) && savedOrders.length > 0) {
       if (savedOrders[0].status === "pending") {
         savedOrders[0].status = "cancelled";
-        localStorage.setItem('orders', JSON.stringify(savedOrders));
+        localStorage.setItem(historyKey, JSON.stringify(savedOrders));
       }
     }
 
     setOrders(savedOrders);
-  }, [searchParams]);
+  }, [searchParams, user?.id]);
 
   const formatPrice = (price) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);

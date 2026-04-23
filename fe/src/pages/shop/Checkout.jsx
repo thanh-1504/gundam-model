@@ -5,6 +5,8 @@ import axiosClient from '../../config/axiosClient';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import { useCartContext } from '../../features/cart/context/CartContext';
 
+const getOrderHistoryKey = (userId) => `orders_${userId || 'guest'}`;
+
 const PAYMENT_METHODS = [
   {
     value: 'cod',
@@ -73,9 +75,10 @@ const Checkout = () => {
   };
 
   const storeOrderHistory = (order) => {
-    const savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const historyKey = getOrderHistoryKey(user?.id);
+    const savedOrders = JSON.parse(localStorage.getItem(historyKey) || '[]');
     const nextOrders = [order, ...savedOrders].slice(0, 20);
-    localStorage.setItem('orders', JSON.stringify(nextOrders));
+    localStorage.setItem(historyKey, JSON.stringify(nextOrders));
   };
 
   const handleSubmit = async (event) => {

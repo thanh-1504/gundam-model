@@ -17,12 +17,12 @@ app.use(
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
   }),
 );
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("public"));
 app.use(
   "/images",
-  express.static(path.join(__dirname, "public/product/images"))
+  express.static(path.join(__dirname, "public/product/images")),
 );
 
 // Routes
@@ -31,7 +31,6 @@ app.use("/categories", categoriesRoute);
 app.use("/subcategories", subCategoryRoute);
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
-
 
 app.use(globalError);
 

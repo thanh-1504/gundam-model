@@ -7,6 +7,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "gundam_shop/products",
     format: async (req, file) => {
+      console.log(file);
       return file.mimetype.split("/")[1];
     },
     public_id: (req, file) => {

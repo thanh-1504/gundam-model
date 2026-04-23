@@ -232,6 +232,7 @@ CREATE TABLE `likes` (
     INDEX `user_id`(`user_id`),
     UNIQUE INDEX `unique_like`(`post_id`, `user_id`),
     PRIMARY KEY (`id`)
+    `payment_method` varchar(50) DEFAULT NULL,
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey

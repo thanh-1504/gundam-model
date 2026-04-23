@@ -12,7 +12,7 @@ const normalizeOrder = (order) => ({
   phone: order.phone ?? '',
   address: order.address ?? '',
   status: order.status ?? 'pending',
-  paymentMethod: order.paymentMethod ?? order.payment_method ?? 'cod',
+  paymentMethod: order.paymentMethod ?? order.payment_method ?? (order.status === 'paid' ? 'demo' : 'cod'),
   totalPrice: Number(order.total_price ?? order.totalPrice ?? 0),
   items: order.order_items ?? order.items ?? [],
   createdAt: order.created_at ?? order.createdAt ?? null,

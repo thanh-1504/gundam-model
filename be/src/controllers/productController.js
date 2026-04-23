@@ -16,6 +16,7 @@ const getAll = async (req, res) => {
 
 const createProduct = async (req, res) => {
   const images = req.files;
+  console.log(req.files)
   const newProduct = await handleCreate(req.body, images);
   res.json({
     status: "success",

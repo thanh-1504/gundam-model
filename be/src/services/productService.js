@@ -12,11 +12,11 @@ const findProductById = async (id) => {
 
 const handleGetAll = async () => {
   return await prisma.products.findMany({
-    include:{
-      product_images:true
+    include: {
+      product_images: true,
     },
     orderBy: {
-      id: 'desc',
+      id: "desc",
     },
   });
 };
@@ -44,7 +44,7 @@ const handleCreate = async (data, images) => {
       stock,
       product_images: {
         create: images.map((img) => ({
-          image_url: img.filename,
+          image_url: img.secure_url,
         })),
       },
     },
@@ -82,7 +82,7 @@ const handleUpdate = async (id, data, images) => {
           product_id: +id,
         },
         create: images.map((img) => ({
-          image_url: img.filename,
+          image_url: img.secure_url,
         })),
       },
     },
@@ -94,11 +94,11 @@ const handleDelete = async (id) => {
   const product = await findProductById(id);
   if (!product)
     throw new AppError(`Không tìm thấy sản phẩm với id = ${id}`, 422);
-  
+
   await prisma.products.delete({
     where: { id: +id },
   });
-  
+
   return { message: "Xóa sản phẩm thành công" };
 };
 

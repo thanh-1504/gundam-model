@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useProducts } from '../../features/products/hooks/useProducts';
 import ProductCard from '../../features/products/components/ProductCard';
+import resolveProductImages from '../../features/products/utils/productImages';
 
 import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';

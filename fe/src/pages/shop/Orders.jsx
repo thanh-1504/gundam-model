@@ -1,39 +1,65 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import axiosClient from '../../config/axiosClient';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 
 const cancelStatuses = new Set(['cancelled', 'failed', 'cancel', 'canceled']);
 const getOrderHistoryKey = (userId) => `orders_${userId || 'guest'}`;
 
+const normalizeOrder = (order) => ({
+  id: order.id,
+  receiverName: order.receiver_name ?? order.receiverName ?? 'Khách hàng',
+  phone: order.phone ?? '',
+  address: order.address ?? '',
+  status: order.status ?? 'pending',
+  paymentMethod: order.paymentMethod ?? order.payment_method ?? 'cod',
+  totalPrice: Number(order.total_price ?? order.totalPrice ?? 0),
+  items: order.order_items ?? order.items ?? [],
+  createdAt: order.created_at ?? order.createdAt ?? null,
+});
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const historyKey = getOrderHistoryKey(user?.id);
-    let savedOrders = JSON.parse(localStorage.getItem(historyKey) || '[]');
-    
-    // Đón URL status=success hoặc cancelled từ VNPay/MoMo/PayOS/Demo trả về
-    const paymentStatus = searchParams.get("status");
-    if (paymentStatus === "success" && savedOrders.length > 0) {
-      // Cập nhật đơn hàng mới nhất thành paid
-      if (savedOrders[0].status === "pending") {
-        savedOrders[0].status = "paid";
-        localStorage.setItem(historyKey, JSON.stringify(savedOrders));
-      }
-    } else if (cancelStatuses.has(paymentStatus) && savedOrders.length > 0) {
-      if (savedOrders[0].status === "pending") {
-        savedOrders[0].status = "cancelled";
-        localStorage.setItem(historyKey, JSON.stringify(savedOrders));
-      }
-    }
 
-    setOrders(savedOrders);
+    const fetchOrders = async () => {
+      if (!user?.id) {
+        setOrders([]);
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const response = await axiosClient.get(`/orders?userId=${user.id}`);
+        const apiOrders = response.data?.data || response.data || [];
+        setOrders(Array.isArray(apiOrders) ? apiOrders.map(normalizeOrder) : []);
+      } catch (error) {
+        const fallbackOrders = JSON.parse(localStorage.getItem(historyKey) || '[]');
+        setOrders(fallbackOrders);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOrders();
   }, [searchParams, user?.id]);
 
   const formatPrice = (price) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-3xl mx-auto rounded-none border border-gray-100 bg-white p-8 md:p-12 text-center shadow-xl shadow-slate-200/50 my-10">
+        <p className="text-slate-500 font-medium">Đang tải lịch sử đơn hàng...</p>
+      </div>
+    );
+  }
 
   if (!orders.length) {
     return (

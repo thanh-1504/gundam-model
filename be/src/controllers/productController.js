@@ -15,13 +15,26 @@ const getAll = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const images = req.files;
-  console.log(req.files)
-  const newProduct = await handleCreate(req.body, images);
-  res.json({
-    status: "success",
-    data: newProduct,
-  });
+  try {
+    const images = req.files;
+    if (!images || images.length === 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Vui lòng tải lên ít nhất 1 hình ảnh",
+      });
+    }
+    const newProduct = await handleCreate(req.body, images);
+    res.json({
+      status: "success",
+      data: newProduct,
+    });
+  } catch (error) {
+    console.error("Create product error:", error);
+    res.status(500).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
 };
 
 const updateProduct = async (req, res) => {

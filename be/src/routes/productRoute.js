@@ -1,6 +1,11 @@
 const express = require("express");
-const { getAll, createProduct, updateProduct, deleteProduct } = require("../controllers/productController");
-const upload = require("../middlewares/multer");
+const {
+  getAll,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} = require("../controllers/productController");
+const { upload } = require("../middlewares/multer");
 const validate = require("../dto/validate");
 const { createProductSchema } = require("../dto/product/create-product.schema");
 const { updateProductSchema } = require("../dto/product/update-product.schema");

@@ -17,12 +17,7 @@ const getAll = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     const images = req.files;
-    if (!images || images.length === 0) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Vui lòng tải lên ít nhất 1 hình ảnh",
-      });
-    }
+   
     const newProduct = await handleCreate(req.body, images);
     res.json({
       status: "success",

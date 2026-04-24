@@ -26,11 +26,14 @@ const handleDelete = async (id) => {
   });
   if (!subCate)
     throw new AppError(`Không tìm thấy subcategory với id = ${id}`, 422);
-  if (subCate.products && subCate.products.length > 0)
-    throw new AppError(
-      `Không thể xóa subcategory với id = ${id} do subcategory đang có sản phẩm`,
-      422,
-    );
+
+  await prisma.products.deleteMany({
+    where: { subcategory_id: +id },
+  });
+
+  return await prisma.subcategories.delete({
+    where: { id: +id },
+  });
   return await prisma.subcategories.delete({ where: { id: +id } });
 };
 

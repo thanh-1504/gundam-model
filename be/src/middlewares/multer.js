@@ -19,7 +19,6 @@ const storage = new CloudinaryStorage({
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    console.log("FIELD NAME:", file.fieldname);
     cb(null, true);
   },
 });

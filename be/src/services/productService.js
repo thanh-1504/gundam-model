@@ -11,14 +11,21 @@ const findProductById = async (id) => {
 };
 
 const handleGetAll = async () => {
-  return await prisma.products.findMany({
+  const products = await prisma.products.findMany({
     include: {
       product_images: true,
+      categories: {
+        select: {
+          name: true,
+        },
+      },
     },
     orderBy: {
       id: "desc",
     },
   });
+  console.log(products);
+  return products;
 };
 
 const handleCreate = async (data, images) => {
@@ -71,8 +78,6 @@ const handleUpdate = async (id, data, images) => {
   if (!product)
     throw new AppError(`Không tìm thấy sản phẩm với id = ${id}`, 422);
 
-  console.log("Images in handleUpdate:", images);
-
   const updatedProduct = await prisma.products.update({
     where: { id: +id },
     data: {
@@ -91,12 +96,7 @@ const handleUpdate = async (id, data, images) => {
               product_id: +id,
             },
             create: images.map((img) => {
-              const imageUrl = img.path || img.secure_url || img.url;
-              console.log("Mapping image:", {
-                fieldname: img.fieldname,
-                originalname: img.originalname,
-                imageUrl,
-              });
+              const imageUrl = img.path;
               return {
                 image_url: imageUrl,
               };
@@ -109,7 +109,6 @@ const handleUpdate = async (id, data, images) => {
     },
   });
 
-  console.log("Product updated with images:", updatedProduct);
   return updatedProduct;
 };
 

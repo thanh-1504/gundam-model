@@ -1,58 +1,43 @@
-import { useContext } from "react";
+import { Toaster } from "react-hot-toast";
 import {
-  Navigate,
   Route,
   BrowserRouter as Router,
-  Routes,
+  Routes
 } from "react-router-dom";
-
-// 1. Import Contexts
-import { AuthContext, AuthProvider } from "./features/auth/context/AuthContext";
-import { CartProvider } from "./features/cart/context/CartContext";
-
-// 2. Import Layout & Pages
 import SimpleLayout from "./components/Layout/SimpleLayout";
+import { AuthProvider } from "./features/auth/context/AuthContext";
+import { CartProvider } from "./features/cart/context/CartContext";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import Cart from "./pages/shop/Cart";
-import Checkout from "./pages/shop/Checkout";
 import Catalog from "./pages/shop/Catalog";
+import Checkout from "./pages/shop/Checkout";
 import Home from "./pages/shop/Home";
 import Orders from "./pages/shop/Orders";
-// 🔥 ĐÃ ĐỔI TÊN IMPORT Ở ĐÂY THÀNH AdminDashboard 🔥
-import { Toaster } from "react-hot-toast";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-
-// TẠM THỜI ĐÓNG DÒNG NÀY LẠI VÌ BẠN CHƯA TẠO FILE CONTACT
-// import Contact from './pages/shop/Contact';
-
-// URL Đăng nhập bên ngoài
 const EXTERNAL_LOGIN_URL = "https://hobbyjapan-social.vercel.app/auth/login";
 
-// Component chuyển hướng an toàn ra web ngoài
 const ExternalRedirect = ({ url }) => {
   window.location.href = url;
   return null;
 };
 
-// Bộ bảo vệ Route: Tạm thời không dùng đến để bạn code giao diện Admin
-const AdminRoute = ({ children }) => {
-  const { user } = useContext(AuthContext);
+// const AdminRoute = ({ children }) => {
+//   const { user } = useContext(AuthContext);
 
-  if (!user) {
-    window.location.href = EXTERNAL_LOGIN_URL;
-    return null;
-  }
+//   if (!user) {
+//     window.location.href = EXTERNAL_LOGIN_URL;
+//     return null;
+//   }
 
-  if (user.role !== "admin") return <Navigate to="/" replace />;
+//   if (user.role !== "admin") return <Navigate to="/" replace />;
 
-  return children;
-};
+//   return children;
+// };
 
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <Router>
-          {/* Thông báo góc phải */}
           <Toaster
             position="top-center"
             containerStyle={{
@@ -80,22 +65,16 @@ function App() {
           />
 
           <Routes>
-            {/* Layout chính cho người dùng */}
             <Route path="/" element={<SimpleLayout />}>
               <Route index element={<Home />} />
               <Route path="shop" element={<Catalog />} />
               <Route path="cart" element={<Cart />} />
               <Route path="checkout" element={<Checkout />} />
               <Route path="orders" element={<Orders />} />
-
               {/* TẠM THỜI ĐÓNG ROUTE NÀY LẠI */}
               {/* <Route path="contact" element={<Contact />} />  */}
             </Route>
-
-            {/* 🔥 GỌI COMPONENT AdminDashboard MỚI Ở ĐÂY 🔥 */}
             <Route path="/admin" element={<AdminDashboard />} />
-
-            {/* Bắt route /login nội bộ và đẩy ra ngoài */}
             <Route
               path="/login"
               element={<ExternalRedirect url={EXTERNAL_LOGIN_URL} />}

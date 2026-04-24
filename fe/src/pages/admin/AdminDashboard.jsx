@@ -1,23 +1,16 @@
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
-// Đã sửa lại đường dẫn import tương đối (lùi 2 cấp từ pages/admin ra src)
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import logoHobby from "../../assets/logo.png";
 import { AuthContext } from "../../features/auth/context/AuthContext";
 import CategoryManagement from "./CategoryManagement";
 import ProductManagement from "./ProductManagement";
 import SubCategoryManagement from "./SubCategoryManagement";
 
-// Import các component quản lý
 
-// 🔥 ĐÃ ĐỔI LINK API VỀ RENDER CỦA BẠN 🔥
 const API_URL = "https://gundam-model.onrender.com/users";
 
-// ====================================================================================
-// ==================== COMPONENT QUẢN LÝ USER (NỘI DUNG BÊN PHẢI) ====================
-// ====================================================================================
 const UserContent = () => {
   const [users, setUsers] = useState(null);
   const [editingId, setEditingId] = useState(null);
@@ -31,16 +24,11 @@ const UserContent = () => {
     address: "",
   });
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
+  
   const fetchUsers = async () => {
     try {
       const response = await axios.get(API_URL);
-      // 🔥 Xử lý thông minh: Nhận diện cả data bọc trong object hoặc mảng thuần
       const fetchedData = response.data?.data || response.data;
-
       if (Array.isArray(fetchedData)) {
         setUsers(fetchedData);
       } else {
@@ -109,6 +97,10 @@ const UserContent = () => {
       toast.error("Lỗi khi xóa!");
     }
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <div className="max-w-[1200px] mx-auto animate-fade-in">

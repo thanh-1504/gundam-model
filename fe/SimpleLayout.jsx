@@ -3,8 +3,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../features/auth/context/AuthContext'; 
 import { useCartContext } from '../../features/cart/context/CartContext';
-
-const API_BASE_URL = 'https://gundam-store-api.onrender.com';
+import API_BASE_URL from './src/config/apiBaseUrl';
 
 const SimpleLayout = () => {
   const { user, logout } = useContext(AuthContext);

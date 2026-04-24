@@ -4,13 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useProducts } from '../../features/products/hooks/useProducts';
 import ProductCard from '../../features/products/components/ProductCard';
+import resolveProductImages from '../../features/products/utils/productImages';
 
 import { useCartContext } from '../../features/cart/context/CartContext';
 import { AuthContext } from '../../features/auth/context/AuthContext';
 import toast from 'react-hot-toast';
+import API_BASE_URL from '../../config/apiBaseUrl';
 
-
-const API_BASE_URL = 'https://gundam-store-api.onrender.com';
 
 const safeArray = (data) => Array.isArray(data) ? data : [];
 const safeJSON = (data) => {
@@ -82,10 +82,8 @@ const Catalog = () => {
           name: p.name || p.Name,
           price: p.price || p.Price,
           images: resolveProductImages({
-            id: p.id || p.Id,
-            name: p.name || p.Name,
             images: (p.product_images && p.product_images.length > 0)
-              ? p.product_images.map(img => `${API_BASE_URL}/product/images/${img.image_url}`)
+              ? p.product_images
               : (p.images || p.Images),
           }),
           specs: safeJSON(p.specs || p.Specs),

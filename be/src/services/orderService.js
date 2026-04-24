@@ -4,6 +4,26 @@ const vnpayService = require("./vnpayService");
 const momoService = require("./momoService");
 const payosService = require("./payosService");
 
+let ensurePaymentMethodColumnPromise = null;
+
+const ensurePaymentMethodColumn = async () => {
+  if (!ensurePaymentMethodColumnPromise) {
+    ensurePaymentMethodColumnPromise = prisma
+      .$executeRawUnsafe(
+        "ALTER TABLE `orders` ADD COLUMN `payment_method` VARCHAR(50) NULL AFTER `address`",
+      )
+      .catch((error) => {
+        const message = String(error?.message || error);
+        if (message.includes("Duplicate column name") || message.includes("already exists")) {
+          return null;
+        }
+        throw error;
+      });
+  }
+
+  return ensurePaymentMethodColumnPromise;
+};
+
 const mapPaymentStatus = (paymentMethod) =>
   ["cod", "vnpay", "momo", "payos", "demo"].includes(paymentMethod) ? "pending" : "paid";
 
@@ -90,6 +110,8 @@ const handleCreateOrder = async (payload) => {
     return sum + Number(item.price) * item.quantity;
   }, 0);
 
+  await ensurePaymentMethodColumn();
+
   const order = await prisma.$transaction(async (tx) => {
     const createdOrder = await tx.orders.create({
       data: {
@@ -99,6 +121,7 @@ const handleCreateOrder = async (payload) => {
         receiver_name: receiverName,
         phone,
         address,
+        payment_method: paymentMethod,
         order_items: {
           create: orderItemsData.map((item) => ({
             product_id: item.product_id,

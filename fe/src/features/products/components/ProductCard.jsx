@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../features/auth/context/AuthContext";
 import { useCartContext } from "../../cart/context/CartContext";
@@ -6,6 +6,7 @@ import { useCartContext } from "../../cart/context/CartContext";
 const ProductCard = ({ product, formatPrice, onQuickView }) => {
   const { addToCart } = useCartContext();
   const { user } = useContext(AuthContext);
+  const [imageFailed, setImageFailed] = useState(false);
   const handleBuyNow = (e) => {
     e.stopPropagation();
 
@@ -34,11 +35,12 @@ const ProductCard = ({ product, formatPrice, onQuickView }) => {
           </span>
         )}
 
-        {product.images  ? (
+        {product.images && product.images[0] && !imageFailed ? (
           <img
             src={product?.images[0] || ""}
             alt={product.name || product.Name}
             className="w-full h-full object-contain group-hover/card:scale-105 transition-transform duration-500 ease-out drop-shadow-sm"
+            onError={() => setImageFailed(true)}
           />
         ) : (
           <span className="text-slate-400 text-xs font-bold">CHƯA CÓ ẢNH</span>

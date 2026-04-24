@@ -1,35 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import axiosClient from '../../config/axiosClient';
+import { AuthContext } from '../../features/auth/context/AuthContext';
 
 const cancelStatuses = new Set(['cancelled', 'failed', 'cancel', 'canceled']);
+const getOrderHistoryKey = (userId) => `orders_${userId || 'guest'}`;
+
+const normalizeOrder = (order) => ({
+  id: order.id,
+  receiverName: order.receiver_name ?? order.receiverName ?? 'Khách hàng',
+  phone: order.phone ?? '',
+  address: order.address ?? '',
+  status: order.status ?? 'pending',
+  paymentMethod: order.paymentMethod ?? order.payment_method ?? null,
+  totalPrice: Number(order.total_price ?? order.totalPrice ?? 0),
+  items: order.order_items ?? order.items ?? [],
+  createdAt: order.created_at ?? order.createdAt ?? null,
+});
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchParams] = useSearchParams();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    let savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
-    
-    // Đón URL status=success hoặc cancelled từ VNPay/MoMo/PayOS/Demo trả về
-    const paymentStatus = searchParams.get("status");
-    if (paymentStatus === "success" && savedOrders.length > 0) {
-      // Cập nhật đơn hàng mới nhất thành paid
-      if (savedOrders[0].status === "pending") {
-        savedOrders[0].status = "paid";
-        localStorage.setItem('orders', JSON.stringify(savedOrders));
-      }
-    } else if (cancelStatuses.has(paymentStatus) && savedOrders.length > 0) {
-      if (savedOrders[0].status === "pending") {
-        savedOrders[0].status = "cancelled";
-        localStorage.setItem('orders', JSON.stringify(savedOrders));
-      }
-    }
+    const historyKey = getOrderHistoryKey(user?.id);
 
-    setOrders(savedOrders);
-  }, [searchParams]);
+    const fetchOrders = async () => {
+      if (!user?.id) {
+        setOrders([]);
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const response = await axiosClient.get(`/orders?userId=${user.id}`);
+        const apiOrders = response.data?.data || response.data || [];
+        setOrders(Array.isArray(apiOrders) ? apiOrders.map(normalizeOrder) : []);
+      } catch (error) {
+        const fallbackOrders = JSON.parse(localStorage.getItem(historyKey) || '[]');
+        setOrders(fallbackOrders);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [searchParams, user?.id]);
 
   const formatPrice = (price) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+
+  if (isLoading) {
+    return (
+      <div className="max-w-3xl mx-auto rounded-none border border-gray-100 bg-white p-8 md:p-12 text-center shadow-xl shadow-slate-200/50 my-10">
+        <p className="text-slate-500 font-medium">Đang tải lịch sử đơn hàng...</p>
+      </div>
+    );
+  }
 
   if (!orders.length) {
     return (
@@ -87,12 +117,13 @@ const Orders = () => {
                 <span className={`rounded-none px-3 py-1.5 border shadow-sm ${order.status === 'paid' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : order.status === 'cancelled' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-orange-50 text-orange-600 border-orange-100'}`}>
                   {order.status === 'paid' ? '✅ Đã thanh toán' : order.status === 'cancelled' ? '❌ Đã huỷ' : '⏳ Đang chờ xử lý'}
                 </span>
-                
+
                 {/* Phương thức thanh toán */}
                 <span className="rounded-none bg-slate-50 px-3 py-1.5 text-slate-600 border border-gray-200 shadow-sm flex items-center gap-1">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
                   {order.paymentMethod || 'cod'}
                 </span>
+                
               </div>
 
             </div>
